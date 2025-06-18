@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "name": "SmartLead CLI MCP Server",
+  "description": "Model Context Protocol server for SmartLead CLI multi-module email marketing automation",
+  "servers": {
+    "smartlead": {
+      "module": "smartlead",
+      "displayName": "SmartLead",
+      "description": "Complete email campaign management and automation",
+      "apiKey": "${SMARTLEAD_API_KEY}",
+      "baseUrl": "https://server.smartlead.ai/api/v1",
+      "version": "2.0.0",
+      "status": "available",
+      "capabilities": [
+        "campaigns",
+        "leads",
+        "email-accounts",
+        "analytics",
+        "webhooks",
+        "sequences",
+        "warmup",
+        "clients"
+      ],
+      "commands": 80,
+      "rateLimit": {
+        "requests": 100,
+        "window": "1m"
+      },
+      "tools": [
+        "smartlead_campaign_create",
+        "smartlead_campaign_list",
+        "smartlead_campaign_start",
+        "smartlead_campaign_pause",
+        "smartlead_campaign_stop",
+        "smartlead_campaign_analytics",
+        "smartlead_lead_add",
+        "smartlead_lead_update",
+        "smartlead_lead_delete",
+        "smartlead_lead_search",
+        "smartlead_email_account_create",
+        "smartlead_warmup_setup",
+        "smartlead_warmup_stats",
+        "smartlead_webhook_create",
+        "smartlead_analytics_export"
+      ]
+    },
+    "instantly": {
+      "module": "instantly", 
+      "displayName": "Instantly",
+      "description": "Cold email outreach and lead generation platform",
+      "apiKey": "${INSTANTLY_API_KEY}",
+      "baseUrl": "https://api.instantly.ai/api/v1",
+      "version": "1.0.0",
+      "status": "coming-soon",
+      "expectedDate": "Q2 2024",
+      "available": false,
+      "capabilities": [
+        "campaigns",
+        "leads",
+        "sequences",
+        "analytics",
+        "deliverability"
+      ],
+      "tools": [
+        "instantly_campaign_create",
+        "instantly_campaign_list",
+        "instantly_lead_add",
+        "instantly_sequence_create",
+        "instantly_analytics_view"
+      ]
+    }
+  },
+  "context": {
+    "projectType": "email-marketing-automation",
+    "architecture": "modular-typescript-cli",
+    "modules": ["smartlead", "instantly"],
+    "integrations": ["webhook", "api", "cli", "mcp"],
+    "testFramework": "jest",
+    "coverage": "> 90%",
+    "typeScript": "strict",
+    "documentation": [
+      "docs/README.md",
+      "docs/CONTRIBUTING.md", 
+      "docs/ROADMAP.md",
+      "docs/CHANGELOG.md",
+      ".cursor/rules/"
+    ],
+    "features": [
+      "multi-module-architecture",
+      "interactive-module-selector",
+      "platform-specific-themes",
+      "comprehensive-api-coverage",
+      "professional-testing-suite",
+      "automated-build-system",
+      "mcp-integration"
+    ]
+  },
+  "tools": {
+    "campaign_management": {
+      "description": "Comprehensive campaign management across platforms",
+      "platforms": ["smartlead", "instantly"],
+      "operations": ["create", "update", "start", "pause", "stop", "delete", "analytics"]
+    },
+    "lead_operations": {
+      "description": "Lead management and automation",
+      "platforms": ["smartlead", "instantly"],
+      "operations": ["add", "update", "delete", "search", "category", "unsubscribe"]
+    },
+    "email_automation": {
+      "description": "Email account and automation management",
+      "platforms": ["smartlead"],
+      "operations": ["create", "warmup", "health", "stats", "reconnect"]
+    },
+    "analytics_reporting": {
+      "description": "Analytics and performance reporting",
+      "platforms": ["smartlead", "instantly"],
+      "operations": ["campaign", "lead", "export", "date-range", "detailed"]
+    },
+    "webhook_integration": {
+      "description": "Webhook management and event handling",
+      "platforms": ["smartlead"],
+      "operations": ["create", "update", "delete", "list", "events"]
+    }
+  },
+  "environment": {
+    "required": [
+      "NODE_ENV",
+      "SMARTLEAD_API_KEY"
+    ],
+    "optional": [
+      "INSTANTLY_API_KEY",
+      "SMARTLEAD_BASE_URL",
+      "INSTANTLY_BASE_URL",
+      "MCP_SERVER_PORT",
+      "MCP_LOG_LEVEL"
+    ],
+    "defaults": {
+      "MCP_SERVER_PORT": 3001,
+      "MCP_LOG_LEVEL": "info",
+      "SMARTLEAD_BASE_URL": "https://server.smartlead.ai/api/v1",
+      "INSTANTLY_BASE_URL": "https://api.instantly.ai/api/v1"
+    }
+  },
+  "security": {
+    "apiKeyValidation": true,
+    "rateLimiting": true,
+    "inputSanitization": true,
+    "outputValidation": true,
+    "environmentVariables": true
+  },
+  "development": {
+    "watchMode": true,
+    "hotReload": false,
+    "debugging": true,
+    "testing": {
+      "framework": "jest",
+      "coverage": true,
+      "integration": true
+    }
+  },
+  "deployment": {
+    "platforms": ["npm", "github"],
+    "packaging": "npm",
+    "distribution": "global",
+    "installation": "automated"
+  }
+} 

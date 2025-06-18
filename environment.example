@@ -1,0 +1,130 @@
+# SmartLead CLI - Environment Variables Configuration
+# Copy this file to .env and update with your actual values
+
+# =============================================================================
+# SMARTLEAD CONFIGURATION
+# =============================================================================
+
+# SmartLead API Key (Required)
+# Get your API key from: https://app.smartlead.ai/app/settings
+SMARTLEAD_API_KEY=your-smartlead-api-key-here
+
+# SmartLead Base URL (Optional - uses default if not set)
+SMARTLEAD_BASE_URL=https://server.smartlead.ai/api/v1
+
+# =============================================================================
+# INSTANTLY CONFIGURATION (Coming Q2 2024)
+# =============================================================================
+
+# Instantly API Key (Optional - for future use)
+INSTANTLY_API_KEY=your-instantly-api-key-here
+
+# Instantly Base URL (Optional - uses default if not set)
+INSTANTLY_BASE_URL=https://api.instantly.ai/api/v1
+
+# =============================================================================
+# MCP (Model Context Protocol) CONFIGURATION
+# =============================================================================
+
+# MCP Server Port (Optional - default: 3001)
+MCP_SERVER_PORT=3001
+
+# MCP Log Level (Optional - default: info)
+# Options: error, warn, info, debug
+MCP_LOG_LEVEL=info
+
+# MCP Server Host (Optional - default: localhost)
+MCP_SERVER_HOST=localhost
+
+# =============================================================================
+# DEVELOPMENT CONFIGURATION
+# =============================================================================
+
+# Node Environment (Optional - default: production)
+# Options: development, production, test
+NODE_ENV=development
+
+# Debug Mode (Optional - default: false)
+DEBUG=false
+
+# CLI Log Level (Optional - default: info)
+CLI_LOG_LEVEL=info
+
+# =============================================================================
+# TESTING CONFIGURATION
+# =============================================================================
+
+# Test Environment (Optional - for running tests)
+TEST_API_KEY=test-api-key
+TEST_BASE_URL=https://test.smartlead.ai/api/v1
+
+# =============================================================================
+# SECURITY CONFIGURATION
+# =============================================================================
+
+# Rate Limiting (Optional - requests per minute)
+RATE_LIMIT_REQUESTS=100
+RATE_LIMIT_WINDOW=1m
+
+# API Timeout (Optional - in milliseconds)
+API_TIMEOUT=30000
+
+# =============================================================================
+# ADVANCED CONFIGURATION
+# =============================================================================
+
+# Custom Configuration Directory (Optional)
+CONFIG_DIR=~/.smartlead-cli
+
+# Custom Cache Directory (Optional)
+CACHE_DIR=~/.smartlead-cli/cache
+
+# Theme (Optional - default: smartlead)
+# Options: smartlead, instantly
+DEFAULT_THEME=smartlead
+
+# Default Module (Optional - default: smartlead)
+# Options: smartlead, instantly
+DEFAULT_MODULE=smartlead
+
+# =============================================================================
+# USAGE EXAMPLES
+# =============================================================================
+
+# For SmartLead users:
+# SMARTLEAD_API_KEY=sl_abc123def456ghi789jkl012
+# SMARTLEAD_BASE_URL=https://server.smartlead.ai/api/v1
+
+# For development:
+# NODE_ENV=development
+# DEBUG=true
+# CLI_LOG_LEVEL=debug
+
+# For testing:
+# NODE_ENV=test
+# TEST_API_KEY=test-key
+# CLI_LOG_LEVEL=debug
+
+# For MCP integration:
+# MCP_SERVER_PORT=3001
+# MCP_LOG_LEVEL=info
+
+# =============================================================================
+# SECURITY NOTES
+# =============================================================================
+
+# 1. Never commit .env files to version control
+# 2. Keep API keys secure and private
+# 3. Use different API keys for development/production
+# 4. Regularly rotate API keys for security
+# 5. Use environment-specific configurations
+
+# =============================================================================
+# GETTING STARTED
+# =============================================================================
+
+# 1. Copy this file: cp environment.example .env
+# 2. Edit .env with your actual values
+# 3. Configure SmartLead: smartlead config
+# 4. Test connection: smartlead show-config
+# 5. Start using: smartlead modules 

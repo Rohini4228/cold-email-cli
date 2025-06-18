@@ -63,6 +63,11 @@ jspm_packages/
 .env.test.local
 .env.production.local
 
+# Keep example files
+!environment.example
+!.env.example
+!.smartlead-mcp.json
+
 # parcel-bundler cache
 .cache
 .parcel-cache
