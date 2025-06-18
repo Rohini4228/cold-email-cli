@@ -1,466 +1,104 @@
 {
   "mcpServers": {
     "apollo": {
-      "command": "npx",
-      "args": ["@apollo/mcp-server"],
+      "command": "@cec/apollo/mcp-server",
       "env": {
         "APOLLO_API_KEY": "${APOLLO_API_KEY}"
       }
     }
   },
-  "tools": [
+  "resources": [
     {
       "name": "apollo_sequences",
-      "description": "Apollo.io email sequence management",
-      "endpoints": {
-        "base_url": "https://api.apollo.io/v1",
-        "auth": "Bearer ${APOLLO_API_KEY}",
-        "rate_limits": {
-          "requests_per_minute": 120,
-          "requests_per_hour": 1200
-        }
-      },
-      "operations": [
+      "description": "Apollo email sequence management",
+      "type": "api",
+      "base_url": "https://api.apollo.io/v1",
+      "auth": "X-Api-Key: ${APOLLO_API_KEY}",
+      "endpoints": [
         {
-          "id": "create_sequence",
-          "method": "POST",
-          "path": "/email_sequences",
-          "description": "Create new email sequence",
-          "required_fields": ["name"],
-          "parameters": {
-            "name": "string",
-            "steps": "number",
-            "delay_days": "number",
-            "folder": "string"
-          }
-        },
-        {
-          "id": "list_sequences",
+          "path": "/emailer_campaigns",
           "method": "GET",
-          "path": "/email_sequences",
-          "description": "List all email sequences",
-          "parameters": {
-            "status": "string",
-            "folder": "string",
-            "include_analytics": "boolean"
-          }
+          "description": "List email sequences"
         },
         {
-          "id": "get_sequence",
+          "path": "/emailer_campaigns",
+          "method": "POST",
+          "description": "Create email sequence"
+        },
+        {
+          "path": "/emailer_campaigns/{id}",
           "method": "GET",
-          "path": "/email_sequences/{id}",
-          "description": "Get sequence details",
-          "path_params": ["id"],
-          "parameters": {
-            "include_analytics": "boolean"
-          }
+          "description": "Get sequence details"
         },
         {
-          "id": "update_sequence",
-          "method": "PUT",
-          "path": "/email_sequences/{id}",
-          "description": "Update sequence settings",
-          "path_params": ["id"],
-          "parameters": {
-            "name": "string",
-            "status": "string"
-          }
-        },
-        {
-          "id": "delete_sequence",
-          "method": "DELETE",
-          "path": "/email_sequences/{id}",
-          "description": "Delete email sequence",
-          "path_params": ["id"],
-          "parameters": {
-            "archive_data": "boolean"
-          }
-        },
-        {
-          "id": "clone_sequence",
+          "path": "/emailer_campaigns/{id}/add_contact_ids",
           "method": "POST",
-          "path": "/email_sequences/{id}/clone",
-          "description": "Clone existing sequence",
-          "path_params": ["id"],
-          "required_fields": ["name"],
-          "parameters": {
-            "name": "string"
-          }
-        },
-        {
-          "id": "start_sequence",
-          "method": "POST",
-          "path": "/email_sequences/{id}/start",
-          "description": "Start/activate sequence",
-          "path_params": ["id"],
-          "parameters": {
-            "schedule_time": "string"
-          }
-        },
-        {
-          "id": "pause_sequence",
-          "method": "POST",
-          "path": "/email_sequences/{id}/pause",
-          "description": "Pause running sequence",
-          "path_params": ["id"],
-          "parameters": {
-            "preserve_progress": "boolean"
-          }
-        },
-        {
-          "id": "resume_sequence",
-          "method": "POST",
-          "path": "/email_sequences/{id}/resume",
-          "description": "Resume paused sequence",
-          "path_params": ["id"]
-        },
-        {
-          "id": "get_sequence_templates",
-          "method": "GET",
-          "path": "/email_sequences/{id}/templates",
-          "description": "Get sequence email templates",
-          "path_params": ["id"],
-          "parameters": {
-            "step_number": "number"
-          }
+          "description": "Add contacts to sequence"
         }
       ]
     },
     {
       "name": "apollo_contacts",
-      "description": "Apollo.io contact management for sequences",
-      "operations": [
+      "description": "Apollo contact management and search",
+      "endpoints": [
         {
-          "id": "add_to_sequence",
+          "path": "/mixed_people/search",
           "method": "POST",
-          "path": "/email_sequences/{sequence_id}/contacts",
-          "description": "Add contacts to sequence",
-          "path_params": ["sequence_id"],
-          "required_fields": ["contact_ids"],
-          "parameters": {
-            "contact_ids": "array"
-          }
+          "description": "Search for contacts"
         },
         {
-          "id": "remove_from_sequence",
-          "method": "DELETE",
-          "path": "/email_sequences/{sequence_id}/contacts",
-          "description": "Remove contacts from sequence",
-          "path_params": ["sequence_id"],
-          "required_fields": ["contact_ids"],
-          "parameters": {
-            "contact_ids": "array"
-          }
-        },
-        {
-          "id": "bulk_add_contacts",
-          "method": "POST",
-          "path": "/email_sequences/{sequence_id}/contacts/bulk",
-          "description": "Bulk add contacts from CSV",
-          "path_params": ["sequence_id"],
-          "required_fields": ["file"],
-          "parameters": {
-            "file": "string"
-          }
-        },
-        {
-          "id": "get_contact_sequence_status",
+          "path": "/contacts/{id}",
           "method": "GET",
-          "path": "/contacts/{contact_id}/sequences",
-          "description": "Get contact status in sequences",
-          "path_params": ["contact_id"],
-          "parameters": {
-            "all_sequences": "boolean"
-          }
+          "description": "Get contact details"
         },
         {
-          "id": "pause_contact_in_sequence",
+          "path": "/people/match",
           "method": "POST",
-          "path": "/email_sequences/{sequence_id}/contacts/{contact_id}/pause",
-          "description": "Pause contact in sequence",
-          "path_params": ["sequence_id", "contact_id"]
-        },
+          "description": "Enrich person data"
+        }
+      ]
+    },
+    {
+      "name": "apollo_organizations",
+      "description": "Apollo organization search and enrichment",
+      "endpoints": [
         {
-          "id": "resume_contact_in_sequence",
+          "path": "/mixed_companies/search",
           "method": "POST",
-          "path": "/email_sequences/{sequence_id}/contacts/{contact_id}/resume",
-          "description": "Resume contact in sequence",
-          "path_params": ["sequence_id", "contact_id"]
+          "description": "Search organizations"
         },
         {
-          "id": "skip_sequence_step",
+          "path": "/organizations/enrich",
           "method": "POST",
-          "path": "/email_sequences/{sequence_id}/contacts/{contact_id}/skip",
-          "description": "Skip step for contact",
-          "path_params": ["sequence_id", "contact_id"],
-          "required_fields": ["step"],
-          "parameters": {
-            "step": "number"
-          }
-        },
-        {
-          "id": "get_contact_sequence_history",
-          "method": "GET",
-          "path": "/contacts/{contact_id}/sequence_history",
-          "description": "Get contact sequence history",
-          "path_params": ["contact_id"],
-          "parameters": {
-            "include_emails": "boolean"
-          }
+          "description": "Enrich company data"
         }
       ]
     },
     {
       "name": "apollo_templates",
-      "description": "Apollo.io email template management",
-      "operations": [
+      "description": "Apollo email template management",
+      "endpoints": [
         {
-          "id": "create_template",
+          "path": "/emailer_templates",
+          "method": "GET",
+          "description": "List email templates"
+        },
+        {
+          "path": "/emailer_templates",
           "method": "POST",
-          "path": "/email_templates",
-          "description": "Create email template",
-          "required_fields": ["name", "subject", "body"],
-          "parameters": {
-            "name": "string",
-            "subject": "string",
-            "body": "string",
-            "category": "string"
-          }
-        },
-        {
-          "id": "list_templates",
-          "method": "GET",
-          "path": "/email_templates",
-          "description": "List email templates",
-          "parameters": {
-            "category": "string",
-            "performance_metrics": "boolean"
-          }
-        },
-        {
-          "id": "get_template",
-          "method": "GET",
-          "path": "/email_templates/{id}",
-          "description": "Get template details",
-          "path_params": ["id"],
-          "parameters": {
-            "include_variables": "boolean"
-          }
-        },
-        {
-          "id": "update_template",
-          "method": "PUT",
-          "path": "/email_templates/{id}",
-          "description": "Update email template",
-          "path_params": ["id"],
-          "parameters": {
-            "subject": "string",
-            "body": "string",
-            "category": "string"
-          }
-        },
-        {
-          "id": "delete_template",
-          "method": "DELETE",
-          "path": "/email_templates/{id}",
-          "description": "Delete email template",
-          "path_params": ["id"]
-        },
-        {
-          "id": "test_template",
-          "method": "POST",
-          "path": "/email_templates/{id}/test",
-          "description": "Send test email using template",
-          "path_params": ["id"],
-          "required_fields": ["email"],
-          "parameters": {
-            "email": "string"
-          }
-        },
-        {
-          "id": "get_template_performance",
-          "method": "GET",
-          "path": "/email_templates/{id}/performance",
-          "description": "Get template performance metrics",
-          "path_params": ["id"],
-          "parameters": {
-            "metrics": "string"
-          }
+          "description": "Create email template"
         }
       ]
-    },
+    }
+  ],
+  "tools": [
     {
-      "name": "apollo_accounts",
-      "description": "Apollo.io email account management",
-      "operations": [
-        {
-          "id": "list_email_accounts",
-          "method": "GET",
-          "path": "/email_accounts",
-          "description": "List email sending accounts",
-          "parameters": {
-            "status": "string",
-            "include_quotas": "boolean"
-          }
-        },
-        {
-          "id": "get_email_account",
-          "method": "GET",
-          "path": "/email_accounts/{email}",
-          "description": "Get email account details",
-          "path_params": ["email"],
-          "parameters": {
-            "usage_stats": "boolean"
-          }
-        },
-        {
-          "id": "update_email_account",
-          "method": "PUT",
-          "path": "/email_accounts/{email}",
-          "description": "Update account settings",
-          "path_params": ["email"],
-          "parameters": {
-            "daily_limit": "number",
-            "warmup_enabled": "boolean"
-          }
-        },
-        {
-          "id": "test_email_account",
-          "method": "POST",
-          "path": "/email_accounts/{email}/test",
-          "description": "Test email account connectivity",
-          "path_params": ["email"],
-          "parameters": {
-            "send_test_email": "boolean"
-          }
-        },
-        {
-          "id": "get_account_quota",
-          "method": "GET",
-          "path": "/email_accounts/{email}/quota",
-          "description": "Check sending quotas and limits",
-          "path_params": ["email"],
-          "parameters": {
-            "period": "string"
-          }
-        },
-        {
-          "id": "manage_account_warmup",
-          "method": "POST",
-          "path": "/email_accounts/{email}/warmup",
-          "description": "Manage email account warmup",
-          "path_params": ["email"],
-          "parameters": {
-            "enable": "boolean",
-            "schedule": "string"
-          }
-        }
-      ]
-    },
-    {
-      "name": "apollo_analytics",
-      "description": "Apollo.io email sequence analytics",
-      "operations": [
-        {
-          "id": "sequence_performance",
-          "method": "GET",
-          "path": "/email_sequences/{sequence_id}/analytics",
-          "description": "Get sequence performance metrics",
-          "path_params": ["sequence_id"],
-          "parameters": {
-            "breakdown": "string",
-            "date_range": "string"
-          }
-        },
-        {
-          "id": "account_summary",
-          "method": "GET",
-          "path": "/analytics/account_summary",
-          "description": "Get account-wide email analytics",
-          "parameters": {
-            "date_range": "string",
-            "include_trends": "boolean"
-          }
-        },
-        {
-          "id": "compare_sequences",
-          "method": "GET",
-          "path": "/analytics/compare_sequences",
-          "description": "Compare sequence performance",
-          "required_fields": ["sequence_ids"],
-          "parameters": {
-            "sequence_ids": "array",
-            "metrics": "string"
-          }
-        },
-        {
-          "id": "export_analytics",
-          "method": "GET",
-          "path": "/analytics/export",
-          "description": "Export analytics data",
-          "parameters": {
-            "type": "string",
-            "format": "string",
-            "date_range": "string"
-          }
-        },
-        {
-          "id": "email_deliverability",
-          "method": "GET",
-          "path": "/analytics/deliverability",
-          "description": "Get email deliverability insights",
-          "parameters": {
-            "account": "string",
-            "period": "string"
-          }
-        }
-      ]
-    },
-    {
-      "name": "apollo_inbox",
-      "description": "Apollo.io inbox management for sequence replies",
-      "operations": [
-        {
-          "id": "list_sequence_replies",
-          "method": "GET",
-          "path": "/sequences/{sequence_id}/replies",
-          "description": "List email replies from sequence",
-          "path_params": ["sequence_id"],
-          "parameters": {
-            "status": "string",
-            "limit": "number"
-          }
-        },
-        {
-          "id": "reply_to_sequence",
-          "method": "POST",
-          "path": "/sequences/replies/{thread_id}",
-          "description": "Send reply to sequence response",
-          "path_params": ["thread_id"],
-          "required_fields": ["message"],
-          "parameters": {
-            "message": "string"
-          }
-        },
-        {
-          "id": "mark_reply_read",
-          "method": "POST",
-          "path": "/sequences/replies/{thread_id}/read",
-          "description": "Mark sequence reply as read",
-          "path_params": ["thread_id"]
-        },
-        {
-          "id": "setup_auto_response",
-          "method": "POST",
-          "path": "/sequences/{sequence_id}/auto_response",
-          "description": "Set up auto-response rules",
-          "path_params": ["sequence_id"],
-          "required_fields": ["trigger", "response"],
-          "parameters": {
-            "trigger": "string",
-            "response": "string"
-          }
-        }
+      "name": "cec_apollo",
+      "description": "Execute Apollo commands via CEC CLI",
+      "examples": [
+        "cec exec apollo sequences:list",
+        "cec exec apollo contacts:search --args '{\"keywords\":\"VP Sales\",\"company_size\":\"50-200\"}'",
+        "cec exec apollo sequences:create --args '{\"name\":\"Outreach Sequence\"}'"
       ]
     }
   ],

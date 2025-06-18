@@ -1,326 +1,93 @@
 {
   "mcpServers": {
     "instantly": {
-      "command": "npx",
-      "args": ["@instantly/mcp-server"],
+      "command": "@cec/instantly/mcp-server",
       "env": {
         "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}"
       }
     }
   },
-  "tools": [
+  "resources": [
+    {
+      "name": "instantly_accounts",
+      "description": "Instantly email account management",
+      "type": "api",
+      "base_url": "https://api.instantly.ai/api/v1",
+      "auth": "Bearer ${INSTANTLY_API_KEY}",
+      "endpoints": [
+        {
+          "path": "/account/accounts",
+          "method": "GET",
+          "description": "List email accounts"
+        },
+        {
+          "path": "/account/accounts",
+          "method": "POST",
+          "description": "Add email account"
+        },
+        {
+          "path": "/account/accounts/{email}/warmup",
+          "method": "PATCH",
+          "description": "Control warmup status"
+        }
+      ]
+    },
     {
       "name": "instantly_campaigns",
-      "description": "Instantly.ai high-volume email campaign management",
-      "endpoints": {
-        "base_url": "https://api.instantly.ai/api/v1",
-        "auth": "Bearer ${INSTANTLY_API_KEY}",
-        "rate_limits": {
-          "requests_per_minute": 200,
-          "requests_per_hour": 2000
-        }
-      },
-      "operations": [
+      "description": "Instantly campaign management",
+      "endpoints": [
         {
-          "id": "list_campaigns",
+          "path": "/campaign/list",
           "method": "GET",
-          "path": "/campaigns",
-          "description": "List all email campaigns",
-          "parameters": {
-            "status": "string",
-            "limit": "number",
-            "offset": "number"
-          }
+          "description": "List campaigns"
         },
         {
-          "id": "create_campaign",
+          "path": "/campaign/create",
           "method": "POST",
-          "path": "/campaigns",
-          "description": "Create new email campaign",
-          "required_fields": ["name"],
-          "parameters": {
-            "name": "string",
-            "track_opens": "boolean",
-            "track_clicks": "boolean",
-            "daily_limit": "number"
-          }
+          "description": "Create campaign"
         },
         {
-          "id": "get_campaign",
-          "method": "GET",
-          "path": "/campaigns/{id}",
-          "description": "Get campaign details",
-          "path_params": ["id"]
-        },
-        {
-          "id": "update_campaign",
-          "method": "PUT",
-          "path": "/campaigns/{id}",
-          "description": "Update campaign settings",
-          "path_params": ["id"],
-          "parameters": {
-            "name": "string",
-            "status": "string",
-            "daily_limit": "number"
-          }
-        },
-        {
-          "id": "delete_campaign",
-          "method": "DELETE",
-          "path": "/campaigns/{id}",
-          "description": "Delete campaign",
-          "path_params": ["id"]
-        },
-        {
-          "id": "launch_campaign",
+          "path": "/campaign/launch/{id}",
           "method": "POST",
-          "path": "/campaigns/{id}/launch",
-          "description": "Launch campaign to start sending",
-          "path_params": ["id"],
-          "parameters": {
-            "schedule_time": "string"
-          }
+          "description": "Launch campaign"
         },
         {
-          "id": "pause_campaign",
+          "path": "/campaign/pause/{id}",
           "method": "POST",
-          "path": "/campaigns/{id}/pause",
-          "description": "Pause running campaign",
-          "path_params": ["id"]
+          "description": "Pause campaign"
         }
       ]
     },
     {
       "name": "instantly_leads",
-      "description": "Instantly.ai lead management for email campaigns",
-      "operations": [
+      "description": "Instantly lead management",
+      "endpoints": [
         {
-          "id": "add_lead",
+          "path": "/campaign/add_leads/{campaign_id}",
           "method": "POST",
-          "path": "/campaigns/{campaign_id}/leads",
-          "description": "Add single lead to campaign",
-          "path_params": ["campaign_id"],
-          "required_fields": ["email"],
-          "parameters": {
-            "email": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "company": "string",
-            "custom_variables": "object"
-          }
+          "description": "Add leads to campaign"
         },
         {
-          "id": "bulk_add_leads",
-          "method": "POST",
-          "path": "/campaigns/{campaign_id}/leads/bulk",
-          "description": "Bulk add leads to campaign",
-          "path_params": ["campaign_id"],
-          "required_fields": ["leads"],
-          "parameters": {
-            "leads": "array"
-          }
-        },
-        {
-          "id": "list_leads",
+          "path": "/campaign/leads/{campaign_id}",
           "method": "GET",
-          "path": "/campaigns/{campaign_id}/leads",
-          "description": "List leads in campaign",
-          "path_params": ["campaign_id"],
-          "parameters": {
-            "status": "string",
-            "limit": "number",
-            "offset": "number"
-          }
+          "description": "Get campaign leads"
         },
         {
-          "id": "get_lead",
-          "method": "GET",
-          "path": "/leads/{email}",
-          "description": "Get lead details by email",
-          "path_params": ["email"],
-          "parameters": {
-            "campaign_id": "string"
-          }
-        },
-        {
-          "id": "update_lead",
-          "method": "PUT",
-          "path": "/leads/{email}",
-          "description": "Update lead information",
-          "path_params": ["email"],
-          "parameters": {
-            "first_name": "string",
-            "last_name": "string",
-            "company": "string",
-            "status": "string"
-          }
-        },
-        {
-          "id": "delete_lead",
-          "method": "DELETE",
-          "path": "/leads/{email}",
-          "description": "Remove lead from campaign",
-          "path_params": ["email"],
-          "parameters": {
-            "campaign_id": "string"
-          }
-        },
-        {
-          "id": "pause_lead",
+          "path": "/leads/verify/{campaign_id}",
           "method": "POST",
-          "path": "/leads/{email}/pause",
-          "description": "Pause lead in campaign",
-          "path_params": ["email"],
-          "parameters": {
-            "campaign_id": "string"
-          }
-        },
-        {
-          "id": "resume_lead",
-          "method": "POST",
-          "path": "/leads/{email}/resume",
-          "description": "Resume paused lead",
-          "path_params": ["email"],
-          "parameters": {
-            "campaign_id": "string"
-          }
+          "description": "Verify lead emails"
         }
       ]
-    },
+    }
+  ],
+  "tools": [
     {
-      "name": "instantly_accounts",
-      "description": "Instantly.ai email account management",
-      "operations": [
-        {
-          "id": "list_accounts",
-          "method": "GET",
-          "path": "/accounts",
-          "description": "List connected email accounts",
-          "parameters": {
-            "status": "string"
-          }
-        },
-        {
-          "id": "add_account",
-          "method": "POST",
-          "path": "/accounts",
-          "description": "Connect new email account",
-          "required_fields": ["email", "smtp_host"],
-          "parameters": {
-            "email": "string",
-            "smtp_host": "string",
-            "smtp_port": "number",
-            "username": "string",
-            "password": "string"
-          }
-        },
-        {
-          "id": "get_account",
-          "method": "GET",
-          "path": "/accounts/{email}",
-          "description": "Get email account details",
-          "path_params": ["email"]
-        },
-        {
-          "id": "update_account",
-          "method": "PUT",
-          "path": "/accounts/{email}",
-          "description": "Update account settings",
-          "path_params": ["email"],
-          "parameters": {
-            "daily_limit": "number",
-            "warmup_enabled": "boolean"
-          }
-        },
-        {
-          "id": "delete_account",
-          "method": "DELETE",
-          "path": "/accounts/{email}",
-          "description": "Remove email account",
-          "path_params": ["email"]
-        }
-      ]
-    },
-    {
-      "name": "instantly_unibox",
-      "description": "Instantly.ai inbox management (Unibox)",
-      "operations": [
-        {
-          "id": "get_conversations",
-          "method": "GET",
-          "path": "/unibox/conversations",
-          "description": "List conversations and replies",
-          "parameters": {
-            "status": "string",
-            "limit": "number",
-            "offset": "number"
-          }
-        },
-        {
-          "id": "get_conversation",
-          "method": "GET",
-          "path": "/unibox/conversations/{id}",
-          "description": "Get specific conversation",
-          "path_params": ["id"]
-        },
-        {
-          "id": "reply_conversation",
-          "method": "POST",
-          "path": "/unibox/conversations/{id}/reply",
-          "description": "Send reply to conversation",
-          "path_params": ["id"],
-          "required_fields": ["message"],
-          "parameters": {
-            "message": "string"
-          }
-        },
-        {
-          "id": "mark_read",
-          "method": "POST",
-          "path": "/unibox/conversations/mark-read",
-          "description": "Mark conversations as read",
-          "required_fields": ["conversation_ids"],
-          "parameters": {
-            "conversation_ids": "array"
-          }
-        }
-      ]
-    },
-    {
-      "name": "instantly_analytics",
-      "description": "Instantly.ai email analytics and reporting",
-      "operations": [
-        {
-          "id": "analytics_summary",
-          "method": "GET",
-          "path": "/analytics/summary",
-          "description": "Get account-wide analytics",
-          "parameters": {
-            "date_range": "string",
-            "metrics": "string"
-          }
-        },
-        {
-          "id": "campaign_analytics",
-          "method": "GET",
-          "path": "/campaigns/{campaign_id}/analytics",
-          "description": "Get campaign performance",
-          "path_params": ["campaign_id"],
-          "parameters": {
-            "breakdown": "string",
-            "date_range": "string"
-          }
-        },
-        {
-          "id": "deliverability_analytics",
-          "method": "GET",
-          "path": "/analytics/deliverability",
-          "description": "Get deliverability metrics",
-          "parameters": {
-            "account": "string",
-            "period": "string"
-          }
-        }
+      "name": "cec_instantly",
+      "description": "Execute Instantly commands via CEC CLI",
+      "examples": [
+        "cec exec instantly campaigns:list",
+        "cec exec instantly accounts:warmup --args '{\"email\":\"user@domain.com\",\"status\":\"start\"}'",
+        "cec exec instantly analytics:campaign --args '{\"id\":\"123\",\"period\":\"30d\"}'"
       ]
     }
   ],

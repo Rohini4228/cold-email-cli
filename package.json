@@ -1,169 +1,67 @@
 {
   "name": "cold-email-cli",
-  "version": "1.0.0",
-  "description": "🚀 Professional multi-platform CLI for cold email outreach automation. Built with React Ink for beautiful terminal interfaces. Complete TypeScript implementation with smartlead.ai, instantly.ai, salesforge.ai, and apollo.io modules - 135+ commands total.",
-  "main": "dist/core/index.js",
-  "types": "dist/core/index.d.ts",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Professional CLI for cold email automation across multiple platforms - Built by the community",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "cold-email-cli": "dist/bin/cold-email-cli",
-    "cec": "dist/bin/cec"
+    "cold-email-cli": "dist/cli.js",
+    "cec": "dist/cli.js"
   },
-  "files": [
-    "dist/**/*",
-    "docs/**/*",
-    "LICENSE",
-    "scripts/install.sh",
-    "scripts/install-mac.sh",
-    "build/**/*"
-  ],
   "scripts": {
-    "build": "bash scripts/build.sh",
-    "build:mac": "bash scripts/build-mac.sh",
-    "build:installer": "bash scripts/create-mac-installer.sh",
-    "dev": "ts-node --project tsconfig.json src/core/index.ts",
-    "watch": "nodemon --exec ts-node --project tsconfig.json src/core/index.ts",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "format": "prettier --write src/**/*.ts",
+    "dev": "bun run --watch src/cli.ts",
+    "build": "bun run scripts/build.ts",
+    "build:fast": "npx tsc && cp package.json dist/",
+    "start": "node dist/cli.js",
+    "test": "bun test",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist coverage build",
-    "prepare": "npm run build",
-    "prepack": "npm run build",
-    "install-global": "npm run build && npm install -g .",
-    "uninstall-global": "npm uninstall -g cold-email-cli",
-    "setup": "bash scripts/install.sh",
-    "setup:mac": "bash scripts/install-mac.sh",
-    "package": "npm pack",
-    "package:mac": "npm run build:installer",
-    "start": "node dist/core/index.js",
-    "release": "npm run build && npm run package:mac"
+    "clean": "rm -rf dist",
+    "link": "npm link",
+    "package": "npm run build:fast && npm pack"
   },
+  "keywords": [
+    "cold-email",
+    "email-automation",
+    "smartlead",
+    "instantly",
+    "salesforge",
+    "apollo",
+    "cli",
+    "react-ink",
+    "typescript"
+  ],
+  "author": "Community Contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/LeadMagic/cold-email-cli",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeadMagic/cold-email-cli.git"
+    "url": "https://github.com/LeadMagic/cold-email-cli.git"
   },
   "bugs": {
     "url": "https://github.com/LeadMagic/cold-email-cli/issues"
   },
-  "homepage": "https://github.com/LeadMagic/cold-email-cli#readme",
-  "keywords": [
-    "cold-email",
-    "email-outreach", 
-    "sales-automation",
-    "email-marketing",
-    "lead-generation",
-    "sales-tools",
-    "crm-integration",
-    "email-campaigns",
-    "outreach-automation",
-    "b2b-sales",
-    "prospecting",
-    "email-sequences",
-    "multi-platform",
-    "smartlead",
-    "instantly",
-    "salesforge", 
-    "apollo",
-    "cli-tool",
-    "terminal-app",
-    "react-ink",
-    "typescript",
-    "nodejs",
-    "automation-tools",
-    "developer-tools",
-    "command-line",
-    "cross-platform",
-    "macos",
-    "linux",
-    "windows"
-  ],
-  "author": {
-    "name": "Cold Email CLI Contributors",
-    "email": "support@cold-email-cli.org"
-  },
-  "contributors": [
-    {
-      "name": "Cold Email CLI Contributors", 
-      "url": "https://github.com/LeadMagic/cold-email-cli/graphs/contributors"
-    }
-  ],
-  "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "bun": ">=1.0.0"
   },
-  "preferGlobal": true,
-  "os": [
-    "darwin",
-    "linux", 
-    "win32"
-  ],
-  "cpu": [
-    "x64",
-    "arm64"
-  ],
   "dependencies": {
-    "@clack/prompts": "0.11.0",
-    "axios": "^1.6.2",
-    "chalk": "^4.1.2",
+    "axios": "^1.6.0",
+    "chalk": "^5.3.0",
     "commander": "^11.1.0",
-    "figlet": "^1.7.0",
-    "gradient-string": "^1.2.0",
     "ink": "^4.4.1",
-    "inquirer": "^8.2.6",
-    "react": "^18.2.0"
+    "ink-select-input": "^6.2.0",
+    "ink-text-input": "^6.0.0",
+    "ink-spinner": "^5.0.0",
+    "react": "^18.2.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/figlet": "^1.5.8",
-    "@types/gradient-string": "1.1.6", 
-    "@types/inquirer": "^9.0.7",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.5",
-    "@types/react": "^18.2.45",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
-    "eslint": "^8.56.0",
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.2",
-    "prettier": "^3.1.1",
-    "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.3.0"
   },
-  "peerDependencies": {
-    "node": ">=18.0.0"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "@typescript-eslint/recommended"
-    ],
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "rules": {
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unused-vars": "error"
-    }
-  },
-  "prettier": {
-    "semi": true,
-    "trailingComma": "es5",
-    "singleQuote": true,
-    "printWidth": 80,
-    "tabWidth": 2
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "community": {
+    "discord": "https://discord.gg/mB76X5QJ"
   }
 }

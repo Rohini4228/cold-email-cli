@@ -10,6 +10,7 @@ export interface CLICommand {
   category: string;
   options?: CommandOption[];
   examples?: string[];
+  handler: (args: Record<string, any>) => Promise<void>;
 }
 
 export interface CommandOption {

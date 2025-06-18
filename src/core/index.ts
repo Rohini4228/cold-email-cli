@@ -8,40 +8,40 @@ async function main() {
     const args = process.argv.slice(2);
     
     if (args.length === 0) {
-      console.log('🚀 Cold Email CLI v1.0.0\n');
+      console.log('❄️ Cold Email CLI v2.0.0\n');
       console.log('Professional command-line interface for cold email automation\n');
       console.log('Usage: cold-email-cli <module> <command> [options]');
       console.log('   or: cec <module> <command> [options]\n');
       console.log('Available modules:');
-      console.log('  smartlead.ai    - Advanced Campaign Management & Analytics (68 commands)');
-      console.log('  instantly.ai    - High-Volume Automation & Deliverability (35 commands)');
-      console.log('  salesforge.ai   - AI-Powered Email Sequences (42 commands)');
-      console.log('  apollo.io       - Email Sequences & Outreach Automation (42 commands)\n');
+      console.log('  smartlead     - Advanced Campaign Management & Analytics (68 commands)');
+      console.log('  instantly     - High-Volume Automation & Deliverability (45 commands)');
+      console.log('  salesforge    - AI-Powered Multi-Channel Sequences (42 commands)');
+      console.log('  apollo        - Email Sequence & Outreach Automation (42 commands)\n');
       console.log('Examples:');
-      console.log('  cold-email-cli smartlead.ai campaigns:list');
-      console.log('  cec instantly.ai leads:add --email john@company.com');
-      console.log('  cold-email-cli salesforge.ai sequences:generate --persona "VP Sales"');
-      console.log('  cec apollo.io sequences:create --name "Enterprise Outreach"');
+      console.log('  cold-email-cli smartlead campaigns:list');
+      console.log('  cec instantly leads:add --email john@company.com');
+      console.log('  cold-email-cli salesforge sequences:create --persona "VP Sales"');
+      console.log('  cec apollo sequences:create --name "Enterprise Outreach"');
       return;
     }
 
     if (args[0] === '--help' || args[0] === '-h') {
-      console.log('🚀 Cold Email CLI v1.0.0 - Professional Email Sequence Automation\n');
+      console.log('❄️ Cold Email CLI v2.0.0 - Professional Email Sequence Automation\n');
       console.log('USAGE:');
       console.log('  cold-email-cli <module> <command> [options]');
       console.log('  cec <module> <command> [options]  # Short alias\n');
       
       console.log('MODULES:');
-      console.log('  smartlead.ai    Advanced Campaign Management & Analytics');
-      console.log('  instantly.ai    High-Volume Automation & Deliverability'); 
-      console.log('  salesforge.ai   AI-Powered Email Sequences');
-      console.log('  apollo.io       Email Sequences & Outreach Automation\n');
+      console.log('  smartlead     Advanced Campaign Management & Analytics');
+      console.log('  instantly     High-Volume Automation & Deliverability'); 
+      console.log('  salesforge    AI-Powered Multi-Channel Sequences');
+      console.log('  apollo        Email Sequence & Outreach Automation\n');
       
       console.log('EXAMPLES:');
-      console.log('  cold-email-cli smartlead.ai campaigns:list --status active');
-      console.log('  cec instantly.ai campaigns:create --name "Q1 Outreach"');
-      console.log('  cold-email-cli salesforge.ai sequences:generate --persona "Enterprise VP"');
-      console.log('  cec apollo.io sequences:start --id seq_12345\n');
+      console.log('  cold-email-cli smartlead campaigns:list --status active');
+      console.log('  cec instantly campaigns:create --name "Q1 Outreach"');
+      console.log('  cold-email-cli salesforge sequences:create --persona "Enterprise VP"');
+      console.log('  cec apollo sequences:start --id seq_12345\n');
       
       console.log('For module-specific help:');
       console.log('  cold-email-cli <module> --help');

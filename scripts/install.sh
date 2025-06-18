@@ -1,91 +1,77 @@
 #!/bin/bash
 
+# Cold Email CLI (CEC) Installation Script
+# Installs the fastest cold email automation CLI built with React Ink
+
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
-echo "🚀 SmartLead CLI Installer"
-echo "=========================="
+echo -e "${CYAN}"
+echo "  ██████╗███████╗ ██████╗"
+echo "██╔════╝██╔════╝██╔════╝"
+echo "██║     █████╗  ██║     "
+echo "██║     ██╔══╝  ██║     "
+echo "╚██████╗███████╗╚██████╗"
+echo " ╚═════╝╚══════╝ ╚═════╝"
+echo "                        "
+echo "Cold Email CLI v2.0.0   "
+echo -e "${NC}"
 
-# Check if Node.js is installed
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js is not installed."
-    echo "Please install Node.js 16+ from https://nodejs.org/"
-    exit 1
+echo -e "${CYAN}🚀 Installing Cold Email CLI (CEC)...${NC}"
+echo -e "${YELLOW}Platform support: SmartLead • Instantly • Salesforge • Apollo${NC}"
+echo ""
+
+# Check if Bun is installed
+if ! command -v bun &> /dev/null; then
+    echo -e "${YELLOW}⚡ Installing Bun (fastest runtime)...${NC}"
+    curl -fsSL https://bun.sh/install | bash
+    export PATH="$HOME/.bun/bin:$PATH"
+    echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+    echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.zshrc
+    echo -e "${GREEN}✅ Bun installed successfully!${NC}"
+else
+    echo -e "${GREEN}✅ Bun already installed${NC}"
 fi
-
-# Check Node.js version
-NODE_VERSION=$(node -v | cut -d'v' -f2)
-REQUIRED_VERSION="16.0.0"
-
-if ! node -e "
-const [reqMajor, reqMinor, reqPatch] = '$REQUIRED_VERSION'.split('.').map(Number);
-const [curMajor, curMinor, curPatch] = '$NODE_VERSION'.split('.').map(Number);
-const isValid = curMajor > reqMajor || 
-                (curMajor === reqMajor && curMinor > reqMinor) || 
-                (curMajor === reqMajor && curMinor === reqMinor && curPatch >= reqPatch);
-process.exit(isValid ? 0 : 1);
-"; then
-    echo "❌ Node.js version $NODE_VERSION is not supported."
-    echo "Please install Node.js 16.0.0 or higher."
-    exit 1
-fi
-
-echo "✅ Node.js $NODE_VERSION detected"
-
-# Check if npm is installed
-if ! command -v npm &> /dev/null; then
-    echo "❌ npm is not installed."
-    echo "Please install npm."
-    exit 1
-fi
-
-NPM_VERSION=$(npm -v)
-echo "✅ npm $NPM_VERSION detected"
-
-cd "$PROJECT_DIR"
 
 # Install dependencies
-echo "📦 Installing dependencies..."
-npm install
+echo -e "${CYAN}📦 Installing dependencies...${NC}"
+bun install
 
 # Build the project
-echo "🔨 Building project..."
-npm run build
+echo -e "${CYAN}🏗️  Building CEC with Bun...${NC}"
+bun run build
 
-# Install globally
-echo "🌍 Installing globally..."
-npm install -g .
+# Create global symlink
+echo -e "${CYAN}🔗 Creating global 'cec' command...${NC}"
+bun link
 
-# Verify installation
-echo "🔍 Verifying installation..."
-if command -v smartlead &> /dev/null; then
-    INSTALLED_VERSION=$(smartlead --version)
-    echo "✅ SmartLead CLI v$INSTALLED_VERSION installed successfully!"
-else
-    echo "❌ Installation verification failed."
-    exit 1
-fi
+# Set executable permissions
+chmod +x dist/cli.js
 
 echo ""
-echo "🎉 Installation Complete!"
-echo "======================="
+echo -e "${GREEN}🎉 Cold Email CLI (CEC) installed successfully!${NC}"
 echo ""
-echo "🎯 Quick Start:"
-echo "  smartlead           - Show welcome screen"
-echo "  smartlead modules   - Show available modules"
-echo "  smartlead config    - Configure API settings"
-echo "  smartlead switch    - Switch between modules"
-echo "  smartlead --help    - Show help"
+echo -e "${CYAN}Quick Start:${NC}"
+echo -e "  ${YELLOW}cec${NC}              # Launch interactive menu"
+echo -e "  ${YELLOW}cec smartlead${NC}    # SmartLead platform shell"
+echo -e "  ${YELLOW}cec instantly${NC}    # Instantly platform shell"
+echo -e "  ${YELLOW}cec salesforge${NC}   # Salesforge platform shell"
+echo -e "  ${YELLOW}cec apollo${NC}       # Apollo platform shell"
 echo ""
-echo "📚 Documentation:"
-echo "  README: $PROJECT_DIR/docs/README.md"
-echo "  Contributing: $PROJECT_DIR/docs/CONTRIBUTING.md"
-echo "  Roadmap: $PROJECT_DIR/docs/ROADMAP.md"
+echo -e "${CYAN}Environment Setup:${NC}"
+echo -e "  Add your API keys to ${YELLOW}~/.bashrc${NC} or ${YELLOW}~/.zshrc${NC}:"
+echo -e "  ${YELLOW}export SMARTLEAD_API_KEY=\"your_key\"${NC}"
+echo -e "  ${YELLOW}export INSTANTLY_API_KEY=\"your_key\"${NC}"
+echo -e "  ${YELLOW}export SALESFORGE_API_KEY=\"your_key\"${NC}"
+echo -e "  ${YELLOW}export APOLLO_API_KEY=\"your_key\"${NC}"
 echo ""
-echo "🔧 Troubleshooting:"
-echo "  If you encounter issues, try:"
-echo "  - smartlead reset"
-echo "  - npm uninstall -g smartlead-cli && npm install -g ."
-echo "" 
+echo -e "${CYAN}Community:${NC}"
+echo -e "  🌐 Discord: ${YELLOW}https://discord.gg/mB76X5QJ${NC}"
+echo -e "  📚 Docs: ${YELLOW}https://github.com/LeadMagic/cold-email-cli${NC}"
+echo ""
+echo -e "${GREEN}Happy cold emailing! 🎯${NC}" 

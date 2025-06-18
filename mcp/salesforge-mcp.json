@@ -1,349 +1,157 @@
 {
   "mcpServers": {
     "salesforge": {
-      "command": "npx",
-      "args": ["@salesforge/mcp-server"],
+      "command": "cold-email-cli",
+      "args": ["salesforge", "--mcp"],
       "env": {
         "SALESFORGE_API_KEY": "${SALESFORGE_API_KEY}"
       }
     }
   },
-  "tools": [
+  "resources": [
     {
       "name": "salesforge_campaigns",
-      "description": "Salesforge.ai AI-powered email campaign management",
-      "endpoints": {
-        "base_url": "https://api.salesforge.ai/public/v2",
-        "auth": "Bearer ${SALESFORGE_API_KEY}",
-        "rate_limits": {
-          "requests_per_minute": 150,
-          "requests_per_hour": 1500
-        }
-      },
-      "operations": [
+      "description": "Salesforge AI-powered email campaign management",
+      "type": "api",
+      "base_url": "https://api.salesforge.ai/public/v2",
+      "auth": "Bearer ${SALESFORGE_API_KEY}",
+      "endpoints": [
         {
-          "id": "create_campaign",
-          "method": "POST",
           "path": "/campaigns",
-          "description": "Create AI-powered email campaign",
-          "required_fields": ["name", "type"],
-          "parameters": {
-            "name": "string",
-            "type": "string",
-            "ai_optimization_enabled": "boolean",
-            "target_personas": "array",
-            "industry": "string"
-          }
+          "method": "GET",
+          "description": "List AI-powered campaigns"
         },
         {
-          "id": "list_campaigns",
-          "method": "GET",
           "path": "/campaigns",
-          "description": "List campaigns with AI insights",
-          "parameters": {
-            "status": "string",
-            "ai_performance": "boolean"
-          }
+          "method": "POST", 
+          "description": "Create AI-optimized campaign"
         },
         {
-          "id": "get_campaign",
+          "path": "/campaigns/{id}",
           "method": "GET",
+          "description": "Get campaign with AI insights"
+        },
+        {
           "path": "/campaigns/{id}",
-          "description": "Get campaign with AI metrics",
-          "path_params": ["id"],
-          "parameters": {
-            "include_ai_insights": "boolean"
-          }
+          "method": "PATCH",
+          "description": "Update campaign settings"
         },
         {
-          "id": "update_campaign",
-          "method": "PUT",
           "path": "/campaigns/{id}",
-          "description": "Update campaign with AI recommendations",
-          "path_params": ["id"],
-          "parameters": {
-            "apply_ai_optimizations": "boolean"
-          }
-        },
-        {
-          "id": "optimize_campaign",
-          "method": "POST",
-          "path": "/campaigns/{id}/optimize",
-          "description": "AI optimization of campaign",
-          "path_params": ["id"],
-          "parameters": {
-            "goal": "string",
-            "ai_model": "string",
-            "auto_apply": "boolean"
-          }
-        },
-        {
-          "id": "start_campaign",
-          "method": "POST",
-          "path": "/campaigns/{id}/start",
-          "description": "Start campaign with AI optimization",
-          "path_params": ["id"],
-          "parameters": {
-            "ai_send_time_optimization": "boolean"
-          }
+          "method": "DELETE",
+          "description": "Delete campaign"
         }
       ]
     },
     {
       "name": "salesforge_sequences",
-      "description": "Salesforge.ai AI-generated email sequences",
-      "operations": [
+      "description": "Salesforge AI-generated email sequences",
+      "type": "api",
+      "endpoints": [
         {
-          "id": "create_sequence",
-          "method": "POST",
           "path": "/sequences",
-          "description": "Create AI-generated email sequence",
-          "required_fields": ["name", "persona", "industry"],
-          "parameters": {
-            "name": "string",
-            "persona": "string",
-            "industry": "string",
-            "ai_generated": "boolean"
-          }
-        },
-        {
-          "id": "generate_sequence",
-          "method": "POST",
-          "path": "/sequences/generate",
-          "description": "AI-generate complete sequence from brief",
-          "required_fields": ["brief", "target_persona"],
-          "parameters": {
-            "brief": "string",
-            "target_persona": "string",
-            "tone": "string",
-            "industry": "string"
-          }
-        },
-        {
-          "id": "list_sequences",
           "method": "GET",
+          "description": "List AI-generated sequences"
+        },
+        {
           "path": "/sequences",
-          "description": "List sequences with AI performance",
-          "parameters": {
-            "campaign_id": "string",
-            "sort_by": "string"
-          }
+          "method": "POST",
+          "description": "Create AI-powered sequence"
         },
         {
-          "id": "get_sequence",
-          "method": "GET",
           "path": "/sequences/{id}",
-          "description": "Get sequence with AI analysis",
-          "path_params": ["id"],
-          "parameters": {
-            "ai_performance_breakdown": "boolean"
-          }
+          "method": "GET",
+          "description": "Get sequence details"
         },
         {
-          "id": "optimize_sequence",
-          "method": "POST",
           "path": "/sequences/{id}/optimize",
-          "description": "AI optimization of email sequence",
-          "path_params": ["id"],
-          "parameters": {
-            "goal": "string",
-            "ai_rewrite_copy": "boolean"
-          }
-        },
-        {
-          "id": "test_sequence",
           "method": "POST",
-          "path": "/sequences/test",
-          "description": "A/B test sequences with AI analysis",
-          "required_fields": ["sequence_ids"],
-          "parameters": {
-            "sequence_ids": "array",
-            "ai_winner_prediction": "boolean"
-          }
+          "description": "AI-optimize sequence"
         }
       ]
     },
     {
       "name": "salesforge_templates",
-      "description": "Salesforge.ai AI-powered email templates",
-      "operations": [
+      "description": "Salesforge AI-powered email templates",
+      "type": "api",
+      "endpoints": [
         {
-          "id": "generate_template",
-          "method": "POST",
-          "path": "/templates/generate",
-          "description": "Generate AI email template",
-          "required_fields": ["persona", "tone"],
-          "parameters": {
-            "persona": "string",
-            "tone": "string",
-            "industry": "string",
-            "template_type": "string"
-          }
-        },
-        {
-          "id": "list_templates",
-          "method": "GET",
           "path": "/templates",
-          "description": "List templates with AI performance",
-          "parameters": {
-            "sort_by": "string",
-            "category": "string",
-            "ai_performance": "boolean"
-          }
+          "method": "GET",
+          "description": "List AI-optimized templates"
         },
         {
-          "id": "get_template",
-          "method": "GET",
+          "path": "/templates",
+          "method": "POST",
+          "description": "Create AI-optimized template"
+        },
+        {
           "path": "/templates/{id}",
-          "description": "Get template with AI analysis",
-          "path_params": ["id"],
-          "parameters": {
-            "ai_improvement_suggestions": "boolean"
-          }
-        },
-        {
-          "id": "optimize_template",
-          "method": "POST",
-          "path": "/templates/{id}/optimize",
-          "description": "AI optimization of email template",
-          "path_params": ["id"],
-          "parameters": {
-            "goal": "string",
-            "ai_rewrite": "boolean"
-          }
-        },
-        {
-          "id": "personalize_template",
-          "method": "POST",
-          "path": "/templates/{id}/personalize",
-          "description": "AI personalization of template",
-          "path_params": ["id"],
-          "required_fields": ["lead_data"],
-          "parameters": {
-            "lead_data": "object",
-            "personalization_level": "string"
-          }
-        },
-        {
-          "id": "analyze_template",
           "method": "GET",
-          "path": "/templates/{id}/analyze",
-          "description": "AI analysis of template performance",
-          "path_params": ["id"],
-          "parameters": {
-            "metrics": "string"
-          }
+          "description": "Get template details"
+        },
+        {
+          "path": "/templates/{id}/optimize",
+          "method": "POST",
+          "description": "AI-optimize template performance"
         }
       ]
     },
     {
       "name": "salesforge_leads",
-      "description": "Salesforge.ai AI-enhanced lead management",
-      "operations": [
+      "description": "Salesforge lead management with AI scoring",
+      "type": "api",
+      "endpoints": [
         {
-          "id": "import_leads",
-          "method": "POST",
-          "path": "/leads/import",
-          "description": "Import leads with AI enrichment",
-          "required_fields": ["file", "campaign_id"],
-          "parameters": {
-            "file": "string",
-            "campaign_id": "string",
-            "ai_enrich_profiles": "boolean"
-          }
+          "path": "/leads",
+          "method": "GET",
+          "description": "List leads with AI engagement scores"
         },
         {
-          "id": "score_leads",
+          "path": "/leads",
           "method": "POST",
-          "path": "/leads/score",
-          "description": "AI-powered lead scoring",
-          "required_fields": ["criteria"],
-          "parameters": {
-            "criteria": "string",
-            "ai_model": "string",
-            "campaign_id": "string"
-          }
+          "description": "Create lead with AI enrichment"
         },
         {
-          "id": "segment_leads",
-          "method": "POST",
-          "path": "/leads/segment",
-          "description": "AI-based lead segmentation",
-          "required_fields": ["campaign_id"],
-          "parameters": {
-            "campaign_id": "string",
-            "ai_create_personas": "boolean"
-          }
-        },
-        {
-          "id": "personalize_leads",
-          "method": "POST",
-          "path": "/leads/personalize",
-          "description": "AI personalization for leads",
-          "required_fields": ["lead_ids"],
-          "parameters": {
-            "lead_ids": "array",
-            "ai_research_depth": "string"
-          }
-        },
-        {
-          "id": "predict_leads",
-          "method": "POST",
-          "path": "/leads/predict",
-          "description": "AI prediction of lead conversion",
-          "required_fields": ["campaign_id"],
-          "parameters": {
-            "campaign_id": "string",
-            "model": "string"
-          }
+          "path": "/leads/{id}",
+          "method": "GET",
+          "description": "Get lead with AI insights"
         }
       ]
     },
     {
       "name": "salesforge_analytics",
-      "description": "Salesforge.ai AI-powered analytics and insights",
-      "operations": [
+      "description": "Salesforge AI analytics and insights",
+      "type": "api",
+      "endpoints": [
         {
-          "id": "ai_insights",
+          "path": "/analytics/performance",
           "method": "GET",
-          "path": "/analytics/ai-insights",
-          "description": "AI-powered performance insights",
-          "parameters": {
-            "campaign_id": "string",
-            "recommendations": "string"
-          }
+          "description": "Get AI performance analytics"
         },
         {
-          "id": "predict_performance",
-          "method": "GET",
-          "path": "/analytics/predict",
-          "description": "AI predictions for campaign performance",
-          "parameters": {
-            "campaign_id": "string",
-            "forecast_period": "string"
-          }
+          "path": "/analytics/ai-insights/{campaign_id}",
+          "method": "GET", 
+          "description": "Get AI-generated insights"
         },
         {
-          "id": "optimize_analytics",
-          "method": "POST",
-          "path": "/analytics/optimize",
-          "description": "AI-driven optimization recommendations",
-          "parameters": {
-            "campaign_id": "string",
-            "auto_apply_suggestions": "boolean"
-          }
-        },
-        {
-          "id": "compare_campaigns",
+          "path": "/analytics/predictions",
           "method": "GET",
-          "path": "/analytics/compare",
-          "description": "AI-powered campaign comparison",
-          "required_fields": ["campaign_ids"],
-          "parameters": {
-            "campaign_ids": "array",
-            "ai_winner_analysis": "boolean"
-          }
+          "description": "Get AI performance predictions"
         }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "cec_salesforge",
+      "description": "Execute Salesforge commands via CEC CLI",
+      "usage": "cec salesforge <command> [options]",
+      "examples": [
+        "cec salesforge campaigns:create --name 'AI Campaign' --ai_optimization true",
+        "cec salesforge sequences:create --persona 'decision_maker'",
+        "cec salesforge templates:optimize --id template_123 --goal reply_rate",
+        "cec salesforge analytics:ai-insights --campaign_id campaign_123"
       ]
     }
   ],

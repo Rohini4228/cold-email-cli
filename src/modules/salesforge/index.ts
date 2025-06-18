@@ -1,363 +1,355 @@
-import { CLIModule } from '../../types/global';
+import { CLIModule, CLICommand } from '../../types/global';
+import axios from 'axios';
 
-export class SalesForgeModule implements CLIModule {
-  name = 'Salesforge CLI';
-  description = 'AI-Powered Cold Email Automation';
-  version = '1.0.0';
+export class SalesforgeModule implements CLIModule {
+  name = 'salesforge';
+  version = '2.0.0';
+  description = 'AI-Powered Multi-Channel Sequences';
+  
+  private apiKey: string | undefined;
+  private baseURL = 'https://api.salesforge.ai/public/v2';
 
-  commands = [
+  constructor() {
+    this.apiKey = process.env.SALESFORGE_API_KEY;
+  }
+
+  private async makeRequest(endpoint: string, method: 'GET' | 'POST' | 'PATCH' | 'DELETE' = 'GET', data?: any) {
+    if (!this.apiKey) {
+      throw new Error('SALESFORGE_API_KEY environment variable is required');
+    }
+
+    try {
+      const response = await axios({
+        method,
+        url: `${this.baseURL}${endpoint}`,
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        data,
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(`Salesforge API Error: ${error.response?.data?.message || error.message}`);
+    }
+  }
+
+  commands: CLICommand[] = [
     // Campaign Management (10 commands)
     {
-      name: 'campaigns:create',
-      description: 'Create AI-powered cold email campaign',
-      usage: 'campaigns:create --name "AI Outreach" --type email --ai-optimization enabled',
-      category: 'Campaign Management'
+      name: 'campaigns:list',
+      description: 'List AI-powered email campaigns',
+      usage: 'campaigns:list [--limit 20] [--offset 0] [--status active]',
+      category: 'Campaign Management',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.limit) params.append('limit', args.limit);
+        if (args.offset) params.append('offset', args.offset);
+        if (args.status) params.append('status', args.status);
+        
+        const data = await this.makeRequest(`/campaigns?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
-      name: 'campaigns:list',
-      description: 'List all campaigns with AI insights',
-      usage: 'campaigns:list --status running --ai-performance true',
-      category: 'Campaign Management'
+      name: 'campaigns:create',
+      description: 'Create AI-optimized campaign',
+      usage: 'campaigns:create --name "Campaign Name" --type email --ai_optimization true',
+      category: 'Campaign Management',
+      handler: async (args) => {
+        if (!args.name) {
+          throw new Error('Required: --name');
+        }
+        
+        const campaignData = {
+          name: args.name,
+          type: args.type || 'email',
+          ai_optimization_enabled: args.ai_optimization !== 'false',
+          target_personas: args.personas ? args.personas.split(',') : [],
+          industry: args.industry || '',
+        };
+        
+        const result = await this.makeRequest('/campaigns', 'POST', campaignData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
     {
       name: 'campaigns:get',
-      description: 'Get detailed campaign information and AI metrics',
-      usage: 'campaigns:get --id campaign_12345 --include-ai-insights',
-      category: 'Campaign Management'
+      description: 'Get campaign details with AI insights',
+      usage: 'campaigns:get --id campaign_id',
+      category: 'Campaign Management',
+      handler: async (args) => {
+        if (!args.id) {
+          throw new Error('Required: --id');
+        }
+        
+        const data = await this.makeRequest(`/campaigns/${args.id}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
       name: 'campaigns:update',
-      description: 'Update campaign with AI recommendations',
-      usage: 'campaigns:update --id campaign_12345 --apply-ai-optimizations',
-      category: 'Campaign Management'
+      description: 'Update campaign with AI optimization',
+      usage: 'campaigns:update --id campaign_id --ai_optimization true',
+      category: 'Campaign Management',
+      handler: async (args) => {
+        if (!args.id) {
+          throw new Error('Required: --id');
+        }
+        
+        const updateData: any = {};
+        if (args.name) updateData.name = args.name;
+        if (args.ai_optimization !== undefined) updateData.ai_optimization_enabled = args.ai_optimization === 'true';
+        if (args.performance_goal) updateData.performance_goal = args.performance_goal;
+        
+        const result = await this.makeRequest(`/campaigns/${args.id}`, 'PATCH', updateData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
     {
       name: 'campaigns:delete',
-      description: 'Delete campaign and AI training data',
-      usage: 'campaigns:delete --id campaign_12345 --preserve-ai-learnings',
-      category: 'Campaign Management'
-    },
-    {
-      name: 'campaigns:start',
-      description: 'Start campaign with AI optimization',
-      usage: 'campaigns:start --id campaign_12345 --ai-send-time-optimization',
-      category: 'Campaign Management'
-    },
-    {
-      name: 'campaigns:pause',
-      description: 'Pause campaign and analyze AI performance',
-      usage: 'campaigns:pause --id campaign_12345 --generate-ai-report',
-      category: 'Campaign Management'
-    },
-    {
-      name: 'campaigns:clone',
-      description: 'Clone campaign with AI-enhanced settings',
-      usage: 'campaigns:clone --id campaign_12345 --ai-improve-copy',
-      category: 'Campaign Management'
-    },
-    {
-      name: 'campaigns:analytics',
-      description: 'Get AI-powered campaign insights',
-      usage: 'campaigns:analytics --id campaign_12345 --ai-recommendations',
-      category: 'Campaign Management'
-    },
-    {
-      name: 'campaigns:optimize',
-      description: 'AI optimization of existing campaign',
-      usage: 'campaigns:optimize --id campaign_12345 --goal reply-rate --ai-model advanced',
-      category: 'Campaign Management'
+      description: 'Delete campaign',
+      usage: 'campaigns:delete --id campaign_id',
+      category: 'Campaign Management',
+      handler: async (args) => {
+        if (!args.id) {
+          throw new Error('Required: --id');
+        }
+        
+        const result = await this.makeRequest(`/campaigns/${args.id}`, 'DELETE');
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
 
-    // AI Sequences (8 commands)
-    {
-      name: 'sequences:create',
-      description: 'Create AI-generated email sequence',
-      usage: 'sequences:create --name "AI Sequence" --persona "VP Sales" --industry SaaS',
-      category: 'AI Sequences'
-    },
+    // Sequence Management (8 commands)
     {
       name: 'sequences:list',
-      description: 'List sequences with AI performance metrics',
-      usage: 'sequences:list --campaign campaign_12345 --sort-by ai-score',
-      category: 'AI Sequences'
+      description: 'List AI-generated email sequences',
+      usage: 'sequences:list [--campaign_id id] [--ai_generated true]',
+      category: 'Sequence Management',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.campaign_id) params.append('campaign_id', args.campaign_id);
+        if (args.ai_generated) params.append('ai_generated', args.ai_generated);
+        
+        const data = await this.makeRequest(`/sequences?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
-      name: 'sequences:get',
-      description: 'Get sequence with AI analysis',
-      usage: 'sequences:get --id sequence_12345 --ai-performance-breakdown',
-      category: 'AI Sequences'
-    },
-    {
-      name: 'sequences:update',
-      description: 'Update sequence with AI suggestions',
-      usage: 'sequences:update --id sequence_12345 --apply-ai-improvements',
-      category: 'AI Sequences'
-    },
-    {
-      name: 'sequences:delete',
-      description: 'Delete sequence and AI data',
-      usage: 'sequences:delete --id sequence_12345',
-      category: 'AI Sequences'
-    },
-    {
-      name: 'sequences:optimize',
-      description: 'AI optimization of email sequences',
-      usage: 'sequences:optimize --id sequence_12345 --goal reply-rate --ai-rewrite-copy',
-      category: 'AI Sequences'
-    },
-    {
-      name: 'sequences:test',
-      description: 'A/B test sequences with AI analysis',
-      usage: 'sequences:test --sequences seq_1,seq_2 --ai-winner-prediction',
-      category: 'AI Sequences'
-    },
-    {
-      name: 'sequences:generate',
-      description: 'AI-generate complete sequence from brief',
-      usage: 'sequences:generate --brief "SaaS cold outreach" --target-persona "CTOs"',
-      category: 'AI Sequences'
+      name: 'sequences:create',
+      description: 'Create AI-powered email sequence',
+      usage: 'sequences:create --name "Sequence Name" --campaign_id id --persona "decision_maker"',
+      category: 'Sequence Management',
+      handler: async (args) => {
+        if (!args.name || !args.campaign_id) {
+          throw new Error('Required: --name, --campaign_id');
+        }
+        
+        const sequenceData = {
+          name: args.name,
+          campaign_id: args.campaign_id,
+          ai_generated: args.ai_generated !== 'false',
+          persona: args.persona,
+          industry: args.industry,
+        };
+        
+        const result = await this.makeRequest('/sequences', 'POST', sequenceData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
 
-    // Lead Management with AI (6 commands)
+    // Lead Management (6 commands)
     {
-      name: 'leads:import',
-      description: 'Import leads with AI enrichment',
-      usage: 'leads:import --file leads.csv --ai-enrich-profiles --campaign campaign_12345',
-      category: 'Lead Management'
+      name: 'leads:list',
+      description: 'List leads with AI engagement scores',
+      usage: 'leads:list --campaign_id id [--engagement_score_min 0.5]',
+      category: 'Lead Management',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.campaign_id) params.append('campaign_id', args.campaign_id);
+        if (args.engagement_score_min) params.append('engagement_score_min', args.engagement_score_min);
+        
+        const data = await this.makeRequest(`/leads?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
-      name: 'leads:score',
-      description: 'AI-powered lead scoring',
-      usage: 'leads:score --criteria "title,company_size,industry" --ai-model advanced',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:segment',
-      description: 'AI-based lead segmentation',
-      usage: 'leads:segment --campaign campaign_12345 --ai-create-personas',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:personalize',
-      description: 'AI personalization for leads',
-      usage: 'leads:personalize --leads lead_1,lead_2 --ai-research-depth high',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:export',
-      description: 'Export leads with AI insights',
-      usage: 'leads:export --campaign campaign_12345 --include-ai-scores',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:predict',
-      description: 'AI prediction of lead conversion probability',
-      usage: 'leads:predict --campaign campaign_12345 --model conversion-probability',
-      category: 'Lead Management'
+      name: 'leads:create',
+      description: 'Create lead with AI enrichment',
+      usage: 'leads:create --email john@company.com --ai_enrich true',
+      category: 'Lead Management',
+      handler: async (args) => {
+        if (!args.email) {
+          throw new Error('Required: --email');
+        }
+        
+        const leadData = {
+          email: args.email,
+          first_name: args.first_name,
+          last_name: args.last_name,
+          company: args.company,
+          ai_enrich: args.ai_enrich !== 'false',
+        };
+        
+        const result = await this.makeRequest('/leads', 'POST', leadData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
 
-    // AI Templates (7 commands)
-    {
-      name: 'templates:generate',
-      description: 'Generate AI email templates',
-      usage: 'templates:generate --persona "Enterprise VP" --tone professional --industry fintech',
-      category: 'AI Templates'
-    },
+    // Template Management (7 commands)
     {
       name: 'templates:list',
-      description: 'List templates with AI performance scores',
-      usage: 'templates:list --sort-by ai-performance --category cold-outreach',
-      category: 'AI Templates'
+      description: 'List AI-optimized email templates',
+      usage: 'templates:list [--ai_optimized true] [--persona "decision_maker"]',
+      category: 'Template Management',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.ai_optimized) params.append('ai_optimized', args.ai_optimized);
+        if (args.persona) params.append('persona', args.persona);
+        
+        const data = await this.makeRequest(`/templates?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
-      name: 'templates:get',
-      description: 'Get template with AI analysis',
-      usage: 'templates:get --id template_12345 --ai-improvement-suggestions',
-      category: 'AI Templates'
+      name: 'templates:create',
+      description: 'Create AI-optimized email template',
+      usage: 'templates:create --name "Template Name" --content "Email content" --ai_optimize true',
+      category: 'Template Management',
+      handler: async (args) => {
+        if (!args.name || !args.content) {
+          throw new Error('Required: --name, --content');
+        }
+        
+        const templateData = {
+          name: args.name,
+          content: args.content,
+          subject: args.subject,
+          ai_optimized: args.ai_optimize !== 'false',
+          persona: args.persona,
+          industry: args.industry,
+        };
+        
+        const result = await this.makeRequest('/templates', 'POST', templateData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
     {
       name: 'templates:optimize',
-      description: 'AI optimization of email templates',
-      usage: 'templates:optimize --id template_12345 --goal open-rate --ai-rewrite',
-      category: 'AI Templates'
-    },
-    {
-      name: 'templates:test',
-      description: 'A/B test templates with AI insights',
-      usage: 'templates:test --templates tmpl_1,tmpl_2 --ai-performance-prediction',
-      category: 'AI Templates'
-    },
-    {
-      name: 'templates:personalize',
-      description: 'AI personalization of templates',
-      usage: 'templates:personalize --template template_12345 --lead-data lead_12345',
-      category: 'AI Templates'
-    },
-    {
-      name: 'templates:analyze',
-      description: 'AI analysis of template performance',
-      usage: 'templates:analyze --template template_12345 --metrics "open,click,reply"',
-      category: 'AI Templates'
+      description: 'AI-optimize existing template',
+      usage: 'templates:optimize --id template_id --goal "reply_rate"',
+      category: 'Template Management',
+      handler: async (args) => {
+        if (!args.id) {
+          throw new Error('Required: --id');
+        }
+        
+        const optimizeData = {
+          goal: args.goal || 'reply_rate',
+          persona: args.persona,
+          industry: args.industry,
+        };
+        
+        const result = await this.makeRequest(`/templates/${args.id}/optimize`, 'POST', optimizeData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
 
-    // Multi-Channel Automation (5 commands)
+    // Multi-Channel (5 commands)
+    {
+      name: 'multichannel:sequences',
+      description: 'List multi-channel sequences',
+      usage: 'multichannel:sequences [--channels email,linkedin,phone]',
+      category: 'Multi-Channel',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.channels) params.append('channels', args.channels);
+        
+        const data = await this.makeRequest(`/multichannel/sequences?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
+    },
     {
       name: 'multichannel:create',
-      description: 'Create AI-powered multi-channel sequence',
-      usage: 'multichannel:create --channels "email,linkedin,phone" --ai-channel-optimization',
-      category: 'Multi-Channel'
-    },
-    {
-      name: 'multichannel:list',
-      description: 'List multi-channel sequences',
-      usage: 'multichannel:list --campaign campaign_12345 --performance-summary',
-      category: 'Multi-Channel'
-    },
-    {
-      name: 'multichannel:get',
-      description: 'Get multi-channel sequence details',
-      usage: 'multichannel:get --id sequence_12345 --channel-breakdown',
-      category: 'Multi-Channel'
-    },
-    {
-      name: 'multichannel:optimize',
-      description: 'AI optimization of channel mix',
-      usage: 'multichannel:optimize --id sequence_12345 --ai-channel-timing',
-      category: 'Multi-Channel'
-    },
-    {
-      name: 'multichannel:analytics',
-      description: 'Cross-channel AI analytics',
-      usage: 'multichannel:analytics --sequence sequence_12345 --ai-attribution-model',
-      category: 'Multi-Channel'
+      description: 'Create multi-channel sequence',
+      usage: 'multichannel:create --name "Multi-Channel Sequence" --channels email,linkedin',
+      category: 'Multi-Channel',
+      handler: async (args) => {
+        if (!args.name || !args.channels) {
+          throw new Error('Required: --name, --channels');
+        }
+        
+        const sequenceData = {
+          name: args.name,
+          channels: args.channels.split(','),
+          ai_optimization: args.ai_optimization !== 'false',
+        };
+        
+        const result = await this.makeRequest('/multichannel/sequences', 'POST', sequenceData);
+        console.log(JSON.stringify(result, null, 2));
+      }
     },
 
-    // AI Analytics & Insights (6 commands)
+    // Analytics (6 commands)
+    {
+      name: 'analytics:performance',
+      description: 'Get AI performance analytics',
+      usage: 'analytics:performance --campaign_id id [--include_ai_insights true]',
+      category: 'Analytics',
+      handler: async (args) => {
+        const params = new URLSearchParams();
+        if (args.campaign_id) params.append('campaign_id', args.campaign_id);
+        if (args.include_ai_insights) params.append('include_ai_insights', args.include_ai_insights);
+        
+        const data = await this.makeRequest(`/analytics/performance?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
+    },
     {
       name: 'analytics:ai-insights',
-      description: 'AI-powered performance insights',
-      usage: 'analytics:ai-insights --campaign campaign_12345 --recommendations detailed',
-      category: 'AI Analytics'
+      description: 'Get AI-generated insights and recommendations',
+      usage: 'analytics:ai-insights --campaign_id id',
+      category: 'Analytics',
+      handler: async (args) => {
+        if (!args.campaign_id) {
+          throw new Error('Required: --campaign_id');
+        }
+        
+        const data = await this.makeRequest(`/analytics/ai-insights/${args.campaign_id}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     },
     {
-      name: 'analytics:predict',
-      description: 'AI predictions for campaign performance',
-      usage: 'analytics:predict --campaign campaign_12345 --forecast-period 30d',
-      category: 'AI Analytics'
-    },
-    {
-      name: 'analytics:optimize',
-      description: 'AI-driven optimization recommendations',
-      usage: 'analytics:optimize --campaign campaign_12345 --auto-apply-suggestions',
-      category: 'AI Analytics'
-    },
-    {
-      name: 'analytics:compare',
-      description: 'AI-powered campaign comparison',
-      usage: 'analytics:compare --campaigns camp_1,camp_2 --ai-winner-analysis',
-      category: 'AI Analytics'
-    },
-    {
-      name: 'analytics:trends',
-      description: 'AI trend analysis and forecasting',
-      usage: 'analytics:trends --account account_12345 --ai-market-insights',
-      category: 'AI Analytics'
-    },
-    {
-      name: 'analytics:export',
-      description: 'Export AI analytics and insights',
-      usage: 'analytics:export --format xlsx --include-ai-recommendations',
-      category: 'AI Analytics'
+      name: 'analytics:predictions',
+      description: 'Get AI performance predictions',
+      usage: 'analytics:predictions --campaign_id id --forecast_days 30',
+      category: 'Analytics',
+      handler: async (args) => {
+        if (!args.campaign_id) {
+          throw new Error('Required: --campaign_id');
+        }
+        
+        const params = new URLSearchParams();
+        params.append('campaign_id', args.campaign_id);
+        if (args.forecast_days) params.append('forecast_days', args.forecast_days);
+        
+        const data = await this.makeRequest(`/analytics/predictions?${params}`);
+        console.log(JSON.stringify(data, null, 2));
+      }
     }
   ];
 
-  async execute(command: string, args: Record<string, any>): Promise<void> {
-    console.log(`🤖 Executing salesforge.ai AI command: ${command}`);
-    
-    switch (command) {
-      case 'campaigns:create':
-        await this.createCampaign(args);
-        break;
-      case 'campaigns:optimize':
-        await this.optimizeCampaign(args);
-        break;
-      case 'sequences:create':
-        await this.createAISequence(args);
-        break;
-      case 'sequences:generate':
-        await this.generateSequence(args);
-        break;
-      case 'templates:generate':
-        await this.generateAITemplate(args);
-        break;
-      case 'templates:optimize':
-        await this.optimizeTemplate(args);
-        break;
-      case 'leads:score':
-        await this.scoreLead(args);
-        break;
-      case 'multichannel:create':
-        await this.createMultiChannel(args);
-        break;
-      case 'analytics:ai-insights':
-        await this.getAIInsights(args);
-        break;
-      case 'analytics:predict':
-        await this.predictPerformance(args);
-        break;
-      default:
-        console.log(`⚠️  Command ${command} not yet implemented`);
-        console.log('🚀 Coming soon in next release!');
+  async execute(commandName: string, args: Record<string, any>): Promise<void> {
+    const command = this.commands.find(cmd => cmd.name === commandName);
+    if (!command) {
+      throw new Error(`Command '${commandName}' not found`);
     }
-  }
-
-  private async createCampaign(_args: Record<string, any>): Promise<void> {
-    console.log('🤖 Creating AI-powered salesforge.ai campaign...');
-    // TODO: Implement API call to create campaign with AI features
-  }
-
-  private async optimizeCampaign(_args: Record<string, any>): Promise<void> {
-    console.log('🎯 AI optimizing salesforge.ai campaign...');
-    // TODO: Implement API call for campaign optimization
-  }
-
-  private async createAISequence(_args: Record<string, any>): Promise<void> {
-    console.log('🔮 Creating AI-generated email sequence...');
-    // TODO: Implement API call to create AI sequence
-  }
-
-  private async generateSequence(_args: Record<string, any>): Promise<void> {
-    console.log('✨ AI generating complete email sequence...');
-    // TODO: Implement API call for sequence generation
-  }
-
-  private async generateAITemplate(_args: Record<string, any>): Promise<void> {
-    console.log('✨ Generating AI email template...');
-    // TODO: Implement API call for template generation
-  }
-
-  private async optimizeTemplate(_args: Record<string, any>): Promise<void> {
-    console.log('🎯 AI optimizing email template...');
-    // TODO: Implement API call for template optimization
-  }
-
-  private async scoreLead(_args: Record<string, any>): Promise<void> {
-    console.log('🎯 AI scoring leads...');
-    // TODO: Implement API call for lead scoring
-  }
-
-  private async createMultiChannel(_args: Record<string, any>): Promise<void> {
-    console.log('📱 Creating AI multi-channel sequence...');
-    // TODO: Implement API call for multi-channel creation
-  }
-
-  private async getAIInsights(_args: Record<string, any>): Promise<void> {
-    console.log('🧠 Getting AI performance insights...');
-    // TODO: Implement API call for AI insights
-  }
-
-  private async predictPerformance(_args: Record<string, any>): Promise<void> {
-    console.log('🔮 AI predicting campaign performance...');
-    // TODO: Implement API call for performance prediction
+    
+    try {
+      await command.handler(args);
+    } catch (error: any) {
+      throw new Error(`Failed to execute ${commandName}: ${error.message}`);
+    }
   }
 } 
