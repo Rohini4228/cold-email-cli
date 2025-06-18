@@ -1,0 +1,273 @@
+{
+  "mcpServers": {
+    "smartlead": {
+      "command": "npx",
+      "args": ["@smartlead/mcp-server"],
+      "env": {
+        "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "smartlead_campaigns",
+      "description": "SmartLead campaign management for email sequences",
+      "endpoints": {
+        "base_url": "https://server.smartlead.ai/api/v1",
+        "auth": "Bearer ${SMARTLEAD_API_KEY}",
+        "rate_limits": {
+          "requests_per_minute": 100,
+          "requests_per_hour": 1000
+        }
+      },
+      "operations": [
+        {
+          "id": "list_campaigns",
+          "method": "GET",
+          "path": "/campaigns",
+          "description": "List all email campaigns",
+          "parameters": {
+            "status": "string",
+            "limit": "number",
+            "offset": "number"
+          }
+        },
+        {
+          "id": "create_campaign",
+          "method": "POST",
+          "path": "/campaigns",
+          "description": "Create new email campaign",
+          "required_fields": ["name", "from_email"],
+          "parameters": {
+            "name": "string",
+            "from_email": "string",
+            "daily_limit": "number",
+            "timezone": "string"
+          }
+        },
+        {
+          "id": "get_campaign",
+          "method": "GET",
+          "path": "/campaigns/{id}",
+          "description": "Get campaign details",
+          "path_params": ["id"]
+        },
+        {
+          "id": "update_campaign",
+          "method": "PUT",
+          "path": "/campaigns/{id}",
+          "description": "Update campaign settings",
+          "path_params": ["id"],
+          "parameters": {
+            "name": "string",
+            "daily_limit": "number",
+            "status": "string"
+          }
+        },
+        {
+          "id": "delete_campaign",
+          "method": "DELETE",
+          "path": "/campaigns/{id}",
+          "description": "Delete campaign",
+          "path_params": ["id"]
+        }
+      ]
+    },
+    {
+      "name": "smartlead_sequences",
+      "description": "SmartLead email sequence management",
+      "operations": [
+        {
+          "id": "list_sequences",
+          "method": "GET",
+          "path": "/campaigns/{campaign_id}/sequences",
+          "description": "List email sequences in campaign",
+          "path_params": ["campaign_id"]
+        },
+        {
+          "id": "create_sequence",
+          "method": "POST",
+          "path": "/campaigns/{campaign_id}/sequences",
+          "description": "Create email sequence",
+          "path_params": ["campaign_id"],
+          "required_fields": ["subject", "body"],
+          "parameters": {
+            "subject": "string",
+            "body": "string",
+            "delay_days": "number",
+            "step_number": "number"
+          }
+        },
+        {
+          "id": "update_sequence",
+          "method": "PUT",
+          "path": "/sequences/{id}",
+          "description": "Update email sequence",
+          "path_params": ["id"],
+          "parameters": {
+            "subject": "string",
+            "body": "string",
+            "delay_days": "number"
+          }
+        },
+        {
+          "id": "delete_sequence",
+          "method": "DELETE",
+          "path": "/sequences/{id}",
+          "description": "Delete email sequence",
+          "path_params": ["id"]
+        }
+      ]
+    },
+    {
+      "name": "smartlead_leads",
+      "description": "SmartLead lead management for email sequences",
+      "operations": [
+        {
+          "id": "add_lead",
+          "method": "POST",
+          "path": "/campaigns/{campaign_id}/leads",
+          "description": "Add lead to email campaign",
+          "path_params": ["campaign_id"],
+          "required_fields": ["email"],
+          "parameters": {
+            "email": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "company": "string"
+          }
+        },
+        {
+          "id": "bulk_add_leads",
+          "method": "POST",
+          "path": "/campaigns/{campaign_id}/leads/bulk",
+          "description": "Bulk add leads to campaign",
+          "path_params": ["campaign_id"],
+          "required_fields": ["leads"],
+          "parameters": {
+            "leads": "array"
+          }
+        },
+        {
+          "id": "list_leads",
+          "method": "GET",
+          "path": "/campaigns/{campaign_id}/leads",
+          "description": "List leads in campaign",
+          "path_params": ["campaign_id"],
+          "parameters": {
+            "status": "string",
+            "limit": "number",
+            "offset": "number"
+          }
+        },
+        {
+          "id": "update_lead",
+          "method": "PUT",
+          "path": "/leads/{id}",
+          "description": "Update lead information",
+          "path_params": ["id"],
+          "parameters": {
+            "first_name": "string",
+            "last_name": "string",
+            "company": "string",
+            "status": "string"
+          }
+        },
+        {
+          "id": "delete_lead",
+          "method": "DELETE",
+          "path": "/leads/{id}",
+          "description": "Remove lead from campaign",
+          "path_params": ["id"]
+        }
+      ]
+    },
+    {
+      "name": "smartlead_analytics",
+      "description": "SmartLead email sequence analytics",
+      "operations": [
+        {
+          "id": "campaign_analytics",
+          "method": "GET",
+          "path": "/campaigns/{campaign_id}/analytics",
+          "description": "Get campaign email analytics",
+          "path_params": ["campaign_id"],
+          "parameters": {
+            "date_from": "string",
+            "date_to": "string",
+            "metrics": "string"
+          }
+        },
+        {
+          "id": "sequence_analytics", 
+          "method": "GET",
+          "path": "/sequences/{sequence_id}/analytics",
+          "description": "Get sequence performance metrics",
+          "path_params": ["sequence_id"]
+        },
+        {
+          "id": "deliverability_analytics",
+          "method": "GET",
+          "path": "/analytics/deliverability",
+          "description": "Get email deliverability metrics",
+          "parameters": {
+            "campaign_id": "string",
+            "date_range": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "smartlead_accounts",
+      "description": "SmartLead email account management",
+      "operations": [
+        {
+          "id": "list_email_accounts",
+          "method": "GET",
+          "path": "/email-accounts",
+          "description": "List connected email accounts"
+        },
+        {
+          "id": "add_email_account",
+          "method": "POST",
+          "path": "/email-accounts",
+          "description": "Connect new email account",
+          "required_fields": ["email", "smtp_host", "smtp_port"],
+          "parameters": {
+            "email": "string",
+            "smtp_host": "string",
+            "smtp_port": "number",
+            "smtp_username": "string",
+            "smtp_password": "string"
+          }
+        },
+        {
+          "id": "update_email_account",
+          "method": "PUT",
+          "path": "/email-accounts/{id}",
+          "description": "Update email account settings",
+          "path_params": ["id"],
+          "parameters": {
+            "daily_limit": "number",
+            "warmup_enabled": "boolean"
+          }
+        },
+        {
+          "id": "delete_email_account",
+          "method": "DELETE",
+          "path": "/email-accounts/{id}",
+          "description": "Remove email account",
+          "path_params": ["id"]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "name": "SmartLead Email Sequence Automation",
+    "version": "2.0.0",
+    "description": "Professional email sequence automation with SmartLead.ai",
+    "total_operations": 25,
+    "focus": "Email sequences, campaign management, lead automation",
+    "documentation": "https://docs.smartlead.ai/"
+  }
+} 

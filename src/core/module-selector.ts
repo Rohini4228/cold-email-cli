@@ -40,7 +40,7 @@ export async function selectModule(moduleName: string): Promise<CLIModule | null
     console.log('Available modules:');
     console.log('  • smartlead.ai  (68 commands) - Advanced Campaign Management & Analytics');
     console.log('  • instantly.ai  (35 commands) - High-Volume Automation & Deliverability');
-    console.log('  • salesforge.ai (42 commands) - AI-Powered Multi-Channel Sequences');
+    console.log('  • salesforge.ai (42 commands) - AI-Powered Email Sequences');
     console.log('  • apollo.io     (42 commands) - Email Sequences & Outreach Automation');
     return null;
   }
@@ -64,7 +64,7 @@ export function listAllModules(): Array<{ name: string; description: string; com
     },
     {
       name: 'salesforge.ai',
-      description: 'AI-Powered Multi-Channel Sequences',
+      description: 'AI-Powered Email Sequences',
       commands: 42
     },
     {
@@ -84,7 +84,7 @@ export function getAvailableModules(): ModuleInfo[] {
       version: '2.0.0',
       commandCount: 68,
       status: 'Available',
-      focus: 'Enterprise-grade campaign automation with advanced analytics',
+      focus: 'Enterprise-grade email campaign automation with advanced analytics',
       color: '#2563eb',
       icon: '🎯',
       module: new SmartLeadModule()
@@ -96,7 +96,7 @@ export function getAvailableModules(): ModuleInfo[] {
       version: '2.0.0',
       commandCount: 35,
       status: 'Available',
-      focus: 'Scale outreach with industry-leading deliverability',
+      focus: 'Scale email outreach with industry-leading deliverability',
       color: '#7c3aed',
       icon: '⚡',
       module: new InstantlyModule()
@@ -104,11 +104,11 @@ export function getAvailableModules(): ModuleInfo[] {
     {
       id: 'salesforge',
       name: 'salesforge.ai',
-      description: 'AI-Powered Multi-Channel Sequences',
+      description: 'AI-Powered Email Sequences',
       version: '1.0.0', 
       commandCount: 42,
       status: 'Available',
-      focus: 'AI-driven personalization and multi-channel automation',
+      focus: 'AI-driven email personalization and sequence automation',
       color: '#ea580c',
       icon: '🤖',
       module: new SalesForgeModule()
@@ -120,7 +120,7 @@ export function getAvailableModules(): ModuleInfo[] {
       version: '1.0.0',
       commandCount: 42,
       status: 'Available', 
-      focus: 'Professional email sequencing with contact enrichment',
+      focus: 'Professional email sequencing and outreach automation',
       color: '#f59e0b',
       icon: '🚀',
       module: new ApolloModule()
