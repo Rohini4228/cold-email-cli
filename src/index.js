@@ -149,10 +149,13 @@ function formatStatus(status) {
 }
 
 // Configuration commands
+// Read version from package.json
+const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+
 program
   .name('smartlead')
   .description('SmartLead CLI - Manage your email campaigns from the terminal')
-  .version('1.0.0');
+  .version(packageJson.version);
 
 program
   .command('config')
