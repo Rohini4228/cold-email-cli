@@ -71,9 +71,6 @@ ${theme.primary('━━━━━━━━━━━━━━━━━━━━━
 ${theme.secondary('🎯 Professional Multi-Platform Cold Email Automation Suite')}
 ${theme.muted('   Professional-grade CLI for scaling cold outreach campaigns')}
 
-${theme.accent('💰 Support Development:')} ${theme.muted('GitHub Sponsors: github.com/sponsors/leadmagic')}
-${theme.muted('   Bitcoin, Ethereum, PayPal donations available • MIT Licensed')}
-
 ${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
 `);
 
@@ -110,8 +107,6 @@ ${moduleTheme.secondary(`   ${selectedModule.description}`)}
 
 ${moduleTheme.accent(`📊 ${selectedModule.commandCount} Commands Available`)} • ${moduleTheme.secondary(`${selectedModule.focus}`)}
 ${moduleTheme.muted('   Type "help" to see all commands or "help <command>" for details')}
-
-${moduleTheme.accent('💎 Sponsored by LeadMagic')} • ${moduleTheme.muted('Support us: github.com/sponsors/leadmagic')}
 
 ${moduleTheme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
 `);

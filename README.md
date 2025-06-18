@@ -11,18 +11,9 @@
                      🚀 PROFESSIONAL MULTI-PLATFORM AUTOMATION SUITE 🚀
 ```
 
-[![Sponsored by LeadMagic](https://img.shields.io/badge/Sponsored%20by-LeadMagic-FF6B35?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://leadmagic.io)
 [![GitHub Release](https://img.shields.io/github/v/release/LeadMagic/cold-email-cli?style=for-the-badge)](https://github.com/LeadMagic/cold-email-cli/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Contributors Welcome](https://img.shields.io/badge/Contributors-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-
----
-
-## 🌟 **Sponsored by LeadMagic**
-
-This project is proudly sponsored by [**LeadMagic**](https://leadmagic.io) - the advanced B2B lead generation and cold email automation platform that powers modern sales teams.
-
-[![LeadMagic](https://img.shields.io/badge/🎯%20Discover%20LeadMagic-FF6B35?style=for-the-badge)](https://leadmagic.io)
 
 ---
 
@@ -283,21 +274,6 @@ Found a bug? Help us fix it!
    - Environment details (OS, Node.js version, CLI version)
    - Screenshots/logs if applicable
 
-### 💰 **Support Development**
-
-Help us maintain and improve this open-source project!
-
-#### **🌟 GitHub Sponsors** (Preferred)
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github&style=for-the-badge)](https://github.com/sponsors/leadmagic)
-
-#### **🪙 Cryptocurrency Donations**
-- **Bitcoin**: `bc1q...` (contact [donate@leadmagic.com](mailto:donate@leadmagic.com) for address)
-- **Ethereum**: `0x...` (contact [donate@leadmagic.com](mailto:donate@leadmagic.com) for address)
-
-#### **💳 Traditional Donations**
-- **PayPal**: [donate@leadmagic.com](mailto:donate@leadmagic.com)
-- **Patreon**: [patreon.com/leadmagic](https://patreon.com/leadmagic)
-
 ---
 
 ## 🛠️ **Development Setup**
@@ -345,6 +321,7 @@ npm run format           # Format code with Prettier
 cold-email-cli/
 ├── src/
 │   ├── core/           # CLI core functionality
+│   ├── modules/        # Platform implementations
 │   │   ├── smartlead/  # smartlead.ai integration
 │   │   ├── instantly/  # instantly.ai integration  
 │   │   ├── salesforge/ # salesforge.ai integration
@@ -375,7 +352,6 @@ cold-email-cli/
 - **💬 [GitHub Discussions](https://github.com/LeadMagic/cold-email-cli/discussions)** - Community Q&A
 - **🐛 [Issue Tracker](https://github.com/LeadMagic/cold-email-cli/issues)** - Bug reports & feature requests
 - **📧 [Email Support](mailto:support@leadmagic.com)** - Direct support contact
-- **🐦 [Twitter Updates](https://twitter.com/leadmagic_io)** - Follow for announcements
 
 ---
 
@@ -430,7 +406,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 🙏 **Acknowledgments**
 
 ### **🚀 Core Team**
-- **[LeadMagic Team](https://leadmagic.io)** - Primary sponsor and development support
+- **[LeadMagic Team](https://leadmagic.io)** - Primary development support
 - **Open Source Contributors** - Community developers and maintainers
 
 ### **🤝 Platform Partners**
@@ -459,9 +435,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 [![Get Started](https://img.shields.io/badge/🚀%20Get%20Started-FF6B35?style=for-the-badge)](https://github.com/LeadMagic/cold-email-cli/releases)
 [![Contribute](https://img.shields.io/badge/🤝%20Contribute-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-[![Sponsor](https://img.shields.io/badge/💰%20Sponsor-pink?style=for-the-badge)](https://github.com/sponsors/leadmagic)
-[![Visit LeadMagic](https://img.shields.io/badge/🎯%20Visit%20LeadMagic-0066CC?style=for-the-badge)](https://leadmagic.io)
 
-**LeadMagic Professional Cold Email CLI** • **Sponsored by LeadMagic** • **Built with ❤️ by the Community**
+**LeadMagic Professional Cold Email CLI** • **Built with ❤️ by the Community**
 
 </div> 
