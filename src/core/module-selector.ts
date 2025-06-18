@@ -1,123 +1,133 @@
-import { select, intro, outro, cancel, isCancel } from '@clack/prompts';
-import { SmartLeadModule } from '../modules/smartlead/index.js';
-import { InstantlyModule } from '../modules/instantly/index.js';
-import { SalesForgeModule } from '../modules/salesforge/index.js';
-import { ApolloModule } from '../modules/apollo/index.js';
-import { CLIModule } from '../types/global.js';
-import { getTheme } from './utils/theme.js';
+import { SmartLeadModule } from '../modules/smartlead/index';
+import { InstantlyModule } from '../modules/instantly/index';
+import { SalesForgeModule } from '../modules/salesforge/index';
+import { ApolloModule } from '../modules/apollo/index';
+import { CLIModule } from '../types/global';
+import { getTheme } from './utils/theme';
 
 export interface ModuleInfo {
   id: string;
   name: string;
   description: string;
   version: string;
-  status: 'Available' | 'Coming Soon';
   commandCount: number;
+  status: 'Available' | 'Coming Soon' | 'Beta';
   focus: string;
+  color: string;
+  icon: string;
   module?: CLIModule;
 }
 
-const modules: ModuleInfo[] = [
-  {
-    id: 'smartlead',
-    name: 'smartlead.ai',
-    description: 'Advanced Cold Email Campaign Management & Analytics',
-    version: '2.0.0',
-    status: 'Available',
-    commandCount: 82,
-    focus: 'Scale, Analytics, Infrastructure',
-    module: new SmartLeadModule()
-  },
-  {
-    id: 'instantly',
-    name: 'instantly.ai',
-    description: 'High-Volume Cold Email Automation & Deliverability',
-    version: '2.0.0', 
-    status: 'Available',
-    commandCount: 35,
-    focus: 'Volume, Deliverability, Automation',
-    module: new InstantlyModule()
-  },
-  {
-    id: 'salesforge',
-    name: 'salesforge.ai',
-    description: 'AI-Powered Cold Email Automation',
-    version: '1.0.0',
-    status: 'Available',
-    commandCount: 12,
-    focus: 'AI, Multi-Channel, Personalization',
-    module: new SalesForgeModule()
-  },
-  {
-    id: 'apollo',
-    name: 'apollo.io',
-    description: 'Professional Email Sequencing & Outreach Automation',
-    version: '1.0.0',
-    status: 'Available',
-    commandCount: 6,
-    focus: 'Email Sequences, Contact Management',
-    module: new ApolloModule()
-  }
-];
+// Keep each module completely separate - no merging or combining
+const modules: Record<string, () => CLIModule> = {
+  'smartlead.ai': () => new SmartLeadModule(),
+  'smartlead': () => new SmartLeadModule(),
+  'instantly.ai': () => new InstantlyModule(),
+  'instantly': () => new InstantlyModule(),
+  'salesforge.ai': () => new SalesForgeModule(),
+  'salesforge': () => new SalesForgeModule(),
+  'apollo.io': () => new ApolloModule(),
+  'apollo': () => new ApolloModule()
+};
 
-export async function selectModule(): Promise<CLIModule | null> {
-  const theme = getTheme();
+export async function selectModule(moduleName: string): Promise<CLIModule | null> {
+  const normalizedName = moduleName.toLowerCase();
   
-  intro(theme.gradient('❄️ LeadMagic Professional Cold Email CLI'));
-  
-  console.log(`
-${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
-
-${theme.secondary('🎯 Professional Multi-Platform Cold Email Automation Suite')}
-${theme.muted('   Professional-grade CLI for scaling cold outreach campaigns')}
-
-${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
-`);
-
-  const moduleChoices = modules.map(mod => ({
-    value: mod.id,
-    label: `${mod.name} ${theme.accent(`v${mod.version}`)}`,
-    hint: `${mod.description} • ${theme.success(`${mod.commandCount} commands`)} • ${theme.secondary(mod.focus)}`
-  }));
-
-  const selectedModuleId = await select({
-    message: `${theme.secondary('Choose your cold email platform:')}`,
-    options: moduleChoices
-  });
-
-  if (isCancel(selectedModuleId)) {
-    cancel('Operation cancelled');
+  // Check if module exists
+  if (!modules[normalizedName]) {
+    const theme = getTheme('default');
+    console.log(theme.error(`❌ Module "${moduleName}" not found`) + '\n');
+    console.log('Available modules:');
+    console.log('  • smartlead.ai  (68 commands) - Advanced Campaign Management & Analytics');
+    console.log('  • instantly.ai  (35 commands) - High-Volume Automation & Deliverability');
+    console.log('  • salesforge.ai (42 commands) - AI-Powered Multi-Channel Sequences');
+    console.log('  • apollo.io     (42 commands) - Email Sequences & Outreach Automation');
     return null;
   }
 
-  const selectedModule = modules.find(mod => mod.id === selectedModuleId);
-  
-  if (!selectedModule?.module) {
-    outro(theme.error('❌ Module not available'));
-    return null;
-  }
+  // Create and return a fresh instance of the selected module
+  // Each module operates completely independently
+  return modules[normalizedName]();
+}
 
-  // Show module-specific welcome message
-  const moduleTheme = getTheme(selectedModule.id);
-  console.log(`
-${moduleTheme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
-
-${moduleTheme.gradient(`🎯 ${selectedModule.name} Cold Email Platform`)}
-${moduleTheme.secondary(`   ${selectedModule.description}`)}
-
-${moduleTheme.accent(`📊 ${selectedModule.commandCount} Commands Available`)} • ${moduleTheme.secondary(`${selectedModule.focus}`)}
-${moduleTheme.muted('   Type "help" to see all commands or "help <command>" for details')}
-
-${moduleTheme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
-`);
-
-  return selectedModule.module;
+export function listAllModules(): Array<{ name: string; description: string; commands: number }> {
+  return [
+    {
+      name: 'smartlead.ai',
+      description: 'Advanced Campaign Management & Analytics',
+      commands: 68
+    },
+    {
+      name: 'instantly.ai', 
+      description: 'High-Volume Automation & Deliverability',
+      commands: 35
+    },
+    {
+      name: 'salesforge.ai',
+      description: 'AI-Powered Multi-Channel Sequences',
+      commands: 42
+    },
+    {
+      name: 'apollo.io',
+      description: 'Email Sequences & Outreach Automation', 
+      commands: 42
+    }
+  ];
 }
 
 export function getAvailableModules(): ModuleInfo[] {
-  return modules;
+  return [
+    {
+      id: 'smartlead',
+      name: 'smartlead.ai',
+      description: 'Advanced Campaign Management & Analytics',
+      version: '2.0.0',
+      commandCount: 68,
+      status: 'Available',
+      focus: 'Enterprise-grade campaign automation with advanced analytics',
+      color: '#2563eb',
+      icon: '🎯',
+      module: new SmartLeadModule()
+    },
+    {
+      id: 'instantly',
+      name: 'instantly.ai', 
+      description: 'High-Volume Automation & Deliverability',
+      version: '2.0.0',
+      commandCount: 35,
+      status: 'Available',
+      focus: 'Scale outreach with industry-leading deliverability',
+      color: '#7c3aed',
+      icon: '⚡',
+      module: new InstantlyModule()
+    },
+    {
+      id: 'salesforge',
+      name: 'salesforge.ai',
+      description: 'AI-Powered Multi-Channel Sequences',
+      version: '1.0.0', 
+      commandCount: 42,
+      status: 'Available',
+      focus: 'AI-driven personalization and multi-channel automation',
+      color: '#ea580c',
+      icon: '🤖',
+      module: new SalesForgeModule()
+    },
+    {
+      id: 'apollo',
+      name: 'apollo.io',
+      description: 'Email Sequences & Outreach Automation',
+      version: '1.0.0',
+      commandCount: 42,
+      status: 'Available', 
+      focus: 'Professional email sequencing with contact enrichment',
+      color: '#f59e0b',
+      icon: '🚀',
+      module: new ApolloModule()
+    }
+  ];
 }
 
 export function getModuleById(id: string): ModuleInfo | undefined {
-  return modules.find(mod => mod.id === id);
+  return getAvailableModules().find(mod => mod.id === id);
 } 

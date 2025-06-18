@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import { Config, ModuleConfig } from '../../types/global.js';
+import { Config, ModuleConfig } from '../../types/global';
 
 export class ConfigManager {
   private configDir: string;

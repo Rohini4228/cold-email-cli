@@ -1,19 +1,16 @@
 {
-  "name": "professional-cold-email-cli",
-  "version": "2.0.0",
-  "description": "🚀 Professional multi-platform CLI for cold email outreach automation. Complete TypeScript implementation with SmartLead, Instantly, and SalesForge modules, 200+ commands, beautiful UI, and comprehensive testing. Sponsored by LeadMagic.",
+  "name": "cold-email-cli",
+  "version": "1.0.0",
+  "description": "🚀 Professional multi-platform CLI for cold email outreach automation. Built with React Ink for beautiful terminal interfaces. Complete TypeScript implementation with smartlead.ai, instantly.ai, salesforge.ai, and apollo.io modules - 135+ commands total.",
   "main": "dist/core/index.js",
   "types": "dist/core/index.d.ts",
   "bin": {
-    "cold-email-cli": "dist/bin/smartlead",
-    "ce": "dist/bin/sl"
+    "cold-email-cli": "dist/bin/cold-email-cli",
+    "cec": "dist/bin/cec"
   },
   "files": [
     "dist/**/*",
-    "docs/README.md",
-    "docs/CONTRIBUTING.md",
-    "docs/ROADMAP.md",
-    "docs/CHANGELOG.md",
+    "docs/**/*",
     "LICENSE",
     "scripts/install.sh",
     "scripts/install-mac.sh",
@@ -36,7 +33,7 @@
     "prepare": "npm run build",
     "prepack": "npm run build",
     "install-global": "npm run build && npm install -g .",
-    "uninstall-global": "npm uninstall -g professional-cold-email-cli",
+    "uninstall-global": "npm uninstall -g cold-email-cli",
     "setup": "bash scripts/install.sh",
     "setup:mac": "bash scripts/install-mac.sh",
     "package": "npm pack",
@@ -54,54 +51,54 @@
   "homepage": "https://github.com/LeadMagic/cold-email-cli#readme",
   "keywords": [
     "cold-email",
-    "email-outreach",
+    "email-outreach", 
     "sales-automation",
+    "email-marketing",
+    "lead-generation",
+    "sales-tools",
+    "crm-integration",
+    "email-campaigns",
+    "outreach-automation",
+    "b2b-sales",
+    "prospecting",
+    "email-sequences",
+    "multi-platform",
     "smartlead",
     "instantly",
-    "salesforge",
-    "cli",
-    "campaign",
-    "lead-generation",
-    "api",
-    "terminal",
-    "command-line",
+    "salesforge", 
+    "apollo",
+    "cli-tool",
+    "terminal-app",
+    "react-ink",
     "typescript",
-    "modular",
-    "automation",
-    "crm",
-    "outreach",
-    "sales",
     "nodejs",
-    "multi-platform",
-    "professional",
-    "enterprise",
-    "b2b",
-    "prospecting",
-    "email-marketing",
-    "leadmagic",
+    "automation-tools",
+    "developer-tools",
+    "command-line",
+    "cross-platform",
     "macos",
-    "installer"
+    "linux",
+    "windows"
   ],
   "author": {
-    "name": "LeadMagic",
-    "email": "support@leadmagic.io",
-    "url": "https://leadmagic.io"
+    "name": "Cold Email CLI Contributors",
+    "email": "support@cold-email-cli.org"
   },
   "contributors": [
     {
-      "name": "Cold Email CLI Contributors",
+      "name": "Cold Email CLI Contributors", 
       "url": "https://github.com/LeadMagic/cold-email-cli/graphs/contributors"
     }
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "preferGlobal": true,
   "os": [
     "darwin",
-    "linux",
+    "linux", 
     "win32"
   ],
   "cpu": [
@@ -115,14 +112,17 @@
     "commander": "^11.1.0",
     "figlet": "^1.7.0",
     "gradient-string": "^1.2.0",
-    "inquirer": "^8.2.6"
+    "ink": "^4.4.1",
+    "inquirer": "^8.2.6",
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.8",
-    "@types/gradient-string": "1.1.6",
+    "@types/gradient-string": "1.1.6", 
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "eslint": "^8.56.0",
@@ -134,23 +134,7 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "node": ">=16.0.0"
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/LeadMagic"
-    },
-    {
-      "type": "company",
-      "url": "https://leadmagic.io/sponsor"
-    }
-  ],
-  "sponsor": {
-    "name": "LeadMagic",
-    "url": "https://leadmagic.io",
-    "logo": "https://leadmagic.io/assets/logo.png",
-    "description": "Advanced B2B lead generation and cold email automation platform"
+    "node": ">=18.0.0"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

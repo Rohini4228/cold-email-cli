@@ -1,441 +1,323 @@
-# ❄️ LeadMagic Professional Cold Email CLI
+# Cold Email CLI
+
+[![npm version](https://badge.fury.io/js/cold-email-cli.svg)](https://badge.fury.io/js/cold-email-cli)
+[![GitHub stars](https://img.shields.io/github/stars/LeadMagic/cold-email-cli.svg)](https://github.com/LeadMagic/cold-email-cli/stargazers)
+[![GitHub downloads](https://img.shields.io/npm/dm/cold-email-cli.svg)](https://npmjs.org/package/cold-email-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![React Ink](https://img.shields.io/badge/Built%20with-React%20Ink-61dafb.svg)](https://github.com/vadimdemedes/ink)
+[![TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-blue.svg)](https://www.typescriptlang.org/)
+
+Professional command-line interface for cold email automation platforms. Manage campaigns, leads, analytics, and more across multiple platforms from a single unified CLI.
 
 ```
-  ██████╗ ██████╗ ██╗     ██████╗     ███████╗███╗   ███╗ █████╗ ██╗██╗      ██████╗██╗     ██╗
- ██╔════╝██╔═══██╗██║     ██╔══██╗    ██╔════╝████╗ ████║██╔══██╗██║██║     ██╔════╝██║     ██║
- ██║     ██║   ██║██║     ██║  ██║    █████╗  ██╔████╔██║███████║██║██║     ██║     ██║     ██║
- ██║     ██║   ██║██║     ██║  ██║    ██╔══╝  ██║╚██╔╝██║██╔══██║██║██║     ██║     ██║     ██║
- ╚██████╗╚██████╔╝███████╗██████╔╝    ███████╗██║ ╚═╝ ██║██║  ██║██║███████╗╚██████╗███████╗██║
-  ╚═════╝ ╚═════╝ ╚══════╝╚═════╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝╚══════╝╚═╝
-                                                                                                  
-                     🚀 PROFESSIONAL MULTI-PLATFORM AUTOMATION SUITE 🚀
+   ██████╗ ██████╗ ██╗     ██████╗     ███████╗███╗   ███╗ █████╗ ██╗██╗          ██████╗██╗     ██╗
+  ██╔════╝██╔═══██╗██║     ██╔══██╗    ██╔════╝████╗ ████║██╔══██╗██║██║         ██╔════╝██║     ██║
+  ██║     ██║   ██║██║     ██║  ██║    █████╗  ██╔████╔██║███████║██║██║         ██║     ██║     ██║
+  ██║     ██║   ██║██║     ██║  ██║    ██╔══╝  ██║╚██╔╝██║██╔══██║██║██║         ██║     ██║     ██║
+  ╚██████╗╚██████╔╝███████╗██████╔╝    ███████╗██║ ╚═╝ ██║██║  ██║██║███████╗    ╚██████╗███████╗██║
+   ╚═════╝ ╚═════╝ ╚══════╝╚═════╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚══════╝     ╚═════╝╚══════╝╚═╝
 ```
 
-[![GitHub Release](https://img.shields.io/github/v/release/LeadMagic/cold-email-cli?style=for-the-badge)](https://github.com/LeadMagic/cold-email-cli/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Contributors Welcome](https://img.shields.io/badge/Contributors-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+## 🚀 Features
 
----
+### **Multi-Platform Support**
+- **SmartLead.ai** (68 commands) - Advanced Campaign Management & Analytics
+- **Instantly.ai** (35 commands) - High-Volume Automation & Deliverability  
+- **Salesforge.ai** (42 commands) - AI-Powered Multi-Channel Sequences
+- **Apollo.io** (42 commands) - Email Sequences & Outreach Automation
 
-## 🚀 **Multi-Platform Integration**
+### **Core Capabilities**
+- 📧 **Campaign Management** - Create, manage, and optimize email campaigns
+- 👥 **Lead Management** - Import, segment, and track prospect interactions
+- 📊 **Analytics & Reporting** - Real-time performance metrics and insights
+- 🤖 **AI-Powered Features** - Smart optimization and personalization
+- 📱 **Multi-Channel** - Email, LinkedIn, phone, and SMS sequences
+- 🎯 **Deliverability** - Advanced email warmup and reputation management
 
-Connect and automate across all major cold email platforms with unified command-line interface:
+## 📦 Installation
 
-| Platform | Status | Commands | Focus Area | API Documentation |
-|----------|---------|----------|------------|-------------------|
-| **🎯 [smartlead.ai](https://smartlead.ai)** | ✅ Available | 82+ | Scale, Analytics, Infrastructure | [📖 API Docs](https://docs.smartlead.ai/) |
-| **⚡ [instantly.ai](https://instantly.ai)** | ✅ Available | 35+ | Volume, Deliverability, Automation | [📖 API Docs](https://developer.instantly.ai/) |
-| **🤖 [salesforge.ai](https://salesforge.ai)** | ✅ Available | 12+ | AI, Multi-Channel, Personalization | [📖 API Docs](https://api.salesforge.ai/public/v2/swagger/index.html) |
-| **📧 [apollo.io](https://apollo.io)** | ✅ Available | 6+ | Email Sequences, Contact Management | [📖 API Docs](https://docs.apollo.io/) |
-
-**Total: 135+ Commands** across all major cold email platforms.
-
----
-
-## ⚡ **Quick Installation**
-
-### 🎯 **One-Line Install** (Recommended)
+### NPM Global Install
 ```bash
-curl -fsSL https://raw.githubusercontent.com/LeadMagic/cold-email-cli/main/scripts/install.sh | bash
+npm install -g cold-email-cli
 ```
 
-### 📦 **NPM Installation**
+### Quick Start
 ```bash
-npm install -g leadmagic-cold-email-cli
-leadmagic-cli
+# Run the CLI
+cold-email-cli
+
+# Or use the short alias
+cec
+
+# Get help for a specific platform
+cold-email-cli smartlead.ai --help
+cec instantly.ai campaigns:list
 ```
 
-### 🍎 **macOS Users**
+### Local Development
 ```bash
-# Download latest .dmg from releases
-open https://github.com/LeadMagic/cold-email-cli/releases
-
-# Or build locally
 git clone https://github.com/LeadMagic/cold-email-cli.git
 cd cold-email-cli
-npm install && npm run build:mac
-```
-
----
-
-## 🎯 **Quick Start Guide**
-
-### 1️⃣ **Launch the CLI**
-```bash
-leadmagic-cli
-```
-
-### 2️⃣ **Select Your Platform**
-```
-❄️ LeadMagic Professional Cold Email CLI
-
-🎯 Professional Multi-Platform Cold Email Automation Suite
-   Professional-grade CLI for scaling cold outreach campaigns
-
-◆ Choose your cold email platform:
-│ ● smartlead.ai v2.0.0 (Advanced Campaign Management & Analytics • 82 commands)
-│ ○ instantly.ai v2.0.0 (High-Volume Automation & Deliverability • 35 commands)  
-│ ○ salesforge.ai v1.0.0 (AI-Powered Cold Email Automation • 12 commands)
-│ ○ apollo.io v1.0.0 (Email Sequencing & Outreach • 6 commands)
-└
-```
-
-### 3️⃣ **Configure API Credentials**
-```bash
-# Platform-specific setup
-config:smartlead --api-key YOUR_SMARTLEAD_KEY
-config:instantly --api-key YOUR_INSTANTLY_KEY  
-config:salesforge --api-key YOUR_SALESFORGE_KEY
-config:apollo --api-key YOUR_APOLLO_KEY
-```
-
-### 4️⃣ **Start Automating**
-```bash
-# List all available commands
-help
-
-# Platform-specific examples
-campaigns:create --name "Enterprise Outreach" --type email
-leads:import --file prospects.csv --validate-emails
-sequences:create --name "AI Sequence" --persona "VP Sales"
-```
-
----
-
-## 🛠️ **Platform-Specific Commands**
-
-<details>
-<summary><strong>🎯 smartlead.ai Commands (82+)</strong></summary>
-
-### Campaign Management
-```bash
-campaigns:create --name "Q1 Outreach" --warmup-enabled
-campaigns:list --status active --analytics detailed
-campaigns:analytics --id cam_123 --metrics all
-campaigns:pause --id cam_123 --reason "weekend"
-```
-
-### Lead Management  
-```bash
-leads:import --file prospects.csv --validate-emails
-leads:search --filters "title:VP,CEO" --company-size 500+
-leads:segment --criteria "opened_emails>3" --name "Hot Prospects"
-leads:enrich --fields "phone,linkedin,company_info"
-```
-
-### Email Account Management
-```bash
-accounts:connect --email sales@company.com --warmup-auto
-accounts:health --domain company.com --reputation-check
-accounts:deliverability --account acc_123 --detailed-report
-accounts:warmup-stats --account acc_123 --period 30d
-```
-
-### Advanced Analytics
-```bash
-analytics:forecast --model advanced --horizon 90d
-analytics:cohort --segment enterprise --metric reply-rate
-analytics:dashboard --date-range 30d --format pdf
-analytics:compare --campaigns cam_1,cam_2 --metric reply-rate
-```
-
-**📖 [Complete smartlead.ai API Documentation](https://docs.smartlead.ai/)**
-
-</details>
-
-<details>
-<summary><strong>⚡ instantly.ai Commands (35+)</strong></summary>
-
-### High-Volume Automation
-```bash
-campaigns:launch --id cam_12345 --volume high --daily-limit 500
-campaigns:analytics --id cam_123 --timeframe 30d
-campaigns:clone --id cam_123 --name "Cloned Campaign"
-```
-
-### Lead Management
-```bash
-leads:import --file leads.csv --verify-emails --enrich-data
-leads:export --campaign cam_123 --status replied --format csv
-leads:blacklist --domain competitor.com --reason "competitor"
-leads:bulk-create --file leads.csv --campaign cam_123
-```
-
-### Deliverability & Automation
-```bash
-deliverability:monitor --accounts all --alerts enabled
-deliverability:check --domain company.com --detailed-report
-automation:setup --triggers "no-reply:3d,opened:1d" --actions follow-up
-unibox:conversations --status unread --priority high
-```
-
-### Account Management
-```bash
-accounts:warmup-start --email john@company.com
-accounts:list --status connected --health-check
-spam:test --content "Your email content here"
-```
-
-**📖 [Complete instantly.ai API Documentation](https://developer.instantly.ai/)**
-
-</details>
-
-<details>
-<summary><strong>🤖 salesforge.ai Commands (12+)</strong></summary>
-
-### AI-Powered Campaigns
-```bash
-campaigns:create --name "AI Outreach" --ai-optimization enabled
-campaigns:analytics --id cam_123 --ai-insights true
-```
-
-### AI Sequences & Templates
-```bash
-sequences:create --persona "Enterprise VP" --ai-generate true
-sequences:optimize --id seq_123 --goal reply-rate --ai-suggestions
-templates:generate --tone professional --industry SaaS
-templates:optimize --id tmpl_123 --goal open-rate
-```
-
-### Lead Scoring & Management
-```bash
-leads:import --file leads.csv --enrich-ai true
-leads:score --criteria "title,company_size,industry" --ai-model advanced
-```
-
-### Multi-Channel Automation
-```bash
-multichannel:create --channels "email,linkedin,phone" --sequence-ai
-analytics:ai-insights --campaign cam_123 --recommendations enabled
-```
-
-**📖 [Complete salesforge.ai API Documentation](https://api.salesforge.ai/public/v2/swagger/index.html)**
-
-</details>
-
-<details>
-<summary><strong>📧 apollo.io Commands (6+)</strong></summary>
-
-### Email Sequences
-```bash
-sequences:list --active true --performance-metrics
-sequences:create --name "Professional Outreach" --max-steps 5
-sequences:analytics --id seq_123 --date-range 30d
-```
-
-### Contact & Template Management
-```bash
-contacts:add-to-sequence --sequence seq_123 --contacts contact_1,contact_2
-templates:create --name "Follow-up" --subject "Re: Partnership Discussion"
-```
-
-**📖 [Complete apollo.io API Documentation](https://docs.apollo.io/)**
-
-</details>
-
----
-
-## 🤝 **Join Our Community**
-
-### 🌟 **Become a Contributor**
-
-We're actively looking for contributors! Here's how you can help:
-
-#### **🚀 How to Contribute**
-1. **Fork the repository** - Click the fork button above
-2. **Clone your fork** - `git clone https://github.com/YOUR_USERNAME/cold-email-cli.git`
-3. **Create a branch** - `git checkout -b feature/awesome-feature`
-4. **Make changes** - Add your awesome improvements
-5. **Test thoroughly** - `npm test && npm run build`
-6. **Submit PR** - Create a pull request with detailed description
-
-#### **🎯 What We Need Help With**
-- **🔧 Platform Integrations** - Add new cold email platforms
-- **📖 Documentation** - Improve guides and API docs
-- **🧪 Testing** - Write tests for new features
-- **🎨 UI/UX** - Enhance the CLI interface
-- **🐛 Bug Fixes** - Fix issues and improve stability
-- **🌍 Translations** - Localize for different languages
-
-#### **💡 Feature Requests & Ideas**
-Have ideas for new features? We'd love to hear them!
-- **💬 [Start a Discussion](https://github.com/LeadMagic/cold-email-cli/discussions)**
-- **📝 [Submit Feature Request](https://github.com/LeadMagic/cold-email-cli/issues/new?template=feature_request.md)**
-
-### 🐛 **Bug Reports**
-
-Found a bug? Help us fix it!
-
-1. **🔍 [Search existing issues](https://github.com/LeadMagic/cold-email-cli/issues)** first
-2. **📝 [Create new issue](https://github.com/LeadMagic/cold-email-cli/issues/new?template=bug_report.md)** with:
-   - Detailed description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Environment details (OS, Node.js version, CLI version)
-   - Screenshots/logs if applicable
-
----
-
-## 🛠️ **Development Setup**
-
-### **Prerequisites**
-- **Node.js** 18.0.0+ ([Download](https://nodejs.org/))
-- **npm** 8.0.0+ or **yarn** 1.22.0+
-- **Git** ([Download](https://git-scm.com/))
-
-### **Local Development**
-```bash
-# 1. Clone the repository
-git clone https://github.com/LeadMagic/cold-email-cli.git
-cd cold-email-cli
-
-# 2. Install dependencies
 npm install
-
-# 3. Build the project
 npm run build
-
-# 4. Run locally
-node dist/core/index.js
-
-# 5. Run tests
-npm test
-
-# 6. Watch mode for development
 npm run dev
 ```
 
-### **Build Scripts**
+## 🎯 Platform Commands
+
+### SmartLead.ai (68 Commands)
+Advanced campaign management with enterprise-grade analytics.
+
 ```bash
-npm run build            # Build for all platforms
-npm run build:mac        # Build Mac app bundle  
-npm run build:installer  # Create Mac installer (.pkg)
-npm run test             # Run test suite
-npm run test:coverage    # Run tests with coverage
-npm run lint             # Lint TypeScript code
-npm run format           # Format code with Prettier
+# Campaign Management
+cec smartlead.ai campaigns:list --status active
+cec smartlead.ai campaigns:create --name "Enterprise Q1" --daily-limit 200
+cec smartlead.ai campaigns:analytics --id campaign_12345 --period 30d
+
+# Lead Management  
+cec smartlead.ai leads:create --email john@company.com --enrich-profile
+cec smartlead.ai leads:bulk-create --file leads.csv --validate-emails
+cec smartlead.ai leads:score --campaign campaign_12345 --update-scores
+
+# Email Account Management
+cec smartlead.ai accounts:list --include-health --deliverability-scores
+cec smartlead.ai accounts:warmup-start --email sender@company.com --duration 30d
 ```
 
-### **Project Structure**
-```
-cold-email-cli/
-├── src/
-│   ├── core/           # CLI core functionality
-│   ├── modules/        # Platform implementations
-│   │   ├── smartlead/  # smartlead.ai integration
-│   │   ├── instantly/  # instantly.ai integration  
-│   │   ├── salesforge/ # salesforge.ai integration
-│   │   └── apollo/     # apollo.io integration
-│   └── types/          # TypeScript definitions
-├── tests/              # Test files
-├── scripts/            # Build and deployment scripts
-└── docs/               # Documentation
-```
+### Instantly.ai (35 Commands) 
+High-volume automation with industry-leading deliverability.
 
----
+```bash
+# Campaign Management
+cec instantly.ai campaigns:create --name "Q1 Outreach" --track-opens true
+cec instantly.ai campaigns:launch --id campaign_12345 --schedule-time "2025-01-15T09:00:00Z"
 
-## 📚 **Documentation & Resources**
+# Lead Management
+cec instantly.ai leads:add --email john@company.com --campaign campaign_12345
+cec instantly.ai leads:bulk-add --file leads.csv --campaign campaign_12345
 
-### **📖 Official Documentation**
-- **[Getting Started Guide](docs/getting-started.md)** - Complete setup walkthrough
-- **[API Reference](docs/api-reference.md)** - All commands and parameters
-- **[Configuration Guide](docs/configuration.md)** - Environment setup
-- **[Troubleshooting](docs/troubleshooting.md)** - Common issues and solutions
-
-### **🔗 Platform Resources**
-- **[smartlead.ai Documentation](https://docs.smartlead.ai/)** - Complete API reference
-- **[instantly.ai Documentation](https://developer.instantly.ai/)** - Developer resources
-- **[salesforge.ai Documentation](https://api.salesforge.ai/public/v2/swagger/index.html)** - Swagger API docs
-- **[apollo.io Documentation](https://docs.apollo.io/)** - Platform API guide
-
-### **📞 Community Support**
-- **💬 [GitHub Discussions](https://github.com/LeadMagic/cold-email-cli/discussions)** - Community Q&A
-- **🐛 [Issue Tracker](https://github.com/LeadMagic/cold-email-cli/issues)** - Bug reports & feature requests
-- **📧 [Email Support](mailto:support@leadmagic.com)** - Direct support contact
-
----
-
-## 📊 **System Requirements**
-
-### **Minimum Requirements**
-- **Operating System**: macOS 10.15+, Ubuntu 18.04+, Windows 10+
-- **Node.js**: v18.0.0 or higher
-- **Memory**: 512MB RAM available
-- **Storage**: 100MB free space
-- **Network**: Internet connection for API calls
-
-### **Recommended**
-- **Operating System**: macOS 12+, Ubuntu 20.04+, Windows 11+
-- **Node.js**: v20.0.0 LTS
-- **Memory**: 1GB RAM available
-- **Storage**: 500MB free space
-- **Terminal**: Modern terminal with color support
-
----
-
-## 🔒 **Security & Privacy**
-
-### **🛡️ Security Features**
-- **Local Credential Storage** - API keys stored securely on your machine
-- **No Data Collection** - Your campaign data stays with your chosen platforms
-- **Open Source Transparency** - Full source code available for security review
-- **Regular Security Updates** - Automated dependency vulnerability scanning
-
-### **🔐 Privacy Policy**
-- **No Telemetry** - We don't track your usage or collect analytics
-- **No Data Transmission** - Your data goes directly to your chosen platforms
-- **Local Configuration** - All settings stored locally on your machine
-- **MIT Licensed** - Commercial and personal use permitted
-
----
-
-## 📄 **License**
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-**Copyright © 2024 LeadMagic**
-
-### **Commercial Use**
-✅ **Permitted** - Use in commercial projects  
-✅ **Permitted** - Modify and distribute  
-✅ **Permitted** - Private use  
-✅ **Permitted** - Include in proprietary software  
-
----
-
-## 🙏 **Acknowledgments**
-
-### **🚀 Core Team**
-- **[LeadMagic Team](https://leadmagic.io)** - Primary development support
-- **Open Source Contributors** - Community developers and maintainers
-
-### **🤝 Platform Partners**
-- **[smartlead.ai](https://smartlead.ai)** - Advanced campaign management platform
-- **[instantly.ai](https://instantly.ai)** - High-volume email automation
-- **[salesforge.ai](https://salesforge.ai)** - AI-powered multi-channel sequences  
-- **[apollo.io](https://apollo.io)** - Professional email sequencing
-
-### **🛠️ Technology Stack**
-- **[TypeScript](https://typescriptlang.org/)** - Type-safe development
-- **[Node.js](https://nodejs.org/)** - Runtime environment
-- **[@clack/prompts](https://github.com/natemoo-re/clack)** - Beautiful CLI prompts
-- **[chalk](https://github.com/chalk/chalk)** - Terminal styling
-
----
-
-<div align="center">
-
-```
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                                                                              ║
-║                🎯 Ready to revolutionize your cold email campaigns? 🎯       ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝
+# Inbox Management (Unibox)
+cec instantly.ai unibox:conversations --status new --limit 50
+cec instantly.ai unibox:reply --id conversation_12345 --message "Thank you"
 ```
 
-[![Get Started](https://img.shields.io/badge/🚀%20Get%20Started-FF6B35?style=for-the-badge)](https://github.com/LeadMagic/cold-email-cli/releases)
-[![Contribute](https://img.shields.io/badge/🤝%20Contribute-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+### Salesforge.ai (42 Commands)
+AI-powered multi-channel sequences with smart personalization.
 
-**LeadMagic Professional Cold Email CLI** • **Built with ❤️ by the Community**
+```bash
+# AI Campaign Management
+cec salesforge.ai campaigns:create --name "AI Outreach" --ai-optimization enabled
+cec salesforge.ai campaigns:optimize --id campaign_12345 --goal reply-rate
 
-</div> 
+# AI Sequences
+cec salesforge.ai sequences:create --name "AI Sequence" --persona "VP Sales" --industry SaaS
+cec salesforge.ai sequences:generate --brief "SaaS cold outreach" --target-persona "CTOs"
+
+# AI Templates
+cec salesforge.ai templates:generate --persona "Enterprise VP" --tone professional
+cec salesforge.ai templates:optimize --id template_12345 --goal open-rate
+```
+
+### Apollo.io (42 Commands)
+Professional email sequences with contact enrichment.
+
+```bash
+# Email Sequences
+cec apollo.io sequences:create --name "Enterprise Outreach" --steps 5 --delay-days 3
+cec apollo.io sequences:start --id sequence_12345 --schedule-time "09:00"
+
+# Contact Management
+cec apollo.io contacts:add-to-sequence --sequence sequence_12345 --contacts contact_1,contact_2
+cec apollo.io contacts:bulk-add --sequence sequence_12345 --file contacts.csv
+
+# Email Templates
+cec apollo.io templates:create --name "Follow-up Template" --subject "Quick follow-up"
+cec apollo.io templates:performance --id template_12345 --metrics "open,click,reply"
+```
+
+## 🛠️ Technology Stack
+
+### **Built with React Ink**
+This CLI leverages [React Ink](https://github.com/vadimdemedes/ink) for building interactive command-line applications with React components. React Ink provides:
+
+- **Component-based architecture** for modular CLI design
+- **Interactive elements** like selectors and prompts  
+- **Real-time updates** and dynamic content rendering
+- **Familiar React patterns** for developers
+
+### **Core Technologies**
+- **TypeScript** - Type-safe development and better DX
+- **React Ink** - Interactive CLI components and layouts
+- **Node.js 18+** - Modern JavaScript runtime
+- **Jest** - Comprehensive testing framework
+- **ESLint + Prettier** - Code quality and formatting
+
+## 📋 Available Commands by Category
+
+### Campaign Management
+| Platform | Commands | Key Features |
+|----------|----------|--------------|
+| SmartLead | 15 | Advanced analytics, A/B testing, automation |
+| Instantly | 8 | High-volume sending, deliverability optimization |
+| Salesforge | 10 | AI optimization, predictive analytics |
+| Apollo | 12 | Sequence management, performance tracking |
+
+### Lead Management  
+| Platform | Commands | Key Features |
+|----------|----------|--------------|
+| SmartLead | 18 | Enrichment, scoring, lifecycle management |
+| Instantly | 12 | Bulk operations, segmentation, blacklist management |
+| Salesforge | 6 | AI scoring, personalization, prediction |
+| Apollo | 8 | Sequence assignment, status tracking, history |
+
+### Analytics & Reporting
+| Platform | Commands | Key Features |
+|----------|----------|--------------|
+| SmartLead | 10 | Real-time dashboards, ROI tracking, trends |
+| Instantly | 4 | Performance metrics, deliverability insights |
+| Salesforge | 6 | AI insights, predictive analytics, optimization |
+| Apollo | 5 | Sequence performance, account summaries, deliverability |
+
+## ⚙️ Configuration
+
+### API Keys Setup
+```bash
+# Configure API keys for each platform
+export SMARTLEAD_API_KEY="your_smartlead_api_key"
+export INSTANTLY_API_KEY="your_instantly_api_key"  
+export SALESFORGE_API_KEY="your_salesforge_api_key"
+export APOLLO_API_KEY="your_apollo_api_key"
+
+# Or set them via config files
+~/.cold-email-cli/config.json
+```
+
+### Environment Configuration
+```bash
+# Copy and customize the environment template
+cp config/environment.example .env
+
+# Edit with your API credentials and preferences
+```
+
+## 🧪 Development & Testing
+
+### Development Setup
+```bash
+# Install dependencies
+npm install
+
+# Start development mode with hot reload
+npm run dev
+
+# Run type checking
+npm run type-check
+
+# Run linting
+npm run lint
+
+# Run tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### Building & Packaging
+```bash
+# Build for production
+npm run build
+
+# Install globally from local build
+npm run install
+
+# Create distributable packages
+npm run package
+
+# Build platform-specific installers
+npm run build:mac
+npm run build:linux
+npm run build:windows
+```
+
+### Testing Commands
+```bash
+# Test the CLI locally
+./dist/bin/cold-email-cli --help
+./dist/bin/cec smartlead.ai campaigns:list
+
+# Test specific module
+npm run test src/modules/smartlead/
+npm run test src/modules/instantly/
+```
+
+## 📖 API Documentation
+
+### Platform API References
+- **SmartLead API**: [https://server.smartlead.ai](https://server.smartlead.ai)
+- **Instantly API**: [https://api.instantly.ai](https://api.instantly.ai)  
+- **Salesforge API**: [https://api.salesforge.ai/public/v2/swagger/index.html](https://api.salesforge.ai/public/v2/swagger/index.html)
+- **Apollo API**: [https://docs.apollo.io](https://docs.apollo.io)
+
+### Command Structure
+```
+cold-email-cli <platform> <command> [options]
+
+Examples:
+  cold-email-cli smartlead.ai campaigns:list --status active
+  cec instantly.ai leads:add --email john@company.com --campaign campaign_123
+  cold-email-cli salesforge.ai templates:generate --persona "VP Sales"
+```
+
+## 🔧 Advanced Usage
+
+### Batch Operations
+```bash
+# Bulk lead import with validation
+cec smartlead.ai leads:bulk-create --file leads.csv --validate-emails --enrich-data
+
+# Export comprehensive analytics
+cec instantly.ai analytics:export --type campaign --format xlsx --date-range 90d
+
+# AI-powered optimization
+cec salesforge.ai campaigns:optimize --id campaign_12345 --auto-apply
+```
+
+### Automation Scripts
+```bash
+#!/bin/bash
+# Daily campaign monitoring script
+
+echo "📊 Daily Campaign Report"
+cec smartlead.ai analytics:dashboard --period 24h
+cec instantly.ai analytics:summary --date-range 1d
+cec salesforge.ai analytics:ai-insights --recommendations detailed
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Quick Start for Contributors
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and add tests
+4. Run tests: `npm test`
+5. Commit changes: `git commit -m 'Add amazing feature'`
+6. Push to branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Special Thanks
+
+- **LeadMagic** - Project sponsor and cold email expertise
+- **React Ink Community** - Interactive CLI framework
+- **Cold Email Community** - Testing, feedback, and feature requests
+
+---
+
+**Professional Cold Email Automation** • Built with ❤️ and TypeScript 

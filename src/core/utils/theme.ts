@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { CLIModule, CLICommand } from '../../types/global';
 
 // Core theme colors for each platform
 const themes = {
@@ -133,7 +134,7 @@ export function showWelcomeMessage(module: string): void {
   console.log();
 }
 
-export function formatCommandList(commands: any[], module?: string): void {
+export function formatCommandList(commands: CLICommand[], module?: string): void {
   const theme = getTheme(module);
   
   // Group commands by category
@@ -142,13 +143,13 @@ export function formatCommandList(commands: any[], module?: string): void {
     if (!acc[category]) acc[category] = [];
     acc[category].push(cmd);
     return acc;
-  }, {} as Record<string, any[]>);
+  }, {} as Record<string, CLICommand[]>);
   
   Object.entries(categories).forEach(([category, categoryCommands]) => {
     console.log(theme.primary(`\n📂 ${category}:`));
     console.log(theme.muted('─'.repeat(50)));
     
-    (categoryCommands as any[]).forEach((cmd: any) => {
+    categoryCommands.forEach((cmd: CLICommand) => {
       console.log(`  ${theme.accent(cmd.name.padEnd(25))} ${theme.secondary(cmd.description)}`);
       if (cmd.usage) {
         console.log(`  ${theme.muted(' '.repeat(25))} ${theme.muted(cmd.usage)}`);
@@ -159,22 +160,16 @@ export function formatCommandList(commands: any[], module?: string): void {
   console.log();
 }
 
-export function showCommandHelp(command: any, module?: string): void {
+export function showCommandHelp(moduleInstance: CLIModule, module?: string): void {
   const theme = getTheme(module);
   
-  console.log(theme.primary(`\n📖 Command: ${command.name}`));
+  console.log(theme.primary(`\n📖 ${moduleInstance.name} Commands`));
   console.log(theme.muted('─'.repeat(50)));
-  console.log(`${theme.secondary('Description:')} ${command.description}`);
+  console.log(`${theme.secondary('Description:')} ${moduleInstance.description}`);
+  console.log(`${theme.secondary('Version:')} ${moduleInstance.version}`);
+  console.log(`${theme.secondary('Total Commands:')} ${moduleInstance.commands.length}`);
   
-  if (command.usage) {
-    console.log(`${theme.secondary('Usage:')} ${theme.accent(command.usage)}`);
-  }
-  
-  if (command.category) {
-    console.log(`${theme.secondary('Category:')} ${command.category}`);
-  }
-  
-  console.log();
+  formatCommandList(moduleInstance.commands, module);
 }
 
 export function showError(message: string, module?: string): void {

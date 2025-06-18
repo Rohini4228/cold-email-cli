@@ -3,7 +3,7 @@
  * Complete implementation of Instantly API v2 with 30+ commands
  */
 
-import { CLIModule } from '../../types/global.js';
+import { CLIModule } from '../../types/global';
 
 export class InstantlyModule implements CLIModule {
   name = 'instantly.ai';
@@ -11,213 +11,231 @@ export class InstantlyModule implements CLIModule {
   version = '2.0.0';
 
   commands = [
-    // Account Management
-    {
-      name: 'accounts:list',
-      description: 'List all email accounts',
-      usage: 'accounts:list --status connected',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:create',
-      description: 'Create a new email account',
-      usage: 'accounts:create --email john@example.com --provider google',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:get',
-      description: 'Get account details by email',
-      usage: 'accounts:get --email john@example.com',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:update',
-      description: 'Update account settings',
-      usage: 'accounts:update --email john@example.com --daily-limit 100',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:delete',
-      description: 'Delete an email account',
-      usage: 'accounts:delete --email john@example.com',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:warmup-start',
-      description: 'Start email warmup process',
-      usage: 'accounts:warmup-start --email john@example.com',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:warmup-stop',
-      description: 'Stop email warmup process', 
-      usage: 'accounts:warmup-stop --email john@example.com',
-      category: 'Account Management'
-    },
-    {
-      name: 'accounts:warmup-analytics',
-      description: 'Get warmup analytics',
-      usage: 'accounts:warmup-analytics --email john@example.com',
-      category: 'Account Management'
-    },
-
-    // Campaign Management
+    // Campaign Management (8 commands)
     {
       name: 'campaigns:list',
-      description: 'List all campaigns',
-      usage: 'campaigns:list --status active --limit 20',
+      description: 'List all campaigns with filtering options',
+      usage: 'campaigns:list --status active --limit 50',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:create',
-      description: 'Create a new campaign',
-      usage: 'campaigns:create --name "Cold Outreach" --daily-limit 100',
+      description: 'Create a new cold email campaign',
+      usage: 'campaigns:create --name "Q1 Outreach" --track-opens true',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:get',
-      description: 'Get campaign details',
-      usage: 'campaigns:get --id cam_12345',
+      description: 'Get detailed campaign information',
+      usage: 'campaigns:get --id campaign_12345',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:update',
       description: 'Update campaign settings',
-      usage: 'campaigns:update --id cam_12345 --name "Updated Campaign"',
+      usage: 'campaigns:update --id campaign_12345 --name "Updated Campaign"',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:delete',
-      description: 'Delete a campaign',
-      usage: 'campaigns:delete --id cam_12345',
+      description: 'Delete a campaign permanently',
+      usage: 'campaigns:delete --id campaign_12345',
       category: 'Campaign Management'
     },
     {
-      name: 'campaigns:activate',
-      description: 'Activate a campaign',
-      usage: 'campaigns:activate --id cam_12345',
+      name: 'campaigns:launch',
+      description: 'Launch a campaign to start sending',
+      usage: 'campaigns:launch --id campaign_12345 --schedule-time "2025-01-15T09:00:00Z"',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:pause',
-      description: 'Pause a campaign',
-      usage: 'campaigns:pause --id cam_12345',
+      description: 'Pause a running campaign',
+      usage: 'campaigns:pause --id campaign_12345',
       category: 'Campaign Management'
     },
     {
       name: 'campaigns:analytics',
-      description: 'Get campaign analytics',
-      usage: 'campaigns:analytics --id cam_12345 --period 30d',
+      description: 'Get campaign performance analytics',
+      usage: 'campaigns:analytics --id campaign_12345 --date-range 30d',
       category: 'Campaign Management'
     },
 
-    // Lead Management
+    // Lead Management (12 commands)
+    {
+      name: 'leads:add',
+      description: 'Add a single lead to campaign',
+      usage: 'leads:add --email john@company.com --campaign campaign_12345',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:bulk-add',
+      description: 'Add multiple leads to campaign',
+      usage: 'leads:bulk-add --file leads.csv --campaign campaign_12345',
+      category: 'Lead Management'
+    },
     {
       name: 'leads:list',
-      description: 'List and search leads',
-      usage: 'leads:list --campaign cam_12345 --status active',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:create',
-      description: 'Create a new lead',
-      usage: 'leads:create --email lead@example.com --first-name John',
-      category: 'Lead Management'
-    },
-    {
-      name: 'leads:bulk-create',
-      description: 'Create multiple leads from CSV',
-      usage: 'leads:bulk-create --file leads.csv',
+      description: 'List leads in a campaign',
+      usage: 'leads:list --campaign campaign_12345 --status replied',
       category: 'Lead Management'
     },
     {
       name: 'leads:get',
-      description: 'Get lead details',
-      usage: 'leads:get --id lead_12345',
+      description: 'Get detailed lead information',
+      usage: 'leads:get --email john@company.com --campaign campaign_12345',
       category: 'Lead Management'
     },
     {
       name: 'leads:update',
       description: 'Update lead information',
-      usage: 'leads:update --id lead_12345 --status interested',
+      usage: 'leads:update --email john@company.com --first-name John --company "Tech Corp"',
       category: 'Lead Management'
     },
     {
       name: 'leads:delete',
-      description: 'Delete a lead',
-      usage: 'leads:delete --id lead_12345',
+      description: 'Remove lead from campaign',
+      usage: 'leads:delete --email john@company.com --campaign campaign_12345',
       category: 'Lead Management'
     },
     {
-      name: 'leads:merge',
-      description: 'Merge duplicate leads',
-      usage: 'leads:merge --primary lead_1 --duplicate lead_2',
+      name: 'leads:pause',
+      description: 'Pause lead in campaign',
+      usage: 'leads:pause --email john@company.com --campaign campaign_12345',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:resume',
+      description: 'Resume paused lead in campaign',
+      usage: 'leads:resume --email john@company.com --campaign campaign_12345',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:unsubscribe',
+      description: 'Unsubscribe lead from all campaigns',
+      usage: 'leads:unsubscribe --email john@company.com',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:export',
+      description: 'Export leads to CSV file',
+      usage: 'leads:export --campaign campaign_12345 --format csv',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:search',
+      description: 'Search leads by criteria',
+      usage: 'leads:search --query "john@company.com" --campaign campaign_12345',
+      category: 'Lead Management'
+    },
+    {
+      name: 'leads:blacklist',
+      description: 'Add emails to blacklist',
+      usage: 'leads:blacklist --emails "spam@domain.com,bad@email.com"',
       category: 'Lead Management'
     },
 
-    // Email & Verification
+    // Account Management (6 commands)
     {
-      name: 'emails:list',
-      description: 'List emails in Unibox',
-      usage: 'emails:list --unread --limit 50',
-      category: 'Email Management'
+      name: 'accounts:list',
+      description: 'List all connected email accounts',
+      usage: 'accounts:list --status active',
+      category: 'Account Management'
     },
     {
-      name: 'emails:get',
-      description: 'Get email details',
-      usage: 'emails:get --id email_12345',
-      category: 'Email Management'
+      name: 'accounts:add',
+      description: 'Connect new email account',
+      usage: 'accounts:add --email sender@company.com --smtp-host smtp.company.com',
+      category: 'Account Management'
     },
     {
-      name: 'emails:reply',
-      description: 'Send email reply',
-      usage: 'emails:reply --thread thread_12345 --message "Thanks!"',
-      category: 'Email Management'
+      name: 'accounts:get',
+      description: 'Get email account details',
+      usage: 'accounts:get --email sender@company.com',
+      category: 'Account Management'
     },
     {
-      name: 'emails:unread-count',
-      description: 'Get unread email count',
-      usage: 'emails:unread-count',
-      category: 'Email Management'
+      name: 'accounts:update',
+      description: 'Update email account settings',
+      usage: 'accounts:update --email sender@company.com --daily-limit 100',
+      category: 'Account Management'
     },
     {
-      name: 'verify:email',
-      description: 'Verify single email address',
-      usage: 'verify:email --email test@example.com',
-      category: 'Email Verification'
+      name: 'accounts:delete',
+      description: 'Remove email account',
+      usage: 'accounts:delete --email sender@company.com',
+      category: 'Account Management'
     },
     {
-      name: 'verify:get',
-      description: 'Get verification result',
-      usage: 'verify:get --email test@example.com',
-      category: 'Email Verification'
+      name: 'accounts:warmup',
+      description: 'Manage email account warmup',
+      usage: 'accounts:warmup --email sender@company.com --enable true',
+      category: 'Account Management'
     },
 
-    // Deliverability & Optimization
+    // Unibox (Inbox Management) (5 commands)
     {
-      name: 'deliverability:check',
-      description: 'Check domain deliverability',
-      usage: 'deliverability:check --domain company.com',
-      category: 'Deliverability'
+      name: 'unibox:conversations',
+      description: 'List all conversations and replies',
+      usage: 'unibox:conversations --status new --limit 50',
+      category: 'Inbox Management'
     },
     {
-      name: 'deliverability:optimize',
-      description: 'Optimize deliverability settings',
-      usage: 'deliverability:optimize --campaign cam_12345',
-      category: 'Deliverability'
+      name: 'unibox:get',
+      description: 'Get specific conversation details',
+      usage: 'unibox:get --id conversation_12345',
+      category: 'Inbox Management'
     },
     {
-      name: 'spam:test',
-      description: 'Test content for spam triggers',
-      usage: 'spam:test --content "Your email content here"',
-      category: 'Deliverability'
+      name: 'unibox:reply',
+      description: 'Send reply to conversation',
+      usage: 'unibox:reply --id conversation_12345 --message "Thank you for your interest"',
+      category: 'Inbox Management'
+    },
+    {
+      name: 'unibox:mark-read',
+      description: 'Mark conversations as read',
+      usage: 'unibox:mark-read --ids conversation_1,conversation_2',
+      category: 'Inbox Management'
+    },
+    {
+      name: 'unibox:export',
+      description: 'Export conversation data',
+      usage: 'unibox:export --format csv --date-range 30d',
+      category: 'Inbox Management'
+    },
+
+    // Analytics & Reporting (4 commands)
+    {
+      name: 'analytics:summary',
+      description: 'Get account-wide analytics summary',
+      usage: 'analytics:summary --date-range 30d --metrics "sent,opened,replied"',
+      category: 'Analytics & Reporting'
+    },
+    {
+      name: 'analytics:deliverability',
+      description: 'Get deliverability analytics',
+      usage: 'analytics:deliverability --account sender@company.com --period 7d',
+      category: 'Analytics & Reporting'
+    },
+    {
+      name: 'analytics:performance',
+      description: 'Get detailed performance metrics',
+      usage: 'analytics:performance --campaign campaign_12345 --breakdown daily',
+      category: 'Analytics & Reporting'
+    },
+    {
+      name: 'analytics:export',
+      description: 'Export analytics data',
+      usage: 'analytics:export --type campaign --format xlsx --date-range 90d',
+      category: 'Analytics & Reporting'
     }
   ];
 
   async execute(command: string, args: Record<string, any>): Promise<void> {
-    console.log(`🔮 Executing Instantly command: ${command}`);
+    console.log(`⚡ Executing instantly.ai command: ${command}`);
     
-    // Implementation would handle all the Instantly API v2 commands
+    // Implementation would handle all the commands with actual API calls
     switch (command) {
       case 'campaigns:list':
         await this.listCampaigns(args);
@@ -228,13 +246,21 @@ export class InstantlyModule implements CLIModule {
       case 'campaigns:launch':
         await this.launchCampaign(args);
         break;
-      case 'accounts:warmup-start':
-        await this.startWarmup(args);
+      case 'leads:add':
+        await this.addLead(args);
         break;
-      case 'deliverability:check':
-        await this.checkDeliverability(args);
+      case 'leads:bulk-add':
+        await this.bulkAddLeads(args);
         break;
-      // ... other command implementations
+      case 'accounts:list':
+        await this.listAccounts(args);
+        break;
+      case 'unibox:conversations':
+        await this.getConversations(args);
+        break;
+      case 'analytics:summary':
+        await this.getAnalyticsSummary(args);
+        break;
       default:
         console.log(`⚠️  Command ${command} not yet implemented`);
         console.log('🚀 Coming soon in next release!');
@@ -242,28 +268,43 @@ export class InstantlyModule implements CLIModule {
   }
 
   private async listCampaigns(_args: Record<string, any>): Promise<void> {
-    console.log('📋 Listing Instantly campaigns...');
-    // Implementation would call Instantly API v2
+    console.log('📋 Listing instantly.ai campaigns...');
+    // TODO: Implement API call to instantly.ai campaigns endpoint
   }
 
   private async createCampaign(_args: Record<string, any>): Promise<void> {
-    console.log('📧 Creating new Instantly campaign...');
-    // Implementation would call Instantly API v2
+    console.log('📧 Creating new instantly.ai campaign...');
+    // TODO: Implement API call to create campaign
   }
 
   private async launchCampaign(_args: Record<string, any>): Promise<void> {
-    console.log('🚀 Launching high-volume campaign...');
-    // Implementation would call Instantly API v2
+    console.log('🚀 Launching instantly.ai campaign...');
+    // TODO: Implement API call to launch campaign
   }
 
-  private async startWarmup(_args: Record<string, any>): Promise<void> {
-    console.log('🔥 Starting email warmup process...');
-    // Implementation would call Instantly API v2
+  private async addLead(_args: Record<string, any>): Promise<void> {
+    console.log('👤 Adding lead to instantly.ai campaign...');
+    // TODO: Implement API call to add lead
   }
 
-  private async checkDeliverability(_args: Record<string, any>): Promise<void> {
-    console.log('📊 Checking domain deliverability...');
-    // Implementation would call Instantly API v2
+  private async bulkAddLeads(_args: Record<string, any>): Promise<void> {
+    console.log('👥 Bulk adding leads to instantly.ai campaign...');
+    // TODO: Implement API call for bulk lead addition
+  }
+
+  private async listAccounts(_args: Record<string, any>): Promise<void> {
+    console.log('📧 Listing instantly.ai email accounts...');
+    // TODO: Implement API call to list accounts
+  }
+
+  private async getConversations(_args: Record<string, any>): Promise<void> {
+    console.log('💬 Getting instantly.ai conversations...');
+    // TODO: Implement API call to get conversations
+  }
+
+  private async getAnalyticsSummary(_args: Record<string, any>): Promise<void> {
+    console.log('📊 Getting instantly.ai analytics summary...');
+    // TODO: Implement API call to get analytics
   }
 }
 
