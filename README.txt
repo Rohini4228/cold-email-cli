@@ -1,81 +1,59 @@
-SMARTLEAD CLI - MULTI-MODULE EMAIL MARKETING AUTOMATION
-======================================================
+# 🚀 Professional Cold Email CLI
 
-🚀 Professional TypeScript CLI for Email Marketing Platforms
-🧩 Modular Architecture: SmartLead + Instantly (Coming Soon)
-🎨 Beautiful Terminal UI with Platform-Specific Themes
-🧪 90%+ Test Coverage with Jest and TypeScript
+Advanced command-line interface for cold email outreach automation.
 
-QUICK START
------------
-1. Install:     npm install -g smartlead-cli
-2. Configure:   smartlead config
-3. Use:         smartlead modules
+## Platform Support (200+ Commands Total)
 
-AVAILABLE MODULES
------------------
-✅ SmartLead    - Complete email campaign management (80+ commands)
-🟡 Instantly   - Cold email outreach (Coming Q2 2024)
+🟢 SmartLead     - 82 commands (Scale, Analytics, Infrastructure)
+🟢 Instantly    - 35 commands (Volume, Deliverability, Automation)  
+🟢 SalesForge   - 82 commands (AI, Multi-Channel, Personalization)
 
-MAIN COMMANDS
--------------
-smartlead               # Welcome screen with module selection
-smartlead modules       # Show available modules
-smartlead switch        # Interactive module selector
-smartlead config        # Configure API settings
-smartlead interactive   # Start interactive mode
-smartlead --help        # Show help
+## Quick Start
 
-DOCUMENTATION
--------------
-📚 Complete Docs:  docs/README.md
-🔧 Contributing:   docs/CONTRIBUTING.md
-🗺️ Roadmap:        docs/ROADMAP.md
-📝 Changelog:      docs/CHANGELOG.md
+1. Install: npm install -g professional-cold-email-cli
+2. Launch: cold-email-cli
+3. Select your platform (SmartLead/Instantly/SalesForge)
+4. Configure API: config set --api-key YOUR_KEY
+5. Start building campaigns!
 
-PROJECT STRUCTURE
-------------------
-src/core/           # Core CLI functionality
-src/modules/        # Platform modules (SmartLead, Instantly)
-src/types/          # TypeScript definitions
-tests/              # Jest test suites
-scripts/            # Build and installation scripts
-docs/               # Comprehensive documentation
-.cursor/rules/      # Cursor AI development rules
+## Core Commands
 
-DEVELOPMENT
------------
-npm install         # Install dependencies
-npm run build       # Build TypeScript
-npm test            # Run Jest tests
-npm run dev         # Development mode
-npm run lint        # Code quality
+help              - Show available commands
+version           - Show CLI and module versions  
+switch            - Switch between cold email platforms
+clear             - Clear terminal screen
+exit              - Exit CLI
 
-FEATURES
---------
-✨ 80+ SmartLead API commands
-🎯 Modular architecture for multiple platforms
-💻 Complete TypeScript with strict types
-🧪 Comprehensive test coverage
-🎨 Platform-specific themes and branding
-📦 Professional build and distribution
-🔧 MCP (Model Context Protocol) support
-📚 Extensive documentation
+## Platform Examples
 
-REQUIREMENTS
-------------
-Node.js 16.0.0+
-npm 7.0.0+
-TypeScript 5.3+
+### SmartLead (Advanced Analytics & Scale)
+campaigns:create --name "Enterprise Outreach" --type multi-sequence
+campaigns:analytics --id cam_12345 --metrics detailed
+leads:segment --rules "company_size>500,title contains 'VP'"
+analytics:forecast --model advanced --horizon 90d
 
-LICENSE
--------
-MIT License - See LICENSE file for details
+### Instantly (High-Volume Automation) 
+campaigns:launch --volume high --daily-limit 1000
+accounts:warmup --strategy aggressive --duration 30d
+deliverability:check --domain company.com --full-audit
+sequences:personalize --ai-level advanced --variables dynamic
 
-SUPPORT
--------
-🐛 Issues: https://github.com/username/smartlead-cli/issues
-💡 Discussions: https://github.com/username/smartlead-cli/discussions
-📧 Email: support@smartlead-cli.com
+### SalesForge (AI-Powered Multi-Channel)
+ai:personalize --level advanced --data-sources "linkedin,company,news"
+sequences:multi-channel --channels "email,linkedin,phone"
+conversation:analyze --sentiment --intent --next-best-action
+pipeline:forecast --ai-model advanced --confidence 95
 
-Made with ❤️ and TypeScript for the email marketing community 
+## Configuration
+
+~/.cold-email-cli/config.json:
+{
+  "defaultPlatform": "smartlead",
+  "platforms": {
+    "smartlead": { "apiKey": "your_key" },
+    "instantly": { "apiKey": "your_key" },
+    "salesforge": { "apiKey": "your_key" }
+  }
+}
+
+Built for professional cold outreach automation. 

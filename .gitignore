@@ -158,4 +158,8 @@ yarn-error.log*
 pids
 *.pid
 *.seed
-*.pid.lock 
+*.pid.lock
+
+# Local convenience shortcuts (don't commit these)
+/sl
+/smartlead

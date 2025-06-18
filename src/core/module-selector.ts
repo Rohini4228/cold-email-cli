@@ -1,181 +1,128 @@
-import inquirer from 'inquirer';
-import { ModuleName, ModuleInfo, CLIModule } from '../types/global';
-import { ConfigManager } from './utils/config';
-import { ThemeManager } from './utils/theme';
+import { select, intro, outro, cancel, isCancel } from '@clack/prompts';
+import { SmartLeadModule } from '../modules/smartlead/index.js';
+import { InstantlyModule } from '../modules/instantly/index.js';
+import { SalesForgeModule } from '../modules/salesforge/index.js';
+import { ApolloModule } from '../modules/apollo/index.js';
+import { CLIModule } from '../types/global.js';
+import { getTheme } from './utils/theme.js';
 
-export class ModuleSelector {
-  private modules: Map<ModuleName, ModuleInfo>;
-  private configManager: ConfigManager;
-  private theme: ThemeManager;
+export interface ModuleInfo {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+  status: 'Available' | 'Coming Soon';
+  commandCount: number;
+  focus: string;
+  module?: CLIModule;
+}
 
-  constructor() {
-    this.configManager = ConfigManager.getInstance();
-    this.theme = new ThemeManager();
-    this.modules = new Map();
-    
-    this.registerModules();
+const modules: ModuleInfo[] = [
+  {
+    id: 'smartlead',
+    name: 'smartlead.ai',
+    description: 'Advanced Cold Email Campaign Management & Analytics',
+    version: '2.0.0',
+    status: 'Available',
+    commandCount: 82,
+    focus: 'Scale, Analytics, Infrastructure',
+    module: new SmartLeadModule()
+  },
+  {
+    id: 'instantly',
+    name: 'instantly.ai',
+    description: 'High-Volume Cold Email Automation & Deliverability',
+    version: '2.0.0', 
+    status: 'Available',
+    commandCount: 35,
+    focus: 'Volume, Deliverability, Automation',
+    module: new InstantlyModule()
+  },
+  {
+    id: 'salesforge',
+    name: 'salesforge.ai',
+    description: 'AI-Powered Cold Email Automation',
+    version: '1.0.0',
+    status: 'Available',
+    commandCount: 12,
+    focus: 'AI, Multi-Channel, Personalization',
+    module: new SalesForgeModule()
+  },
+  {
+    id: 'apollo',
+    name: 'apollo.io',
+    description: 'Professional Email Sequencing & Outreach Automation',
+    version: '1.0.0',
+    status: 'Available',
+    commandCount: 6,
+    focus: 'Email Sequences, Contact Management',
+    module: new ApolloModule()
+  }
+];
+
+export async function selectModule(): Promise<CLIModule | null> {
+  const theme = getTheme();
+  
+  intro(theme.gradient('❄️ LeadMagic Professional Cold Email CLI'));
+  
+  console.log(`
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+
+${theme.secondary('🎯 Professional Multi-Platform Cold Email Automation Suite')}
+${theme.muted('   Professional-grade CLI for scaling cold outreach campaigns')}
+
+${theme.accent('💰 Support Development:')} ${theme.muted('GitHub Sponsors: github.com/sponsors/leadmagic')}
+${theme.muted('   Bitcoin, Ethereum, PayPal donations available • MIT Licensed')}
+
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+`);
+
+  const moduleChoices = modules.map(mod => ({
+    value: mod.id,
+    label: `${mod.name} ${theme.accent(`v${mod.version}`)}`,
+    hint: `${mod.description} • ${theme.success(`${mod.commandCount} commands`)} • ${theme.secondary(mod.focus)}`
+  }));
+
+  const selectedModuleId = await select({
+    message: `${theme.secondary('Choose your cold email platform:')}`,
+    options: moduleChoices
+  });
+
+  if (isCancel(selectedModuleId)) {
+    cancel('Operation cancelled');
+    return null;
   }
 
-  private registerModules(): void {
-    // SmartLead Module
-    this.modules.set('smartlead', {
-      name: 'smartlead',
-      displayName: 'SmartLead',
-      description: 'Complete email campaign management and automation',
-      version: '2.0.0',
-      available: true
-    });
-
-    // Instantly Module (Coming Soon)
-    this.modules.set('instantly', {
-      name: 'instantly',
-      displayName: 'Instantly',
-      description: 'Cold email outreach and lead generation (Coming Soon)',
-      version: '1.0.0',
-      available: false
-    });
+  const selectedModule = modules.find(mod => mod.id === selectedModuleId);
+  
+  if (!selectedModule?.module) {
+    outro(theme.error('❌ Module not available'));
+    return null;
   }
 
-  public async selectModule(): Promise<ModuleName> {
-    const currentModule = this.configManager.getActiveModule();
-    
-    console.log(this.theme.createBanner('Multi-Module CLI', 'Select Your Platform'));
-    
-    const choices = Array.from(this.modules.values()).map(module => ({
-      name: this.formatModuleChoice(module, module.name === currentModule),
-      value: module.name,
-      disabled: !module.available ? 'Coming Soon' : false
-    }));
+  // Show module-specific welcome message
+  const moduleTheme = getTheme(selectedModule.id);
+  console.log(`
+${moduleTheme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
 
-    const { selectedModule } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'selectedModule',
-        message: this.theme.primary('🎯 Choose a module to work with:'),
-        choices,
-        default: currentModule,
-        pageSize: 10
-      }
-    ]);
+${moduleTheme.gradient(`🎯 ${selectedModule.name} Cold Email Platform`)}
+${moduleTheme.secondary(`   ${selectedModule.description}`)}
 
-    if (selectedModule !== currentModule) {
-      this.configManager.setActiveModule(selectedModule);
-      this.theme.setModule(selectedModule);
-      
-      console.log(this.theme.successMessage(
-        `Switched to ${this.modules.get(selectedModule)?.displayName} module`
-      ));
-    }
+${moduleTheme.accent(`📊 ${selectedModule.commandCount} Commands Available`)} • ${moduleTheme.secondary(`${selectedModule.focus}`)}
+${moduleTheme.muted('   Type "help" to see all commands or "help <command>" for details')}
 
-    return selectedModule;
-  }
+${moduleTheme.accent('💎 Sponsored by LeadMagic')} • ${moduleTheme.muted('Support us: github.com/sponsors/leadmagic')}
 
-  private formatModuleChoice(module: ModuleInfo, isCurrent: boolean): string {
-    const statusIcon = module.available ? '🟢' : '🟡';
-    const currentBadge = isCurrent ? this.theme.accent(' (CURRENT)') : '';
-    const versionInfo = this.theme.muted(`v${module.version}`);
-    
-    return `${statusIcon} ${this.theme.primary(module.displayName)} ${versionInfo}${currentBadge}\n   ${this.theme.muted(module.description)}`;
-  }
+${moduleTheme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+`);
 
-  public async showModuleInfo(): Promise<void> {
-    const currentModule = this.configManager.getActiveModule();
-    const moduleInfo = this.modules.get(currentModule);
-    
-    if (!moduleInfo) {
-      console.log(this.theme.errorMessage('No module information available'));
-      return;
-    }
+  return selectedModule.module;
+}
 
-    console.log(this.theme.createBanner(moduleInfo.displayName, moduleInfo.description));
-    
-    console.log(this.theme.primary('📋 Module Information:'));
-    console.log(this.theme.muted('─'.repeat(40)));
-    console.log(`${this.theme.text('Name:')} ${this.theme.primary(moduleInfo.displayName)}`);
-    console.log(`${this.theme.text('Version:')} ${this.theme.secondary(moduleInfo.version)}`);
-    console.log(`${this.theme.text('Status:')} ${moduleInfo.available ? this.theme.success('Available') : this.theme.warning('Coming Soon')}`);
-    console.log(`${this.theme.text('Description:')} ${this.theme.muted(moduleInfo.description)}`);
-    console.log();
-  }
+export function getAvailableModules(): ModuleInfo[] {
+  return modules;
+}
 
-  public getAvailableModules(): ModuleInfo[] {
-    return Array.from(this.modules.values()).filter(module => module.available);
-  }
-
-  public getAllModules(): ModuleInfo[] {
-    return Array.from(this.modules.values());
-  }
-
-  public getModuleInfo(moduleName: ModuleName): ModuleInfo | undefined {
-    return this.modules.get(moduleName);
-  }
-
-  public isModuleAvailable(moduleName: ModuleName): boolean {
-    const module = this.modules.get(moduleName);
-    return module?.available ?? false;
-  }
-
-  public async switchModule(): Promise<ModuleName> {
-    const availableModules = this.getAvailableModules();
-    
-    if (availableModules.length <= 1) {
-      console.log(this.theme.warningMessage('No other modules available to switch to'));
-      return this.configManager.getActiveModule();
-    }
-
-    return await this.selectModule();
-  }
-
-  public async showAllModules(): Promise<void> {
-    console.log(this.theme.primary('\n🧩 Available Modules:'));
-    console.log(this.theme.muted('─'.repeat(50)));
-    
-    const headers = ['Module', 'Version', 'Status', 'Description'];
-    const rows = Array.from(this.modules.values()).map(module => [
-      module.displayName,
-      module.version,
-      module.available ? 'Available' : 'Coming Soon',
-      module.description
-    ]);
-
-    this.theme.formatTable(headers, rows);
-    
-    const currentModule = this.configManager.getActiveModule();
-    const currentModuleInfo = this.modules.get(currentModule);
-    
-    console.log(this.theme.infoMessage(
-      `Currently active: ${currentModuleInfo?.displayName || 'Unknown'}`
-    ));
-    console.log();
-  }
-
-  public async loadModule(moduleName: ModuleName): Promise<CLIModule | null> {
-    if (!this.isModuleAvailable(moduleName)) {
-      console.log(this.theme.errorMessage(`Module '${moduleName}' is not available`));
-      return null;
-    }
-
-    try {
-      // Dynamic import based on module name
-      const moduleClass = await import(`../modules/${moduleName}/index`);
-      const moduleInstance = new moduleClass.default();
-      
-      await moduleInstance.initialize();
-      
-      console.log(this.theme.successMessage(
-        `Successfully loaded ${this.modules.get(moduleName)?.displayName} module`
-      ));
-      
-      return moduleInstance;
-    } catch (error) {
-      console.log(this.theme.errorMessage(
-        `Failed to load module '${moduleName}': ${error}`
-      ));
-      return null;
-    }
-  }
-
-  public getCurrentModule(): ModuleName {
-    return this.configManager.getActiveModule();
-  }
+export function getModuleById(id: string): ModuleInfo | undefined {
+  return modules.find(mod => mod.id === id);
 } 

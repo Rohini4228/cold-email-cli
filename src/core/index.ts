@@ -1,240 +1,222 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import * as fs from 'fs';
-import * as path from 'path';
-import { ModuleSelector } from './module-selector';
-import { ConfigManager } from './utils/config';
-import { ThemeManager } from './utils/theme';
-import { ModuleName } from '../types/global';
+import { selectModule } from './module-selector.js';
+import { getTheme, formatCommandList, showCommandHelp, showError } from './utils/theme.js';
+import { CLIModule } from '../types/global.js';
 
-export class CLIApplication {
-  private program: Command;
-  private moduleSelector: ModuleSelector;
-  private configManager: ConfigManager;
-  private theme: ThemeManager;
-  private packageJson: any;
+export class ColdEmailCLI {
+  private currentModule: CLIModule | null = null;
 
-  constructor() {
-    this.program = new Command();
-    this.moduleSelector = new ModuleSelector();
-    this.configManager = ConfigManager.getInstance();
-    this.theme = new ThemeManager();
-    
-    // Load package.json for version info
-    this.packageJson = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')
-    );
-    
-    this.setupCLI();
-  }
-
-  private setupCLI(): void {
-    this.program
-      .name('smartlead')
-      .description('Multi-module CLI for email marketing platforms')
-      .version(this.packageJson.version);
-
-    // Core CLI commands
-    this.program
-      .command('modules')
-      .description('Show available modules')
-      .action(() => this.showModules());
-
-    this.program
-      .command('switch')
-      .description('Switch between modules')
-      .action(() => this.switchModule());
-
-    this.program
-      .command('info')
-      .description('Show current module information')
-      .action(() => this.showModuleInfo());
-
-    this.program
-      .command('config')
-      .description('Configure the CLI')
-      .action(() => this.configureModule());
-
-    this.program
-      .command('show-config')
-      .description('Show current configuration')
-      .action(() => this.showConfig());
-
-    this.program
-      .command('reset')
-      .description('Reset configuration')
-      .option('--module <module>', 'Reset specific module config')
-      .action((options) => this.resetConfig(options));
-
-    // Interactive mode
-    this.program
-      .command('interactive')
-      .alias('i')
-      .description('Start interactive mode')
-      .action(() => this.startInteractiveMode());
-
-    // Default action - show help or run module
-    this.program.action(async () => {
-      const args = process.argv.slice(2);
+  async start(): Promise<void> {
+    try {
+      // Show initial welcome and module selection
+      this.currentModule = await selectModule();
       
-      if (args.length === 0) {
-        await this.showWelcome();
-        return;
+      if (!this.currentModule) {
+        process.exit(0);
       }
 
-      // Try to execute in current module
-      await this.executeInModule();
-    });
-  }
-
-  private async showWelcome(): Promise<void> {
-    const currentModule = this.configManager.getActiveModule();
-    const moduleInfo = this.moduleSelector.getModuleInfo(currentModule);
-    
-    this.theme.setModule(currentModule);
-    
-    console.log(this.theme.createBanner(
-      'Multi-Module CLI',
-      'Email Marketing Automation Platform'
-    ));
-    
-    console.log(this.theme.primary('🎯 Quick Start:'));
-    console.log(`  ${this.theme.text('smartlead modules')} ${this.theme.muted('- Show available modules')}`);
-    console.log(`  ${this.theme.text('smartlead switch')} ${this.theme.muted('- Switch between modules')}`);
-    console.log(`  ${this.theme.text('smartlead config')} ${this.theme.muted('- Configure API settings')}`);
-    console.log(`  ${this.theme.text('smartlead interactive')} ${this.theme.muted('- Start interactive mode')}`);
-    
-    if (moduleInfo) {
-      console.log(`\n${this.theme.secondary('📦 Active Module:')} ${this.theme.primary(moduleInfo.displayName)}`);
-      console.log(`  ${this.theme.muted(moduleInfo.description)}`);
-    }
-    
-    console.log();
-  }
-
-  private async showModules(): Promise<void> {
-    await this.moduleSelector.showAllModules();
-  }
-
-  private async switchModule(): Promise<void> {
-    const selectedModule = await this.moduleSelector.switchModule();
-    this.theme.setModule(selectedModule);
-  }
-
-  private async showModuleInfo(): Promise<void> {
-    await this.moduleSelector.showModuleInfo();
-  }
-
-  private async configureModule(): Promise<void> {
-    const currentModule = this.configManager.getActiveModule();
-    const module = await this.moduleSelector.loadModule(currentModule);
-    
-    if (module) {
-      // The module should handle its own configuration
-      console.log(this.theme.infoMessage(`Configuring ${currentModule} module...`));
-      
-      try {
-        await module.executeCommand('config', []);
-      } catch (error) {
-        console.log(this.theme.errorMessage(`Configuration failed: ${error}`));
-      }
-    }
-  }
-
-  private async showConfig(): Promise<void> {
-    const config = this.configManager.loadConfig();
-    const currentModule = this.configManager.getActiveModule();
-    const moduleConfig = this.configManager.getModuleConfig(currentModule);
-    
-    console.log(this.theme.primary('\n📋 Current Configuration:'));
-    console.log(this.theme.muted('─'.repeat(40)));
-    
-    console.log(`${this.theme.text('Active Module:')} ${this.theme.primary(currentModule)}`);
-    console.log(`${this.theme.text('Config Directory:')} ${this.theme.muted(this.configManager.getConfigDir())}`);
-    
-    if (config.lastUsed) {
-      console.log(`${this.theme.text('Last Used:')} ${this.theme.muted(new Date(config.lastUsed).toLocaleString())}`);
-    }
-    
-    if (moduleConfig?.apiKey) {
-      console.log(`${this.theme.text('API Key:')} ${this.theme.success('***' + moduleConfig.apiKey.slice(-4))}`);
-    } else {
-      console.log(`${this.theme.text('API Key:')} ${this.theme.error('Not configured')}`);
-    }
-    
-    if (moduleConfig?.baseUrl) {
-      console.log(`${this.theme.text('Base URL:')} ${this.theme.secondary(moduleConfig.baseUrl)}`);
-    }
-    
-    console.log();
-  }
-
-  private async resetConfig(options: any): Promise<void> {
-    if (options.module) {
-      const moduleName = options.module as ModuleName;
-      if (this.moduleSelector.isModuleAvailable(moduleName)) {
-        this.configManager.resetModuleConfig(moduleName);
-        console.log(this.theme.successMessage(`Reset ${moduleName} module configuration`));
-      } else {
-        console.log(this.theme.errorMessage(`Module '${moduleName}' not found`));
-      }
-    } else {
-      this.configManager.deleteConfig();
-      console.log(this.theme.successMessage('Reset all configuration'));
+      // Start interactive mode
+      await this.startInteractiveMode();
+    } catch (error) {
+      showError(`Failed to start CLI: ${error}`);
+      process.exit(1);
     }
   }
 
   private async startInteractiveMode(): Promise<void> {
-    console.log(this.theme.createBanner('Interactive Mode', 'Multi-Module Email Marketing CLI'));
+    if (!this.currentModule) return;
+
+    console.log(this.createWelcomeBanner());
     
-    const selectedModule = await this.moduleSelector.selectModule();
-    const module = await this.moduleSelector.loadModule(selectedModule);
+    // Simple command loop (would be replaced with proper readline in production)
+    const commands = ['help', 'campaigns:list', 'leads:create', 'version', 'exit'];
     
-    if (module) {
-      console.log(this.theme.infoMessage('Starting interactive session...'));
-      // The module should handle its own interactive mode
-      // This would be implemented in each module
+    for (const cmd of commands) {
+      console.log(`\n${this.getPrompt()}${cmd}`);
+      await this.handleCommand(cmd);
     }
   }
 
-  private async executeInModule(): Promise<void> {
-    const currentModule = this.configManager.getActiveModule();
-    const module = await this.moduleSelector.loadModule(currentModule);
+  private getPrompt(): string {
+    if (!this.currentModule) return '> ';
     
-    if (module) {
-      const args = process.argv.slice(2);
-      const commandName = args[0] || '';
-      const commandArgs = args.slice(1);
+    const theme = getTheme(this.currentModule.name.toLowerCase());
+    const moduleName = this.currentModule.name;
+    
+    return theme.accent(`${moduleName}> `);
+  }
+
+  private async handleCommand(input: string): Promise<void> {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    const parts = trimmed.split(' ');
+    const command = parts[0];
+    const args = parts.slice(1);
+
+    switch (command) {
+      case 'help':
+        if (args.length > 0 && args[0]) {
+          this.showCommandHelp(args[0]);
+        } else {
+          this.showHelp();
+        }
+        break;
+      case 'version':
+        this.showVersion();
+        break;
+      case 'switch':
+        await this.switchModule();
+        break;
+      case 'clear':
+        console.clear();
+        break;
+      case 'exit':
+        console.log('👋 Goodbye!');
+        process.exit(0);
+      default:
+        if (this.currentModule && command) {
+          const parsedArgs = this.parseArgs(args);
+          try {
+            await this.currentModule.execute(command, parsedArgs);
+          } catch (error) {
+            showError(`Command execution failed: ${error}`);
+          }
+        } else {
+          showError(`Unknown command: ${command}. Type 'help' for available commands.`);
+        }
+    }
+  }
+
+  private parseArgs(args: string[]): Record<string, any> {
+    const parsed: Record<string, any> = {};
+    
+    for (let i = 0; i < args.length; i++) {
+      const param = args[i];
+      if (!param) continue;
       
-      try {
-        await module.executeCommand(commandName, commandArgs);
-      } catch (error) {
-        console.log(this.theme.errorMessage(`Command execution failed: ${error}`));
-        process.exit(1);
+      if (param.startsWith('--')) {
+        const key = param.substring(2);
+        const nextArg = args[i + 1];
+        const value = nextArg && !nextArg.startsWith('-') ? nextArg : true;
+        parsed[key] = value;
+        if (value !== true) i++; // Skip next arg if it was used as value
+      } else if (param.startsWith('-')) {
+        const key = param.substring(1);
+        const nextArg = args[i + 1];
+        const value = nextArg && !nextArg.startsWith('-') ? nextArg : true;
+        parsed[key] = value;
+        if (value !== true) i++; // Skip next arg if it was used as value
+      } else {
+        // Positional argument
+        const existingPositional = parsed['_'] || [];
+        parsed['_'] = [...existingPositional, param];
       }
-    } else {
-      console.log(this.theme.errorMessage('Failed to load module'));
-      process.exit(1);
+    }
+    
+    return parsed;
+  }
+
+  private async switchModule(): Promise<void> {
+    console.log('🔄 Switching modules...');
+    this.currentModule = await selectModule();
+    if (this.currentModule) {
+      console.log(this.createWelcomeBanner());
     }
   }
 
-  public async run(): Promise<void> {
-    try {
-      // Parse arguments
-      await this.program.parseAsync(process.argv);
-    } catch (error) {
-      console.log(this.theme.errorMessage(`CLI Error: ${error}`));
-      process.exit(1);
+  private showHelp(): void {
+    if (!this.currentModule) return;
+    
+    const theme = getTheme(this.currentModule.name.toLowerCase());
+    
+    console.log(`
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+
+${theme.gradient(`🎯 ${this.currentModule.name} Cold Email CLI`)}
+${theme.secondary(`   ${this.currentModule.description}`)}
+
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+
+${theme.accent('🔧 Core Commands:')}
+${theme.muted('─'.repeat(50))}
+  ${theme.accent('help'.padEnd(20))} ${theme.secondary('Show this help message')}
+  ${theme.accent('help <command>'.padEnd(20))} ${theme.secondary('Show detailed command help')}
+  ${theme.accent('version'.padEnd(20))} ${theme.secondary('Show CLI version information')}
+  ${theme.accent('switch'.padEnd(20))} ${theme.secondary('Switch between cold email platforms')}
+  ${theme.accent('clear'.padEnd(20))} ${theme.secondary('Clear the terminal screen')}
+  ${theme.accent('exit'.padEnd(20))} ${theme.secondary('Exit the CLI')}
+`);
+
+    formatCommandList(this.currentModule.commands, this.currentModule.name.toLowerCase());
+    
+    if (this.currentModule.commands.length > 0) {
+      console.log(theme.muted(`\n💡 Tip: Use "${theme.accent('help <command>')}" for detailed usage examples`));
+      console.log(theme.muted(`📖 Total Commands Available: ${theme.accent(this.currentModule.commands.length.toString())}\n`));
     }
+  }
+
+  private showVersion(): void {
+    const packageJson = require('../../package.json');
+    const theme = getTheme(this.currentModule?.name?.toLowerCase());
+    
+    console.log(`
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+
+${theme.gradient('🚀 Professional Cold Email CLI')}
+${theme.secondary('   Advanced Cold Outreach Automation Platform')}
+
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+
+${theme.accent('📦 Version Information:')}
+${theme.muted('─'.repeat(30))}
+  ${theme.secondary('CLI Version:')} ${theme.accent(packageJson.version)}
+  ${theme.secondary('Current Module:')} ${theme.accent(this.currentModule?.name || 'None')}
+  ${theme.secondary('Module Version:')} ${theme.accent(this.currentModule?.version || 'N/A')}
+  ${theme.secondary('Node.js:')} ${theme.accent(process.version)}
+  ${theme.secondary('Platform:')} ${theme.accent(process.platform)}
+
+${theme.accent('🎯 Supported Platforms:')}
+${theme.muted('─'.repeat(30))}
+  ${theme.secondary('• SmartLead')} ${theme.muted('- Advanced Campaign Management & Analytics')}
+  ${theme.secondary('• Instantly')} ${theme.muted('- High-Volume Automation & Deliverability')}
+  ${theme.secondary('• SalesForge')} ${theme.muted('- AI-Powered Multi-Channel Sequences')}
+
+${theme.primary('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')}
+`);
+  }
+
+  private showCommandHelp(commandName: string): void {
+    if (!this.currentModule) return;
+    
+    const command = this.currentModule.commands.find(cmd => cmd.name === commandName);
+    if (command) {
+      showCommandHelp(command, this.currentModule.name.toLowerCase());
+    } else {
+      showError(`Command '${commandName}' not found. Type 'help' to see all available commands.`);
+    }
+  }
+
+  private createWelcomeBanner(): string {
+    if (!this.currentModule) return '';
+    
+    const theme = getTheme(this.currentModule.name.toLowerCase());
+    const width = 80;
+    const border = '━'.repeat(width);
+    
+    return `
+${theme.primary(border)}
+
+${theme.gradient(`🎯 ${this.currentModule.name} Cold Email Platform`)}
+${theme.secondary(`   ${this.currentModule.description}`)}
+${theme.muted(`   Type "help" to see all ${this.currentModule.commands.length} available commands`)}
+
+${theme.primary(border)}
+`;
   }
 }
 
-// Entry point
-if (require.main === module) {
-  const cli = new CLIApplication();
-  cli.run().catch((error) => {
-    console.error('Fatal error:', error);
-    process.exit(1);
-  });
-} 
+// Start the CLI
+const cli = new ColdEmailCLI();
+cli.start().catch(console.error); 

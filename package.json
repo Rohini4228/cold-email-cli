@@ -1,12 +1,12 @@
 {
-  "name": "smartlead-cli",
+  "name": "professional-cold-email-cli",
   "version": "2.0.0",
-  "description": "🚀 Professional multi-module CLI for email marketing platforms. Complete TypeScript implementation with SmartLead and Instantly modules, 80+ commands, beautiful UI, and comprehensive testing.",
+  "description": "🚀 Professional multi-platform CLI for cold email outreach automation. Complete TypeScript implementation with SmartLead, Instantly, and SalesForge modules, 200+ commands, beautiful UI, and comprehensive testing. Sponsored by LeadMagic.",
   "main": "dist/core/index.js",
   "types": "dist/core/index.d.ts",
   "bin": {
-    "smartlead": "dist/bin/smartlead",
-    "sl": "dist/bin/sl"
+    "cold-email-cli": "dist/bin/smartlead",
+    "ce": "dist/bin/sl"
   },
   "files": [
     "dist/**/*",
@@ -15,10 +15,14 @@
     "docs/ROADMAP.md",
     "docs/CHANGELOG.md",
     "LICENSE",
-    "scripts/install.sh"
+    "scripts/install.sh",
+    "scripts/install-mac.sh",
+    "build/**/*"
   ],
   "scripts": {
     "build": "bash scripts/build.sh",
+    "build:mac": "bash scripts/build-mac.sh",
+    "build:installer": "bash scripts/create-mac-installer.sh",
     "dev": "ts-node --project tsconfig.json src/core/index.ts",
     "watch": "nodemon --exec ts-node --project tsconfig.json src/core/index.ts",
     "test": "jest",
@@ -28,30 +32,36 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist coverage",
+    "clean": "rm -rf dist coverage build",
     "prepare": "npm run build",
     "prepack": "npm run build",
     "install-global": "npm run build && npm install -g .",
-    "uninstall-global": "npm uninstall -g smartlead-cli",
+    "uninstall-global": "npm uninstall -g professional-cold-email-cli",
     "setup": "bash scripts/install.sh",
+    "setup:mac": "bash scripts/install-mac.sh",
     "package": "npm pack",
-    "start": "node dist/core/index.js"
+    "package:mac": "npm run build:installer",
+    "start": "node dist/core/index.js",
+    "release": "npm run build && npm run package:mac"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/username/smartlead-cli.git"
+    "url": "git+https://github.com/LeadMagic/cold-email-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/username/smartlead-cli/issues"
+    "url": "https://github.com/LeadMagic/cold-email-cli/issues"
   },
-  "homepage": "https://github.com/username/smartlead-cli#readme",
+  "homepage": "https://github.com/LeadMagic/cold-email-cli#readme",
   "keywords": [
+    "cold-email",
+    "email-outreach",
+    "sales-automation",
     "smartlead",
     "instantly",
+    "salesforge",
     "cli",
-    "email",
     "campaign",
-    "marketing",
+    "lead-generation",
     "api",
     "terminal",
     "command-line",
@@ -62,13 +72,27 @@
     "outreach",
     "sales",
     "nodejs",
-    "multi-module",
+    "multi-platform",
     "professional",
-    "enterprise"
+    "enterprise",
+    "b2b",
+    "prospecting",
+    "email-marketing",
+    "leadmagic",
+    "macos",
+    "installer"
   ],
   "author": {
-    "name": "SmartLead CLI Contributors"
+    "name": "LeadMagic",
+    "email": "support@leadmagic.io",
+    "url": "https://leadmagic.io"
   },
+  "contributors": [
+    {
+      "name": "Cold Email CLI Contributors",
+      "url": "https://github.com/LeadMagic/cold-email-cli/graphs/contributors"
+    }
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=16.0.0",
@@ -85,6 +109,7 @@
     "arm64"
   ],
   "dependencies": {
+    "@clack/prompts": "0.11.0",
     "axios": "^1.6.2",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
@@ -110,6 +135,22 @@
   },
   "peerDependencies": {
     "node": ">=16.0.0"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/LeadMagic"
+    },
+    {
+      "type": "company",
+      "url": "https://leadmagic.io/sponsor"
+    }
+  ],
+  "sponsor": {
+    "name": "LeadMagic",
+    "url": "https://leadmagic.io",
+    "logo": "https://leadmagic.io/assets/logo.png",
+    "description": "Advanced B2B lead generation and cold email automation platform"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -140,9 +181,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/smartlead-cli"
   }
 }

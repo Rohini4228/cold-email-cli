@@ -1,147 +1,100 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
-import { CLIConfig, ModuleName, ModuleConfig } from '../../types/global';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import { Config, ModuleConfig } from '../../types/global.js';
 
 export class ConfigManager {
-  private static instance: ConfigManager;
   private configDir: string;
   private configFile: string;
 
-  private constructor() {
-    this.configDir = path.join(os.homedir(), '.smartlead-cli');
+  constructor() {
+    this.configDir = path.join(os.homedir(), '.cold-email-cli');
     this.configFile = path.join(this.configDir, 'config.json');
     this.ensureConfigDir();
   }
 
-  public static getInstance(): ConfigManager {
-    if (!ConfigManager.instance) {
-      ConfigManager.instance = new ConfigManager();
-    }
-    return ConfigManager.instance;
-  }
-
   private ensureConfigDir(): void {
     if (!fs.existsSync(this.configDir)) {
-      fs.mkdirSync(this.configDir, { recursive: true, mode: 0o700 });
+      fs.mkdirSync(this.configDir, { recursive: true });
     }
   }
 
-  public loadConfig(): CLIConfig {
+  getConfig(): Config {
     try {
       if (fs.existsSync(this.configFile)) {
-        const configData = fs.readFileSync(this.configFile, 'utf8');
-        return JSON.parse(configData);
+        const content = fs.readFileSync(this.configFile, 'utf8');
+        return JSON.parse(content);
       }
     } catch (error) {
-      console.warn('Warning: Could not load config file, using defaults');
+      console.warn(`Warning: Failed to read config file: ${error}`);
     }
-    return {};
+    
+    return {
+      modules: {}
+    };
   }
 
-  public saveConfig(config: CLIConfig): void {
-    this.ensureConfigDir();
+  saveConfig(config: Config): void {
     try {
-      fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2), { mode: 0o600 });
+      fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2));
     } catch (error) {
       throw new Error(`Failed to save configuration: ${error}`);
     }
   }
 
-  public getModuleConfig(moduleName: ModuleName): ModuleConfig | null {
-    const config = this.loadConfig();
-    const moduleConfigFile = path.join(this.configDir, `${moduleName}.json`);
-    
-    try {
-      if (fs.existsSync(moduleConfigFile)) {
-        const moduleData = fs.readFileSync(moduleConfigFile, 'utf8');
-        return JSON.parse(moduleData);
-      }
-    } catch (error) {
-      console.warn(`Warning: Could not load ${moduleName} module config`);
-    }
-    
-    return {
-      name: moduleName,
-      apiKey: config.apiKey || undefined,
-      baseUrl: config.baseUrl || undefined
-    };
+  getModuleConfig(moduleName: string): ModuleConfig {
+    const config = this.getConfig();
+    return config.modules[moduleName] || {};
   }
 
-  public saveModuleConfig(config: ModuleConfig): void {
-    const moduleConfigFile = path.join(this.configDir, `${config.name}.json`);
-    try {
-      fs.writeFileSync(moduleConfigFile, JSON.stringify(config, null, 2), { mode: 0o600 });
-    } catch (error) {
-      throw new Error(`Failed to save ${config.name} configuration: ${error}`);
-    }
-  }
-
-  public getApiKey(moduleName?: ModuleName): string | undefined {
-    if (moduleName) {
-      const moduleConfig = this.getModuleConfig(moduleName);
-      if (moduleConfig?.apiKey) {
-        return moduleConfig.apiKey;
-      }
-    }
-
-    const config = this.loadConfig();
-    return config.apiKey || process.env['SMARTLEAD_API_KEY'];
-  }
-
-  public getBaseUrl(moduleName?: ModuleName): string {
-    if (moduleName) {
-      const moduleConfig = this.getModuleConfig(moduleName);
-      if (moduleConfig?.baseUrl) {
-        return moduleConfig.baseUrl;
-      }
-    }
-
-    const config = this.loadConfig();
-    const defaultUrls = {
-      smartlead: 'https://server.smartlead.ai/api/v1',
-      instantly: 'https://api.instantly.ai/api/v1'
-    };
-
-    return config.baseUrl || 
-           process.env['SMARTLEAD_BASE_URL'] || 
-           defaultUrls[moduleName || 'smartlead'];
-  }
-
-  public setActiveModule(moduleName: ModuleName): void {
-    const config = this.loadConfig();
-    config.activeModule = moduleName;
-    config.lastUsed = new Date().toISOString();
+  saveModuleConfig(moduleName: string, moduleConfig: ModuleConfig): void {
+    const config = this.getConfig();
+    config.modules[moduleName] = moduleConfig;
     this.saveConfig(config);
   }
 
-  public getActiveModule(): ModuleName {
-    const config = this.loadConfig();
-    return config.activeModule || 'smartlead';
+  setDefaultModule(moduleName: string): void {
+    const config = this.getConfig();
+    config.defaultModule = moduleName;
+    this.saveConfig(config);
   }
 
-  public getConfigDir(): string {
-    return this.configDir;
+  setLastUsed(moduleName: string): void {
+    const config = this.getConfig();
+    config.lastUsed = moduleName;
+    this.saveConfig(config);
   }
 
-  public deleteConfig(): void {
-    try {
-      if (fs.existsSync(this.configFile)) {
-        fs.unlinkSync(this.configFile);
-      }
-    } catch (error) {
-      throw new Error(`Failed to delete configuration: ${error}`);
+  getApiKey(moduleName: string): string | undefined {
+    const moduleConfig = this.getModuleConfig(moduleName);
+    return moduleConfig.apiKey;
+  }
+
+  setApiKey(moduleName: string, apiKey: string): void {
+    const moduleConfig = this.getModuleConfig(moduleName);
+    moduleConfig.apiKey = apiKey;
+    this.saveModuleConfig(moduleName, moduleConfig);
+  }
+
+  getBaseUrl(moduleName: string): string {
+    const moduleConfig = this.getModuleConfig(moduleName);
+    if (moduleConfig.baseUrl) {
+      return moduleConfig.baseUrl;
     }
+
+    // Default URLs for each platform
+    const defaultUrls: Record<string, string> = {
+      smartlead: 'https://server.smartlead.ai',
+      instantly: 'https://api.instantly.ai',
+      salesforge: 'https://api.salesforge.ai'
+    };
+
+    return defaultUrls[moduleName] ?? 'https://server.smartlead.ai';
   }
 
-  public resetModuleConfig(moduleName: ModuleName): void {
-    const moduleConfigFile = path.join(this.configDir, `${moduleName}.json`);
-    try {
-      if (fs.existsSync(moduleConfigFile)) {
-        fs.unlinkSync(moduleConfigFile);
-      }
-    } catch (error) {
-      throw new Error(`Failed to reset ${moduleName} configuration: ${error}`);
-    }
+  setBaseUrl(moduleName: string, baseUrl: string): void {
+    const moduleConfig = this.getModuleConfig(moduleName);
+    moduleConfig.baseUrl = baseUrl;
+    this.saveModuleConfig(moduleName, moduleConfig);
   }
 } 
