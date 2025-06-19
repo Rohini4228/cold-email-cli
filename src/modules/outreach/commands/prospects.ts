@@ -34,9 +34,16 @@ export const prospectCommands: CLICommand[] = [
       const prospect = await api.getProspect(args.id);
       console.log("👤 Prospect Details:");
       console.log(`  ID: ${prospect.id}`);
-      console.log(`  Name: ${prospect.attributes.firstName} ${prospect.attributes.lastName}`);
-      console.log(`  Email: ${prospect.attributes.emails?.[0]?.email}`);
-      console.log(`  Company: ${prospect.attributes.company || 'N/A'}`);
+      console.log(`  Email: ${prospect.attributes.emails?.[0] || 'No email'}`);
+      console.log(`  Name: ${prospect.attributes.firstName || ''} ${prospect.attributes.lastName || ''}`.trim());
+      console.log(`  Company: ${prospect.attributes.company || 'Not specified'}`);
+      console.log(`  Title: ${prospect.attributes.title || 'Not specified'}`);
+      console.log(`  Stage: ${prospect.attributes.stage || 'Not specified'}`);
+      console.log(`  LinkedIn: ${prospect.attributes.linkedInUrl || 'Not provided'}`);
+      console.log(`  Tags: ${prospect.attributes.tags?.join(', ') || 'None'}`);
+      console.log(`  Created: ${new Date(prospect.attributes.createdAt).toLocaleDateString()}`);
+      console.log(`  Updated: ${new Date(prospect.attributes.updatedAt).toLocaleDateString()}`);
+      console.log('');
     },
   },
   {

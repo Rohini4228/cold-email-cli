@@ -20,9 +20,31 @@ export const cadenceCommands: CLICommand[] = [
     description: "➕ Create new cadence",
     usage: "salesloft cadences:create --name <name> [--shared]",
     category: "🔄 Cadence Management",
-    handler: async (args) => {
-      const cadence = await api.createCadence(args);
-      console.log(`✅ Created cadence: ${cadence.name}`);
+    handler: async (args: Record<string, any>) => {
+      const { api } = await import("../api");
+      
+      // Ensure required fields are present
+      if (!args.name) {
+        console.error('❌ Error: name is required');
+        return;
+      }
+      
+      const cadenceData = {
+        name: args.name as string,
+        shared: args.shared as boolean | undefined,
+      };
+      
+      const cadence = await api.createCadence(cadenceData);
+      console.log("✅ Cadence created successfully!");
+      console.log("🎯 Cadence Details:");
+      console.log(`  ID: ${cadence.id}`);
+      console.log(`  Name: ${cadence.name}`);
+      console.log(`  Shared: ${cadence.shared ? '✅ Yes' : '❌ No'}`);
+      console.log(`  Team Cadence: ${cadence.team_cadence ? '✅ Yes' : '❌ No'}`);
+      console.log(`  Draft: ${cadence.draft ? '📝 Yes' : '✅ Published'}`);
+      console.log(`  Current State: ${cadence.current_state}`);
+      console.log(`  Created: ${new Date(cadence.created_at).toLocaleDateString()}`);
+      console.log(`  Updated: ${new Date(cadence.updated_at).toLocaleDateString()}`);
     },
   },
   {

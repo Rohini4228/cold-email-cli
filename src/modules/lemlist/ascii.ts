@@ -15,6 +15,6 @@ export const lemlistAscii = theme.primary(`
 
 export const lemlistBanner = theme.gradient(`
   ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                        🌈 LEMLIST CREATIVE STUDIO 🌈                       │
+  │                        💖 LEMLIST CREATIVE STUDIO 💖                       │
   └─────────────────────────────────────────────────────────────────────────────┘
 `); 

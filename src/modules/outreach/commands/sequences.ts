@@ -11,7 +11,7 @@ export const sequenceCommands: CLICommand[] = [
       const sequences = await api.getSequences(args);
       console.log("🎯 Outreach Sequences:");
       sequences.forEach((seq: any) => {
-        console.log(`  ${seq.id}: ${seq.attributes.name} (${seq.attributes.enabledAt ? '✅ Active' : '⏸️  Paused'})`);
+        console.log(`  ${seq.id}: ${seq.attributes.name} (${seq.attributes.enabled ? '✅ Active' : '⏸️  Paused'})`);
       });
     },
   },
@@ -20,9 +20,31 @@ export const sequenceCommands: CLICommand[] = [
     description: "➕ Create new sequence",
     usage: "outreach sequences:create --name <name> [--description <desc>]",
     category: "🎯 Sequence Management",
-    handler: async (args) => {
-      const sequence = await api.createSequence(args);
-      console.log(`✅ Created sequence: ${sequence.attributes.name}`);
+    handler: async (args: Record<string, any>) => {
+      const { api } = await import("../api");
+      
+      // Ensure required fields are present
+      if (!args.name) {
+        console.error('❌ Error: name is required');
+        return;
+      }
+      
+      const sequenceData = {
+        name: args.name as string,
+        description: args.description as string | undefined,
+      };
+      
+      const sequence = await api.createSequence(sequenceData);
+      console.log("✅ Sequence created successfully!");
+      console.log("🔄 Sequence Details:");
+      console.log(`  ID: ${sequence.id}`);
+      console.log(`  Name: ${sequence.attributes.name}`);
+      console.log(`  Description: ${sequence.attributes.description || 'None'}`);
+      console.log(`  Status: ${sequence.attributes.enabled ? '✅ Active' : '⏸️  Paused'}`);
+      console.log(`  Locked: ${sequence.attributes.locked ? '🔒 Yes' : '🔓 No'}`);
+      console.log(`  Max Activations: ${sequence.attributes.maxActivations || 'Unlimited'}`);
+      console.log(`  Created: ${new Date(sequence.attributes.createdAt).toLocaleDateString()}`);
+      console.log(`  Updated: ${new Date(sequence.attributes.updatedAt).toLocaleDateString()}`);
     },
   },
   {
@@ -36,7 +58,7 @@ export const sequenceCommands: CLICommand[] = [
       console.log(`  ID: ${sequence.id}`);
       console.log(`  Name: ${sequence.attributes.name}`);
       console.log(`  Description: ${sequence.attributes.description || 'N/A'}`);
-      console.log(`  Status: ${sequence.attributes.enabledAt ? '✅ Active' : '⏸️  Paused'}`);
+      console.log(`  Status: ${sequence.attributes.enabled ? '✅ Active' : '⏸️  Paused'}`);
     },
   },
   {

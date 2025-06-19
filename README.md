@@ -35,7 +35,7 @@
 **⚡ Performance**
 - 🚀 **Bun-Powered** (~2x faster)
 - 🔒 **Type-Safe** (Zod validation)
-- 🌈 **Branded Themes**
+- 🎨 **Branded Themes**
 - 📱 **Interactive UI**
 
 </td>
@@ -74,7 +74,7 @@ AmpleMarket   ████                 15 commands (4.0%)
 | [**Salesforge**](https://salesforge.ai) | 🔥 | **42** | 1 | ✅ Active | Vibrant Orange | AI-Powered Sequences |
 | [**Apollo**](https://apollo.io) | ☀️ | **42** | 4 | ✅ Active | Amber Gold | Professional Outreach |
 | [**Email Bison**](https://emailbison.com) | ⚡ | **32** | 7 | ✅ Active | Rich Brown | Power Automation |
-| [**LemList**](https://lemlist.com) | 🌈 | **25** | 6 | ✅ Active | Creative Pink | Visual Templates |
+| [**LemList**](https://lemlist.com) | 💖 | **25** | 6 | ✅ Active | Creative Pink | Visual Templates |
 | [**AmpleMarket**](https://amplemarket.com) | 💼 | **15** | 5 | ✅ Active | Professional Blue | Sales Intelligence |
 
 ---
@@ -482,7 +482,7 @@ smartlead-cli-ink/
 </details>
 
 <details>
-<summary>🌈 <strong>LemList Commands (25 total)</strong></summary>
+<summary>💖 <strong>LemList Commands (25 total)</strong></summary>
 
 ### 🎯 Campaigns (6 commands)
 ### 👥 Leads (5 commands)
@@ -685,7 +685,7 @@ Each platform includes Model Context Protocol (MCP) configurations for AI assist
 - 🎨 **Interactive Shells** - Beautiful, branded terminal interfaces
 - ⚡ **Bun-Powered** - ~2x performance improvement over npm/yarn
 - 🔒 **Type-Safe** - Complete TypeScript implementation with Zod validation
-- 🌈 **Branded Themes** - Authentic company colors and ASCII art
+- 🎨 **Branded Themes** - Authentic company colors and ASCII art
 - 📱 **Responsive UI** - Clean, modern terminal interface with React Ink
 
 ### 🔧 Technical Excellence

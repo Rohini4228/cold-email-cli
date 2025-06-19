@@ -61,7 +61,7 @@ export function LemListShell({ onBack }: Props) {
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
           <Text color="magenta" bold>
-            🌈 {platformInfo.name} - {selectedCategory}
+            💖 {platformInfo.name} - {selectedCategory}
           </Text>
         </Box>
         
@@ -87,7 +87,7 @@ export function LemListShell({ onBack }: Props) {
     <Box flexDirection="column" padding={1}>
       <Box marginBottom={1}>
         <Text color="magenta" bold>
-          🌈 {platformInfo.name} v{platformInfo.version}
+          💖 {platformInfo.name} v{platformInfo.version}
         </Text>
       </Box>
       
