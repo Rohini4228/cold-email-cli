@@ -33,12 +33,13 @@ export const templateCommands: CLICommand[] = [
   },
   {
     name: "templates:get",
-    description: "Get template details",
+    description: "🔍 Get specific template details",
     usage: "templates:get --id template_id",
-    category: "Email Templates",
+    category: "📄 Templates",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      const data = await api.getTemplate(args.id);
+      const data = await api.getTemplates({ id: args.id });
+      console.log("🔍 Template Details:");
       console.log(JSON.stringify(data, null, 2));
     },
   },

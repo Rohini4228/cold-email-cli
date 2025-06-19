@@ -5,141 +5,186 @@ const api = new InstantlyAPI();
 
 export const leadCommands: CLICommand[] = [
   {
-    name: "leads:upload",
-    description: "Upload leads to campaign",
-    usage: "leads:upload --campaign_id id --file leads.csv",
-    category: "Lead Management",
+    name: "leads:add-bulk",
+    description: "📊 Add multiple leads to campaign",
+    usage: "leads:add-bulk --campaign_id id --leads leads.json",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id || !args.file) {
-        throw new Error("Required: --campaign_id, --file");
+      if (!args.campaign_id || !args.leads) {
+        throw new Error("Required: --campaign_id, --leads");
       }
-      const data = await api.uploadLeads(args.campaign_id, args.file);
+      
+      let leads: any[];
+      try {
+        leads = JSON.parse(args.leads);
+      } catch (error) {
+        throw new Error("Invalid JSON format for leads");
+      }
+      
+      const data = await api.addLeads(leads);
+      console.log("✅ Leads added successfully!");
       console.log(JSON.stringify(data, null, 2));
     },
   },
   {
     name: "leads:list",
-    description: "List campaign leads",
-    usage: "leads:list --campaign_id id [--status active] [--limit 100]",
-    category: "Lead Management",
+    description: "📋 List leads with filters",
+    usage: "leads:list [--campaign_id id] [--limit 100] [--status active]",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      const data = await api.getCampaignLeads(args.campaign_id, args);
+      const params = {
+        ...(args.campaign_id && { campaign_id: args.campaign_id }),
+        limit: args.limit || 100,
+        ...(args.status && { status: args.status }),
+      };
+      const data = await api.getLeads(params);
+      console.log("📋 Leads:");
       console.log(JSON.stringify(data, null, 2));
     },
   },
   {
     name: "leads:status",
-    description: "Check lead processing status",
-    usage: "leads:status --campaign_id id [--lead_id id]",
-    category: "Lead Management",
+    description: "🔍 Get lead status information",
+    usage: "leads:status --id lead_id",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      const data = await api.getLeadStatus(args.campaign_id, args.lead_id);
-      console.log("📊 Lead Status:", JSON.stringify(data, null, 2));
+      if (!args.id) throw new Error("Required: --id");
+      console.log("🔍 Getting lead status...");
+      console.log("🚧 Use leads:list with filters to check lead status");
     },
   },
   {
-    name: "leads:pause",
-    description: "Pause leads in campaign",
-    usage: 'leads:pause --campaign_id id --leads "email1,email2"',
-    category: "Lead Management",
+    name: "leads:verify",
+    description: "✅ Verify lead email addresses",
+    usage: "leads:verify --email email@domain.com",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id || !args.leads) {
-        throw new Error("Required: --campaign_id, --leads");
+      if (!args.email) throw new Error("Required: --email");
+      const data = await api.verifyEmail(args.email);
+      console.log("✅ Email verification result:");
+      console.log(JSON.stringify(data, null, 2));
+    },
+  },
+  {
+    name: "leads:update",
+    description: "✏️ Update lead information",
+    usage: "leads:update --id lead_id --status interested",
+    category: "🎯 Lead Management",
+    handler: async (args) => {
+      if (!args.id) throw new Error("Required: --id");
+      const updateData = {
+        ...(args.status && { status: args.status }),
+        ...(args.first_name && { first_name: args.first_name }),
+        ...(args.last_name && { last_name: args.last_name }),
+        ...(args.email && { email: args.email }),
+        ...(args.company && { company: args.company }),
+      };
+      const data = await api.updateLead(args.id, updateData);
+      console.log("✅ Lead updated successfully!");
+      console.log(JSON.stringify(data, null, 2));
+    },
+  },
+  {
+    name: "leads:delete",
+    description: "🗑️ Remove lead",
+    usage: "leads:delete --id lead_id",
+    category: "🎯 Lead Management",
+    handler: async (args) => {
+      if (!args.id) throw new Error("Required: --id");
+      await api.deleteLead(args.id);
+      console.log("✅ Lead deleted successfully");
+    },
+  },
+  {
+    name: "leads:interest-status",
+    description: "💡 Update lead interest status",
+    usage: "leads:interest-status --id lead_id --interest_status interested",
+    category: "🎯 Lead Management",
+    handler: async (args) => {
+      if (!args.id || !args.interest_status) {
+        throw new Error("Required: --id, --interest_status");
       }
-      console.log("⏸️  Pausing leads...");
-      // Implementation for pausing leads
-      console.log("🚧 Lead pausing feature coming soon");
+      const data = await api.updateLeadInterestStatus({
+        lead_id: args.id,
+        interest_status: args.interest_status
+      });
+      console.log("✅ Interest status updated!");
+      console.log(JSON.stringify(data, null, 2));
     },
   },
   {
-    name: "leads:resume",
-    description: "Resume paused leads",
-    usage: 'leads:resume --campaign_id id --leads "email1,email2"',
-    category: "Lead Management",
+    name: "leads:merge",
+    description: "🔄 Merge duplicate leads",
+    usage: "leads:merge --primary_id id1 --duplicate_id id2",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id || !args.leads) {
-        throw new Error("Required: --campaign_id, --leads");
+      if (!args.primary_id || !args.duplicate_id) {
+        throw new Error("Required: --primary_id, --duplicate_id");
       }
-      console.log("▶️  Resuming leads...");
-      // Implementation for resuming leads
-      console.log("🚧 Lead resuming feature coming soon");
+      const data = await api.mergeLeads({
+        primary_lead_id: args.primary_id,
+        duplicate_lead_id: args.duplicate_id
+      });
+      console.log("✅ Leads merged successfully!");
+      console.log(JSON.stringify(data, null, 2));
     },
   },
   {
-    name: "leads:remove",
-    description: "Remove leads from campaign",
-    usage: 'leads:remove --campaign_id id --leads "email1,email2"',
-    category: "Lead Management",
+    name: "leads:lists",
+    description: "📝 Manage lead lists",
+    usage: "leads:lists --action list|create|update|delete [--id list_id] [--name 'List Name']",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id || !args.leads) {
-        throw new Error("Required: --campaign_id, --leads");
+      switch (args.action) {
+        case 'create': {
+          if (!args.name) throw new Error("Required for create: --name");
+          const createData = await api.createLeadList({ name: args.name });
+          console.log("✅ Lead list created!");
+          console.log(JSON.stringify(createData, null, 2));
+          break;
+        }
+          
+        case 'update': {
+          if (!args.id || !args.name) throw new Error("Required for update: --id, --name");
+          const updateData = await api.updateLeadList(args.id, { name: args.name });
+          console.log("✅ Lead list updated!");
+          console.log(JSON.stringify(updateData, null, 2));
+          break;
+        }
+          
+        case 'delete':
+          if (!args.id) throw new Error("Required for delete: --id");
+          await api.deleteLeadList(args.id);
+          console.log("✅ Lead list deleted!");
+          break;
+          
+        default: {
+          const data = await api.getLeadLists();
+          console.log("📝 Lead Lists:");
+          console.log(JSON.stringify(data, null, 2));
+        }
       }
-      console.log("🗑️  Removing leads...");
-      // Implementation for removing leads
-      console.log("🚧 Lead removal feature coming soon");
     },
   },
   {
-    name: "leads:export",
-    description: "Export campaign leads",
-    usage: "leads:export --campaign_id id [--format csv] [--status all]",
-    category: "Lead Management",
+    name: "leads:verification-result",
+    description: "📊 Get email verification result",
+    usage: "leads:verification-result --email email@domain.com",
+    category: "🎯 Lead Management",
     handler: async (args) => {
-      if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      const format = args.format || "csv";
-      console.log(`📊 Exporting leads to ${format.toUpperCase()}...`);
-      // Implementation for lead export
-      console.log("🚧 Lead export feature coming soon");
-    },
-  },
-  {
-    name: "leads:validate",
-    description: "Validate email addresses",
-    usage: 'leads:validate --emails "email1,email2" [--check_mx true]',
-    category: "Lead Management",
-    handler: async (args) => {
-      if (!args.emails) throw new Error("Required: --emails");
-      console.log("✅ Validating email addresses...");
-      // Implementation for email validation
-      console.log("🚧 Email validation feature coming soon");
-    },
-  },
-  {
-    name: "leads:bulk-update",
-    description: "Bulk update lead properties",
-    usage: "leads:bulk-update --campaign_id id --updates updates.json",
-    category: "Lead Management",
-    handler: async (args) => {
-      if (!args.campaign_id || !args.updates) {
-        throw new Error("Required: --campaign_id, --updates");
-      }
-      console.log("🔄 Bulk updating leads...");
-      // Implementation for bulk update
-      console.log("🚧 Bulk update feature coming soon");
-    },
-  },
-  {
-    name: "leads:duplicates",
-    description: "Find and manage duplicate leads",
-    usage: "leads:duplicates --campaign_id id [--action remove]",
-    category: "Lead Management",
-    handler: async (args) => {
-      if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      console.log("🔍 Finding duplicate leads...");
-      // Implementation for duplicate detection
-      console.log("🚧 Duplicate detection feature coming soon");
+      if (!args.email) throw new Error("Required: --email");
+      const data = await api.getEmailVerificationResult(args.email);
+      console.log("📊 Verification Result:");
+      console.log(JSON.stringify(data, null, 2));
     },
   },
 ];
 
 // Lead command aliases
 export const leadAliases: CLICommand[] = [
-  { ...leadCommands[0], name: "upload" },
-  { ...leadCommands[1], name: "leads" },
-  { ...leadCommands[2], name: "status" },
-  { ...leadCommands[3], name: "pause" },
-  { ...leadCommands[4], name: "resume" },
-  { ...leadCommands[6], name: "export" },
+  { ...leadCommands[0], name: "l:bulk", description: "📊 Add bulk leads (alias)" },
+  { ...leadCommands[1], name: "l:list", description: "📋 List leads (alias)" },
+  { ...leadCommands[4], name: "l:update", description: "✏️ Update lead (alias)" },
+  { ...leadCommands[5], name: "l:delete", description: "🗑️ Delete lead (alias)" },
+  { ...leadCommands[3], name: "l:verify", description: "✅ Verify lead (alias)" },
 ];
