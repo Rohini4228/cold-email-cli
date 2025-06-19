@@ -8,7 +8,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:list",
     description: "📋 List all sequences",
     usage: "sequences:list [--limit 50] [--offset 0]",
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       const params = {
         limit: args.limit || 50,
@@ -23,7 +23,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:create",
     description: "➕ Create new sequence",
     usage: 'sequences:create --name "Sequence Name" [--description "Description"]',
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       if (!args.name) throw new Error("Required: --name");
       const sequenceData = {
@@ -39,7 +39,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:update",
     description: "✏️ Update sequence",
     usage: 'sequences:update --id sequence_id --name "New Name"',
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       const data = await api.updateSequence(args.id, args);
@@ -51,7 +51,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:delete",
     description: "🗑️ Delete sequence",
     usage: "sequences:delete --id sequence_id",
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       await api.deleteSequence(args.id);
@@ -62,7 +62,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:clone",
     description: "🔄 Clone sequence",
     usage: 'sequences:clone --id sequence_id --name "Cloned Sequence"',
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       if (!args.id || !args.name) throw new Error("Required: --id, --name");
       console.log("🔄 Cloning sequence...");
@@ -73,7 +73,7 @@ export const sequenceCommands: CLICommand[] = [
     name: "sequences:templates",
     description: "📄 Get sequence templates",
     usage: "sequences:templates [--category sales|followup]",
-    category: "📝 Sequences",
+    category: "📝 Email Sequences",
     handler: async (args) => {
       const params = args.category ? { category: args.category } : {};
       const data = await api.getTemplates(params);

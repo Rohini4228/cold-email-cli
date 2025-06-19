@@ -41,12 +41,12 @@ export default {
   totalCommands: allSmartLeadCommands.length,
   categories: [
     {
-      name: "🌊 Campaign Management",
+      name: "🎯 Campaign Management",
       description: "Complete campaign lifecycle management",
       commands: campaignCommands.length,
     },
     {
-      name: "📧 Email Account Management",
+      name: "📧 Email Accounts",
       description: "Email account setup and warmup",
       commands: accountCommands.length,
     },
@@ -61,12 +61,12 @@ export default {
       commands: analyticsCommands.length,
     },
     {
-      name: "📝 Sequence Management",
+      name: "📝 Email Sequences",
       description: "Email sequence automation",
       commands: sequenceCommands.length,
     },
     {
-      name: "📄 Template Management",
+      name: "📄 Email Templates",
       description: "Email template creation and management",
       commands: templateCommands.length,
     },

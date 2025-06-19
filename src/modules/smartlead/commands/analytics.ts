@@ -8,7 +8,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:overview",
     description: "Get campaign performance overview",
     usage: "analytics:overview --campaign_id id [--days 30]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       const data = await api.getCampaignAnalytics(args.campaign_id);
@@ -19,7 +19,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:metrics",
     description: "Get detailed campaign metrics",
     usage: "analytics:metrics --campaign_id id [--metric opens]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       const data = await api.getCampaignAnalytics(args.campaign_id);
@@ -30,7 +30,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:opens",
     description: "Track email open rates",
     usage: "analytics:opens --campaign_id id [--date_range 7d]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("👁️  Tracking email opens...");
@@ -42,7 +42,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:clicks",
     description: "Track email click rates",
     usage: "analytics:clicks --campaign_id id [--date_range 7d]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("👆 Tracking email clicks...");
@@ -54,7 +54,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:replies",
     description: "Track email reply rates",
     usage: "analytics:replies --campaign_id id [--sentiment positive]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("💬 Tracking email replies...");
@@ -66,7 +66,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:bounces",
     description: "Track email bounce rates",
     usage: "analytics:bounces --campaign_id id [--type hard]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("⚠️  Tracking email bounces...");
@@ -78,7 +78,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:deliverability",
     description: "Monitor email deliverability rates",
     usage: "analytics:deliverability --campaign_id id",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("🎯 Monitoring deliverability...");
@@ -90,7 +90,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:compare",
     description: "Compare campaign performance",
     usage: 'analytics:compare --campaign_ids "id1,id2" [--metric opens]',
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_ids) throw new Error("Required: --campaign_ids");
       console.log("🔍 Comparing campaigns...");
@@ -102,7 +102,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:export",
     description: "Export analytics to CSV/PDF",
     usage: "analytics:export --campaign_id id [--format csv] [--date_range 30d]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       const format = args.format || "csv";
@@ -115,7 +115,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:realtime",
     description: "View real-time campaign stats",
     usage: "analytics:realtime --campaign_id id [--refresh 30s]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("⚡ Starting real-time monitoring...");
@@ -127,7 +127,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:unsubscribes",
     description: "Track unsubscribe rates and reasons",
     usage: "analytics:unsubscribes --campaign_id id [--reason all]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("🚫 Tracking unsubscribes...");
@@ -139,7 +139,7 @@ export const analyticsCommands: CLICommand[] = [
     name: "analytics:roi",
     description: "Calculate campaign ROI and conversions",
     usage: "analytics:roi --campaign_id id [--conversion_value 100]",
-    category: "Analytics & Reporting",
+    category: "📊 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
       console.log("💰 Calculating ROI...");

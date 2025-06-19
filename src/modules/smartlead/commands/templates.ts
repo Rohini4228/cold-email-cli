@@ -8,7 +8,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:list",
     description: "List all email templates",
     usage: "templates:list [--category outreach] [--limit 50]",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       const data = await api.getTemplates(args);
       console.log(JSON.stringify(data, null, 2));
@@ -18,7 +18,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:create",
     description: "Create new email template",
     usage: 'templates:create --name "Template Name" --subject "Subject" --body "Body"',
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.name) throw new Error("Required: --name");
       const templateData = {
@@ -35,7 +35,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:get",
     description: "🔍 Get specific template details",
     usage: "templates:get --id template_id",
-    category: "📄 Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       const data = await api.getTemplates({ id: args.id });
@@ -47,7 +47,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:update",
     description: "Update email template",
     usage: 'templates:update --id template_id --name "New Name"',
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       const data = await api.updateTemplate(args.id, args);
@@ -58,7 +58,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:delete",
     description: "Delete email template",
     usage: "templates:delete --id template_id",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       await api.deleteTemplate(args.id);
@@ -69,7 +69,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:clone",
     description: "Clone existing template",
     usage: 'templates:clone --id template_id --name "Cloned Template"',
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id || !args.name) {
         throw new Error("Required: --id, --name");
@@ -83,7 +83,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:test",
     description: "Send test email using template",
     usage: "templates:test --id template_id --email test@example.com",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id || !args.email) {
         throw new Error("Required: --id, --email");
@@ -97,7 +97,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:variables",
     description: "List available template variables",
     usage: "templates:variables [--category lead]",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (_args) => {
       const variables = [
         "{{first_name}}",
@@ -121,7 +121,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:preview",
     description: "Preview template with sample data",
     usage: "templates:preview --id template_id [--lead_id lead_id]",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       console.log("👁️  Previewing template...");
@@ -133,7 +133,7 @@ export const templateCommands: CLICommand[] = [
     name: "templates:import",
     description: "Import templates from file",
     usage: "templates:import --file templates.json",
-    category: "Email Templates",
+    category: "📄 Email Templates",
     handler: async (args) => {
       if (!args.file) throw new Error("Required: --file");
       console.log("📥 Importing templates...");

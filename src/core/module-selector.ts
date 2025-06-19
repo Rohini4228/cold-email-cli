@@ -45,7 +45,14 @@ export const getCommandByName = (commandName: string): CLICommand | null => {
 export const getAvailableModules = () => {
   return Object.entries(modules).map(([key, module]) => ({
     name: key,
-    info: module.platformInfo,
+    info: {
+      name: module.name,
+      description: module.description,
+      version: module.version,
+      totalCommands: module.totalCommands,
+      categories: module.categories,
+      status: "active"
+    },
   }));
 };
 
@@ -54,18 +61,12 @@ export function listModules(): void {
   console.log("\n❄️ Cold Email CLI - Available Platforms:\n");
 
   Object.entries(modules).forEach(([_key, module]) => {
-    // Support both old and new module structures
-    const status = (module as any).platformInfo?.status || "active";
-    const name = (module as any).platformInfo?.name || module.name;
-    const description = (module as any).platformInfo?.description || module.description;
-    const totalCommands = (module as any).platformInfo?.totalCommands || module.totalCommands;
+    const statusIcon = "✅";
     
-    const statusIcon = status === "active" ? "✅" : "🚧";
-    
-    console.log(`${statusIcon} ${name}`);
-    console.log(`   Description: ${description}`);
-    console.log(`   Commands: ${totalCommands}`);
-    console.log(`   Status: ${status === "active" ? "Available" : "Coming Soon"}\n`);
+    console.log(`${statusIcon} ${module.name}`);
+    console.log(`   Description: ${module.description}`);
+    console.log(`   Commands: ${module.totalCommands}`);
+    console.log(`   Status: Available\n`);
   });
 }
 

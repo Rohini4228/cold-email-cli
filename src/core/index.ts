@@ -67,9 +67,9 @@ async function main() {
       }
 
       const theme = getTheme(moduleName);
-      const version = module.platformInfo.version || "2.0.0";
-      console.log(`\n${theme.primary(`🎯 ${module.platformInfo.name} v${version}`)}`);
-      console.log(`${theme.secondary(module.platformInfo.description)}\n`);
+      const version = module.version || "2.0.0";
+      console.log(`\n${theme.primary(`🎯 ${module.name} v${version}`)}`);
+      console.log(`${theme.secondary(module.description)}\n`);
 
       formatCommandList(module.commands, moduleName);
       return;
@@ -83,9 +83,9 @@ async function main() {
 
       // Create a proper CLIModule object for showCommandHelp
       const cliModule = {
-        name: module.platformInfo.name,
-        description: module.platformInfo.description,
-        version: module.platformInfo.version || "2.0.0",
+        name: module.name,
+        description: module.description,
+        version: module.version || "2.0.0",
         commands: module.commands,
         execute: async (command: string, args: Record<string, any>) => {
           const cmd = module.commands.find((c) => c.name === command);
@@ -162,25 +162,16 @@ export async function runCommandByName(commandName: string, args: Record<string,
 }
 
 export async function openPlatformShell(platformName: string) {
-  const theme = getTheme(platformName);
-  
   try {
     const module = modules[platformName as keyof typeof modules];
     if (!module) {
+      const theme = getTheme(platformName);
       console.log(theme.error(`❌ Platform "${platformName}" not found\n`));
       listModules();
       return;
     }
 
-    // Check if module is active (support both old and new structure)
-    const status = (module as any).platformInfo?.status || "active";
-    if (status !== "active") {
-      const name = (module as any).platformInfo?.name || module.name;
-      const description = (module as any).platformInfo?.description || module.description;
-      console.log(theme.warning(`🚧 ${name} is coming soon!\n`));
-      console.log(`${description}\n`);
-      return;
-    }
+    // All modules are active by default in the new structure
 
     // Handle different shell imports based on platform
     let ShellComponent: any;
@@ -231,9 +222,11 @@ export async function openPlatformShell(platformName: string) {
         ShellComponent = lemlistShell;
         break;
       }
-      default:
+      default: {
+        const theme = getTheme(platformName);
         console.log(theme.error(`❌ Shell not implemented for ${platformName}`));
         return;
+      }
     }
 
     // Render shell using React Ink
@@ -255,6 +248,7 @@ export async function openPlatformShell(platformName: string) {
     });
 
   } catch (error) {
+    const theme = getTheme(platformName);
     console.log(theme.error(`❌ Error opening ${platformName} shell: ${error}`));
   }
 }
@@ -290,10 +284,7 @@ export async function executeCommand(platformName: string, command: string, comm
     return;
   }
 
-  if (module.platformInfo.status !== "active") {
-    console.log(`🚧 ${module.platformInfo.name} is coming soon!`);
-    return;
-  }
+  // All modules are active by default in the new structure
 
   const cmd = module.commands.find((c) => c.name === command);
   if (!cmd) {
@@ -312,6 +303,7 @@ export async function listCommands(platformName: string) {
   try {
     const module = modules[platformName as keyof typeof modules];
     if (!module) {
+      const theme = getTheme(platformName);
       console.log(theme.error(`❌ Platform '${platformName}' not found`));
       return;
     }
