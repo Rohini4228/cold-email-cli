@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
 import { platformInfo, commandCategories } from "./index";
+import { salesloftAscii, salesloftBanner } from "./ascii";
 
 interface Props {
   onBack: () => void;
@@ -10,6 +11,7 @@ interface Props {
 export function SalesLoftShell({ onBack }: Props) {
   const { exit } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
   const theme = getTheme("salesloft");
 
   useInput((input, key) => {
@@ -25,8 +27,13 @@ export function SalesLoftShell({ onBack }: Props) {
       exit();
     }
 
+    // Hide welcome screen on any input
+    if (showWelcome && !key.ctrl && !key.escape) {
+      setShowWelcome(false);
+    }
+
     // Number keys for category selection
-    if (!selectedCategory && /^[1-6]$/.test(input)) {
+    if (!selectedCategory && !showWelcome && /^[1-6]$/.test(input)) {
       const categories = Object.keys(commandCategories);
       const categoryIndex = parseInt(input) - 1;
       if (categories[categoryIndex]) {
@@ -35,6 +42,18 @@ export function SalesLoftShell({ onBack }: Props) {
     }
   });
 
+  if (showWelcome) {
+    return (
+      <Box flexDirection="column" padding={1}>
+        <Text>{salesloftAscii}</Text>
+        <Text>{salesloftBanner}</Text>
+        <Box marginTop={1}>
+          <Text color="magenta" bold>Press any key to continue...</Text>
+        </Box>
+      </Box>
+    );
+  }
+
   if (selectedCategory) {
     const commands = commandCategories[selectedCategory as keyof typeof commandCategories];
     
@@ -42,14 +61,14 @@ export function SalesLoftShell({ onBack }: Props) {
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
           <Text color="magenta" bold>
-            🔄 {platformInfo.name} - {selectedCategory}
+            🌟 {platformInfo.name} - {selectedCategory}
           </Text>
         </Box>
         
         <Box flexDirection="column" marginBottom={1}>
           {commands.map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
-              <Text color="cyan">{cmd.name}</Text>
+              <Text color="magenta">{cmd.name}</Text>
               <Text color="gray"> - {cmd.description}</Text>
             </Box>
           ))}
@@ -68,7 +87,7 @@ export function SalesLoftShell({ onBack }: Props) {
     <Box flexDirection="column" padding={1}>
       <Box marginBottom={1}>
         <Text color="magenta" bold>
-          🔄 {platformInfo.name} v{platformInfo.version}
+          🌟 {platformInfo.name} v{platformInfo.version}
         </Text>
       </Box>
       
@@ -92,7 +111,7 @@ export function SalesLoftShell({ onBack }: Props) {
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
-        <Text color="cyan" bold>
+        <Text color="magenta" bold>
           📋 Command Categories:
         </Text>
         {Object.keys(commandCategories).map((category) => {
@@ -100,7 +119,7 @@ export function SalesLoftShell({ onBack }: Props) {
           const categoryIndex = Object.keys(commandCategories).indexOf(category);
           return (
             <Box key={category} marginLeft={2}>
-              <Text color="magenta">{categoryIndex + 1}.</Text>
+              <Text color="cyan">{categoryIndex + 1}.</Text>
               <Text color="white"> {category}</Text>
               <Text color="gray"> ({commands.length} commands)</Text>
             </Box>

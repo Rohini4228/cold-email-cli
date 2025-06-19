@@ -118,4 +118,7 @@ export class SalesLoftAPI {
     const response = await this.client.get("/team");
     return response.data.data;
   }
-} 
+}
+
+// Export the API instance
+export const api = new SalesLoftAPI(); 

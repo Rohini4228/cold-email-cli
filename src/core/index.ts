@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { render } from "ink";
+import React from "react";
 import type { CLICommand } from "../types/global";
 import { getCommandByName, getModule, listModules } from "./module-selector";
 import { formatCommandList, getTheme, showCommandHelp, showError } from "./utils/theme";
@@ -175,34 +177,104 @@ export async function openPlatformShell(platformName: string) {
     return;
   }
 
-  console.log(`\n${theme.primary(`🎯 ${module.platformInfo.name}`)}`);
-  console.log(`${theme.secondary(module.platformInfo.description)}\n`);
-
-  // Show available command categories
-  console.log("📋 Available Command Categories:\n");
-  Object.entries(module.commandCategories).forEach(([category, commands]) => {
-    if (Array.isArray(commands) && commands.length > 0) {
-      console.log(`  ${theme.accent(category)} (${commands.length} commands)`);
+  // Import and render the appropriate shell component
+  let ShellComponent: React.ComponentType<{ onBack: () => void }>;
+  
+  try {
+    switch (platformName.toLowerCase()) {
+      case "smartlead": {
+        const { SmartLeadShell } = await import("../modules/smartlead/shell");
+        ShellComponent = SmartLeadShell;
+        break;
+      }
+      case "instantly": {
+        const { InstantlyShell } = await import("../modules/instantly/shell");
+        ShellComponent = InstantlyShell;
+        break;
+      }
+      case "salesforge": {
+        const { SalesforgeShell } = await import("../modules/salesforge/shell");
+        ShellComponent = SalesforgeShell;
+        break;
+      }
+      case "apollo": {
+        const { ApolloShell } = await import("../modules/apollo/shell");
+        ShellComponent = ApolloShell;
+        break;
+      }
+      case "emailbison": {
+        const { EmailBisonShell } = await import("../modules/emailbison/shell");
+        ShellComponent = EmailBisonShell;
+        break;
+      }
+      case "amplemarket": {
+        const { AmpleMarketShell } = await import("../modules/amplemarket/shell");
+        ShellComponent = AmpleMarketShell;
+        break;
+      }
+      case "outreach": {
+        const { OutreachShell } = await import("../modules/outreach/shell");
+        ShellComponent = OutreachShell;
+        break;
+      }
+      case "salesloft": {
+        const { SalesLoftShell } = await import("../modules/salesloft/shell");
+        ShellComponent = SalesLoftShell;
+        break;
+      }
+      case "lemlist": {
+        const { LemListShell } = await import("../modules/lemlist/shell");
+        ShellComponent = LemListShell;
+        break;
+      }
+      default:
+        console.log(theme.error(`❌ Shell not implemented for "${platformName}"`));
+        return;
     }
-  });
 
-  console.log(`\n💡 Total commands available: ${module.platformInfo.totalCommands}`);
-  console.log('\n🔧 Use "help" to see all commands or "exit" to return to main menu\n');
+    // Render the shell component with proper onBack handler
+    const { unmount } = render(
+      React.createElement(ShellComponent, {
+        onBack: () => {
+          unmount();
+          process.exit(0);
+        }
+      })
+    );
 
-  // Create a proper CLIModule object for showCommandHelp
-  const cliModule = {
-    name: module.platformInfo.name,
-    description: module.platformInfo.description,
-    version: module.platformInfo.version || "2.0.0",
-    commands: module.commands,
-    execute: async (command: string, args: Record<string, any>) => {
-      const cmd = module.commands.find((c) => c.name === command);
-      if (!cmd) throw new Error(`Command '${command}' not found`);
-      return cmd.handler(args);
-    },
-  };
+  } catch (error) {
+    console.error(theme.error(`❌ Error launching ${platformName} shell: ${error}`));
+    
+    // Fallback to text-based help if shell fails
+    console.log(`\n${theme.primary(`🎯 ${module.platformInfo.name}`)}`);
+    console.log(`${theme.secondary(module.platformInfo.description)}\n`);
 
-  showCommandHelp(cliModule, platformName);
+    // Show available command categories
+    console.log("📋 Available Command Categories:\n");
+    Object.entries(module.commandCategories).forEach(([category, commands]) => {
+      if (Array.isArray(commands) && commands.length > 0) {
+        console.log(`  ${theme.accent(category)} (${commands.length} commands)`);
+      }
+    });
+
+    console.log(`\n💡 Total commands available: ${module.platformInfo.totalCommands}`);
+    console.log('\n🔧 Use "help" to see all commands or "exit" to return to main menu\n');
+
+    // Create a proper CLIModule object for showCommandHelp
+    const cliModule = {
+      name: module.platformInfo.name,
+      description: module.platformInfo.description,
+      version: module.platformInfo.version || "2.0.0",
+      commands: module.commands,
+      execute: async (command: string, args: Record<string, any>) => {
+        const cmd = module.commands.find((c) => c.name === command);
+        if (!cmd) throw new Error(`Command '${command}' not found`);
+        return cmd.handler(args);
+      },
+    };
+
+    showCommandHelp(cliModule, platformName);
+  }
 }
 
 function _showCommandHelp(commands: CLICommand[], moduleName: string) {

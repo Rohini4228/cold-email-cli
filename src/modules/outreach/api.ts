@@ -169,4 +169,7 @@ export class OutreachAPI {
     });
     return response.data.data;
   }
-} 
+}
+
+// Export the API instance
+export const api = new OutreachAPI(); 
