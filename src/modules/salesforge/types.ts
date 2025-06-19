@@ -27,8 +27,8 @@ export interface SalesForgeListResponse<T> extends SalesForgeResponse<T[]> {
 export interface SalesForgeCampaign {
   id: string;
   name: string;
-  status: 'draft' | 'scheduled' | 'running' | 'paused' | 'stopped' | 'completed';
-  type: 'email' | 'linkedin' | 'multi-channel';
+  status: "draft" | "scheduled" | "running" | "paused" | "stopped" | "completed";
+  type: "email" | "linkedin" | "multi-channel";
   created_at: string;
   updated_at: string;
   settings: {
@@ -51,8 +51,8 @@ export interface SalesForgeCampaign {
 
 export interface CreateCampaignRequest {
   name: string;
-  type: 'email' | 'linkedin' | 'multi-channel';
-  settings?: Partial<SalesForgeCampaign['settings']>;
+  type: "email" | "linkedin" | "multi-channel";
+  settings?: Partial<SalesForgeCampaign["settings"]>;
 }
 
 // Lead Types
@@ -70,7 +70,7 @@ export interface SalesForgeLead {
   city?: string;
   industry?: string;
   custom_fields: Record<string, any>;
-  status: 'active' | 'paused' | 'unsubscribed' | 'bounced' | 'replied';
+  status: "active" | "paused" | "unsubscribed" | "bounced" | "replied";
   created_at: string;
   updated_at: string;
   campaign_stats?: {
@@ -114,7 +114,7 @@ export interface SalesForgeSequence {
 
 export interface SalesForgeSequenceStep {
   id: string;
-  type: 'email' | 'linkedin_connect' | 'linkedin_message' | 'call' | 'manual_task';
+  type: "email" | "linkedin_connect" | "linkedin_message" | "call" | "manual_task";
   position: number;
   delay_days: number;
   delay_hours?: number;
@@ -131,7 +131,7 @@ export interface SalesForgeSequenceStep {
 export interface CreateSequenceRequest {
   name: string;
   campaign_id: string;
-  steps: Omit<SalesForgeSequenceStep, 'id'>[];
+  steps: Omit<SalesForgeSequenceStep, "id">[];
 }
 
 // Email Account Types
@@ -139,8 +139,8 @@ export interface SalesForgeEmailAccount {
   id: string;
   email: string;
   name: string;
-  provider: 'gmail' | 'outlook' | 'smtp' | 'exchange';
-  status: 'connected' | 'disconnected' | 'error' | 'warming';
+  provider: "gmail" | "outlook" | "smtp" | "exchange";
+  status: "connected" | "disconnected" | "error" | "warming";
   daily_send_limit: number;
   current_daily_sent: number;
   warmup_enabled: boolean;
@@ -156,7 +156,7 @@ export interface SalesForgeEmailAccount {
 export interface ConnectEmailAccountRequest {
   email: string;
   name: string;
-  provider: 'gmail' | 'outlook' | 'smtp' | 'exchange';
+  provider: "gmail" | "outlook" | "smtp" | "exchange";
   credentials: {
     access_token?: string;
     refresh_token?: string;
@@ -205,7 +205,7 @@ export interface AnalyticsRequest {
   campaign_id?: string;
   start_date: string;
   end_date: string;
-  granularity?: 'daily' | 'weekly' | 'monthly';
+  granularity?: "daily" | "weekly" | "monthly";
 }
 
 // Unibox/Inbox Types
@@ -213,7 +213,7 @@ export interface SalesForgeConversation {
   id: string;
   lead_id: string;
   campaign_id: string;
-  status: 'new' | 'in_progress' | 'closed' | 'snoozed';
+  status: "new" | "in_progress" | "closed" | "snoozed";
   last_message_at: string;
   messages_count: number;
   lead: SalesForgeLead;
@@ -223,7 +223,7 @@ export interface SalesForgeConversation {
 export interface SalesForgeMessage {
   id: string;
   conversation_id: string;
-  type: 'sent' | 'received';
+  type: "sent" | "received";
   subject: string;
   content: string;
   sender: string;
@@ -267,7 +267,7 @@ export interface CreateWebhookRequest {
 export interface SalesForgeTemplate {
   id: string;
   name: string;
-  category: 'email' | 'linkedin' | 'follow_up';
+  category: "email" | "linkedin" | "follow_up";
   subject?: string;
   content: string;
   variables: string[];
@@ -277,7 +277,7 @@ export interface SalesForgeTemplate {
 
 export interface CreateTemplateRequest {
   name: string;
-  category: 'email' | 'linkedin' | 'follow_up';
+  category: "email" | "linkedin" | "follow_up";
   subject?: string;
   content: string;
   variables?: string[];
@@ -305,9 +305,9 @@ export interface SalesForgeDeliverability {
   reputation_score: number;
   deliverability_rate: number;
   spam_score: number;
-  dkim_status: 'valid' | 'invalid' | 'missing';
-  spf_status: 'valid' | 'invalid' | 'missing';
-  dmarc_status: 'valid' | 'invalid' | 'missing';
+  dkim_status: "valid" | "invalid" | "missing";
+  spf_status: "valid" | "invalid" | "missing";
+  dmarc_status: "valid" | "invalid" | "missing";
   blacklist_status: {
     is_blacklisted: boolean;
     blacklists: string[];
@@ -320,7 +320,7 @@ export interface SalesForgeTeamMember {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'member' | 'viewer';
+  role: "admin" | "member" | "viewer";
   permissions: string[];
   created_at: string;
   last_active: string;
@@ -329,7 +329,7 @@ export interface SalesForgeTeamMember {
 export interface InviteTeamMemberRequest {
   email: string;
   name: string;
-  role: 'admin' | 'member' | 'viewer';
+  role: "admin" | "member" | "viewer";
   permissions?: string[];
 }
 
@@ -341,4 +341,4 @@ export interface SalesForgeError {
 }
 
 // Export combined types
-export type SalesForgeAPIResponse<T = any> = SalesForgeResponse<T> | SalesForgeListResponse<T>; 
+export type SalesForgeAPIResponse<T = any> = SalesForgeResponse<T> | SalesForgeListResponse<T>;

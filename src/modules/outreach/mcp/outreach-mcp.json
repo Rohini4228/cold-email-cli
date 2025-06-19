@@ -1,0 +1,142 @@
+{
+  "mcpServers": {
+    "outreach": {
+      "command": "@cec/outreach/mcp-server",
+      "env": {
+        "OUTREACH_API_KEY": "${OUTREACH_API_KEY}"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "outreach_sequences",
+      "description": "Outreach sequence management and automation",
+      "type": "api",
+      "base_url": "https://api.outreach.io/api/v2",
+      "auth": "Bearer ${OUTREACH_API_KEY}",
+      "endpoints": [
+        {
+          "path": "/sequences",
+          "method": "GET",
+          "description": "List all sequences"
+        },
+        {
+          "path": "/sequences",
+          "method": "POST",
+          "description": "Create new sequence"
+        },
+        {
+          "path": "/sequences/{id}",
+          "method": "GET",
+          "description": "Get sequence details"
+        },
+        {
+          "path": "/sequences/{id}",
+          "method": "PATCH",
+          "description": "Update sequence"
+        },
+        {
+          "path": "/sequences/{id}",
+          "method": "DELETE",
+          "description": "Delete sequence"
+        }
+      ]
+    },
+    {
+      "name": "outreach_prospects",
+      "description": "Outreach prospect management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/prospects",
+          "method": "GET",
+          "description": "List prospects"
+        },
+        {
+          "path": "/prospects",
+          "method": "POST",
+          "description": "Create prospect"
+        },
+        {
+          "path": "/prospects/{id}",
+          "method": "GET",
+          "description": "Get prospect details"
+        },
+        {
+          "path": "/prospects/{id}",
+          "method": "PATCH",
+          "description": "Update prospect"
+        }
+      ]
+    },
+    {
+      "name": "outreach_mailboxes",
+      "description": "Outreach mailbox management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/mailboxes",
+          "method": "GET",
+          "description": "List mailboxes"
+        },
+        {
+          "path": "/mailboxes/{id}",
+          "method": "GET",
+          "description": "Get mailbox details"
+        },
+        {
+          "path": "/mailboxes/{id}",
+          "method": "PATCH",
+          "description": "Update mailbox"
+        }
+      ]
+    },
+    {
+      "name": "outreach_templates",
+      "description": "Outreach template management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/templates",
+          "method": "GET",
+          "description": "List templates"
+        },
+        {
+          "path": "/templates",
+          "method": "POST",
+          "description": "Create template"
+        },
+        {
+          "path": "/templates/{id}",
+          "method": "GET",
+          "description": "Get template details"
+        },
+        {
+          "path": "/templates/{id}",
+          "method": "PATCH",
+          "description": "Update template"
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "cec_outreach",
+      "description": "Execute Outreach commands via CEC CLI",
+      "examples": [
+        "cec outreach sequences:list",
+        "cec outreach sequences:create --name 'Q4 Outreach'",
+        "cec outreach prospects:create --firstName John --lastName Doe --email john@company.com",
+        "cec outreach analytics:sequences --id sequence_123"
+      ]
+    }
+  ],
+  "metadata": {
+    "name": "Outreach.io Enterprise Sales Engagement",
+    "version": "2.0.0",
+    "description": "Enterprise sales engagement platform with advanced sequence management",
+    "total_operations": 55,
+    "focus": "Enterprise sequences, prospect management, team collaboration, CRM integration",
+    "documentation": "https://api.outreach.io/api/v2/docs"
+  }
+} 

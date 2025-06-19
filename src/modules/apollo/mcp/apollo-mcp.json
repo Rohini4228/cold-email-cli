@@ -1,0 +1,147 @@
+{
+  "mcpServers": {
+    "apollo": {
+      "command": "@cec/apollo/mcp-server",
+      "env": {
+        "APOLLO_API_KEY": "${APOLLO_API_KEY}"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "apollo_sequences",
+      "description": "Apollo email sequence management and automation",
+      "type": "api",
+      "base_url": "https://api.apollo.io/v1",
+      "auth": "X-Api-Key: ${APOLLO_API_KEY}",
+      "endpoints": [
+        {
+          "path": "/emailer_campaigns",
+          "method": "GET",
+          "description": "List email sequences"
+        },
+        {
+          "path": "/emailer_campaigns",
+          "method": "POST",
+          "description": "Create email sequence"
+        },
+        {
+          "path": "/emailer_campaigns/{id}",
+          "method": "GET",
+          "description": "Get sequence details"
+        },
+        {
+          "path": "/emailer_campaigns/{id}",
+          "method": "PUT",
+          "description": "Update sequence"
+        },
+        {
+          "path": "/emailer_campaigns/{id}/add_contact_ids",
+          "method": "POST",
+          "description": "Add contacts to sequence"
+        }
+      ]
+    },
+    {
+      "name": "apollo_templates",
+      "description": "Apollo email template management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/emailer_templates",
+          "method": "GET",
+          "description": "List email templates"
+        },
+        {
+          "path": "/emailer_templates",
+          "method": "POST",
+          "description": "Create email template"
+        },
+        {
+          "path": "/emailer_templates/{id}",
+          "method": "GET",
+          "description": "Get template details"
+        },
+        {
+          "path": "/emailer_templates/{id}",
+          "method": "PUT",
+          "description": "Update template"
+        }
+      ]
+    },
+    {
+      "name": "apollo_contacts",
+      "description": "Apollo contact management for sequences",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/contacts",
+          "method": "GET",
+          "description": "List contacts"
+        },
+        {
+          "path": "/contacts",
+          "method": "POST",
+          "description": "Create contact"
+        },
+        {
+          "path": "/contacts/{id}",
+          "method": "GET",
+          "description": "Get contact details"
+        },
+        {
+          "path": "/contacts/{id}",
+          "method": "PUT",
+          "description": "Update contact"
+        }
+      ]
+    },
+    {
+      "name": "apollo_accounts",
+      "description": "Apollo email account management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/email_accounts",
+          "method": "GET",
+          "description": "List email accounts"
+        },
+        {
+          "path": "/email_accounts",
+          "method": "POST",
+          "description": "Add email account"
+        },
+        {
+          "path": "/email_accounts/{id}",
+          "method": "GET",
+          "description": "Get account details"
+        },
+        {
+          "path": "/email_accounts/{id}",
+          "method": "PUT",
+          "description": "Update account"
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "cec_apollo",
+      "description": "Execute Apollo commands via CEC CLI",
+      "examples": [
+        "cec apollo sequences:list",
+        "cec apollo sequences:create --name 'Outreach Sequence'",
+        "cec apollo templates:create --subject 'Hello {{first_name}}'",
+        "cec apollo contacts:add-to-sequence --sequence_id 123 --contact_ids [456,789]"
+      ]
+    }
+  ],
+  "metadata": {
+    "name": "Apollo.io Email Sequence Automation",
+    "version": "1.0.0",
+    "description": "Professional email sequences and outreach automation with contact management",
+    "total_operations": 42,
+    "focus": "Email sequences, contact management, outreach automation, template management",
+    "documentation": "https://docs.apollo.io/"
+  }
+} 

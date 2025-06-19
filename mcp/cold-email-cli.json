@@ -1,12 +1,116 @@
 {
   "mcpServers": {
     "cold-email-cli": {
-      "command": "node",
-      "args": ["dist/index.js"],
+      "command": "cold-email-cli",
+      "args": ["--mcp-server"],
       "env": {
-        "NODE_ENV": "production"
+        "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}",
+        "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}",
+        "SALESFORGE_API_KEY": "${SALESFORGE_API_KEY}",
+        "APOLLO_API_KEY": "${APOLLO_API_KEY}",
+        "EMAILBISON_API_KEY": "${EMAILBISON_API_KEY}",
+        "AMPLEMARKET_API_KEY": "${AMPLEMARKET_API_KEY}",
+        "OUTREACH_API_KEY": "${OUTREACH_API_KEY}",
+        "SALESLOFT_API_KEY": "${SALESLOFT_API_KEY}",
+        "LEMLIST_API_KEY": "${LEMLIST_API_KEY}"
       }
     }
+  },
+  "description": "Cold Email CLI MCP Server - Complete Multi-Platform Email Automation Suite",
+  "version": "2.0.0",
+  "platforms": {
+    "smartlead": {
+      "name": "SmartLead",
+      "description": "Advanced Campaign Management & Analytics Platform", 
+      "commands": 68,
+      "categories": ["📊 Campaigns", "👥 Leads", "📧 Accounts", "🔄 Sequences", "📝 Templates", "📈 Analytics"],
+      "features": ["Advanced Analytics", "Email Warmup", "Bulk Operations", "Sequence Automation"]
+    },
+    "instantly": {
+      "name": "Instantly",
+      "description": "High-Volume Email Automation & Deliverability Platform",
+      "commands": 45,
+      "categories": ["🚀 Campaigns", "👥 Leads", "📧 Accounts"],
+      "features": ["High Volume", "File Upload", "Deliverability Focus", "Account Warmup"]
+    },
+    "salesforge": {
+      "name": "Salesforge", 
+      "description": "AI-Powered Multi-Channel Sequences Platform",
+      "commands": 42,
+      "categories": ["🤖 AI Sequences", "📝 AI Templates", "🎯 AI Campaigns"],
+      "features": ["AI Powered", "Multi Channel", "Optimization", "Performance Prediction"]
+    },
+    "apollo": {
+      "name": "Apollo",
+      "description": "Email Sequence & Outreach Automation Platform",
+      "commands": 42,
+      "categories": ["🔄 Sequences", "📝 Templates", "👤 Contacts", "📧 Accounts"],
+      "features": ["Sequence Focused", "Template Management", "Contact Management", "Outreach Automation"]
+    },
+    "emailbison": {
+      "name": "Email Bison",
+      "description": "Power-Driven Email Automation Platform",
+      "commands": 32,
+      "categories": ["⚡ Power Campaigns", "🤖 Power Automation", "🔥 Power Warmup", "📊 Power Segmentation", "📝 Power Templates"],
+      "features": ["Power Levels 1-10", "Power Boost", "AI Personalization", "Power Automation"]
+    },
+    "amplemarket": {
+      "name": "AmpleMarket",
+      "description": "Sales Intelligence & Prospecting Platform",
+      "commands": 15,
+      "categories": ["🏢 Account Management", "📊 Lead Lists", "👤 Contacts", "🚀 Sequences", "✅ Tasks"],
+      "features": ["Task Management", "Lead Lists", "Sales Intelligence", "Sequence Management"]
+    },
+    "outreach": {
+      "name": "Outreach",
+      "description": "Enterprise Sales Engagement & Sequence Platform",
+      "commands": 55,
+      "categories": ["🎯 Sequences", "👤 Prospects", "📧 Mailboxes", "📝 Templates", "📊 Analytics", "⚙️ Settings"],
+      "features": ["Enterprise Scale", "Advanced Sequences", "CRM Integration", "Team Management"]
+    },
+    "salesloft": {
+      "name": "SalesLoft",
+      "description": "Modern Sales Engagement & Cadence Platform",
+      "commands": 48,
+      "categories": ["🔄 Cadences", "👥 People", "📧 Email", "📞 Calls", "📊 Analytics", "⚙️ Admin"],
+      "features": ["Modern Interface", "Cadence Management", "Multi-Channel", "Sales Intelligence"]
+    },
+    "lemlist": {
+      "name": "LemList",
+      "description": "Creative Email Outreach & Automation Platform",
+      "commands": 25,
+      "categories": ["🚀 Campaigns", "👥 Leads", "🔄 Sequences", "📝 Templates", "📊 Analytics", "⚙️ Team"],
+      "features": ["Creative Outreach", "Personalization", "Visual Templates", "Campaign Analytics"]
+    }
+  },
+  "totals": {
+    "platforms": 9,
+    "commands": 372,
+    "api_methods": "175+",
+    "categories": 41
+  },
+  "authentication": {
+    "required_keys": [
+      "SMARTLEAD_API_KEY",
+      "INSTANTLY_API_KEY", 
+      "SALESFORGE_API_KEY",
+      "APOLLO_API_KEY",
+      "EMAILBISON_API_KEY",
+      "AMPLEMARKET_API_KEY",
+      "OUTREACH_API_KEY",
+      "SALESLOFT_API_KEY",
+      "LEMLIST_API_KEY"
+    ],
+    "note": "Each platform requires its own API key configured as environment variable"
+  },
+  "features": {
+    "multi_platform": "Complete integration with 9 major email automation platforms",
+    "ai_powered": "Salesforge and Email Bison provide AI-powered features",
+    "high_volume": "SmartLead and Instantly optimized for high-volume campaigns",
+    "enterprise_ready": "Outreach and SalesLoft provide enterprise-grade features",
+    "task_management": "AmpleMarket provides comprehensive task management workflow",
+    "power_features": "Email Bison offers unique 1-10 power level system",
+    "creative_outreach": "LemList specializes in creative and visual email campaigns"
   },
   "tools": [
     {
@@ -403,34 +507,6 @@
       }
     }
   ],
-  "features": {
-    "total_commands": 147,
-    "supported_platforms": 4,
-    "ai_features": [
-      "AI-powered campaign optimization",
-      "Smart template generation",
-      "Lead scoring and segmentation", 
-      "Predictive analytics",
-      "Multi-channel sequence automation",
-      "Deliverability optimization"
-    ],
-    "integrations": [
-      "CRM platforms (Salesforce, HubSpot, Pipedrive)",
-      "LinkedIn Sales Navigator",
-      "Webhook integrations",
-      "Custom API integrations",
-      "Email providers (Google, Outlook, SMTP)",
-      "Analytics platforms"
-    ],
-    "export_formats": ["CSV", "XLSX", "JSON"],
-    "authentication": "API key based",
-    "real_time_features": [
-      "Live campaign monitoring",
-      "Real-time analytics",
-      "Instant notifications",
-      "Live reply management"
-    ]
-  },
   "development": {
     "typescript": true,
     "react_ink": true,

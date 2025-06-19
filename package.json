@@ -9,16 +9,28 @@
     "cold-email-cli": "dist/cli.js",
     "cec": "dist/cli.js"
   },
+  "packageManager": "bun@1.0.0",
   "scripts": {
     "dev": "bun run --watch src/cli.ts",
     "build": "bun run scripts/build.ts",
-    "build:fast": "npx tsc && cp package.json dist/",
-    "start": "node dist/cli.js",
+    "build:fast": "bun x tsc && cp package.json dist/",
+    "build:binary": "bun run scripts/build.ts",
+    "start": "bun dist/cli.js",
     "test": "bun test",
-    "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist",
-    "link": "npm link",
-    "package": "npm run build:fast && npm pack"
+    "test:watch": "bun test --watch",
+    "type-check": "bun x tsc --noEmit",
+    "lint": "bun x biome check src/",
+    "lint:fix": "bun x biome check --write src/",
+    "format": "bun x biome format --write src/",
+    "format:check": "bun x biome format src/",
+    "quality": "bun run type-check && bun run lint && bun run format:check",
+    "quality:fix": "bun run type-check && bun run lint:fix && bun run format",
+    "clean": "rm -rf dist build/*.app",
+    "clean:all": "rm -rf dist build node_modules .bun package-lock.json",
+    "link": "bun link",
+    "package": "bun run build:fast && bun run pack",
+    "install:global": "bun install -g .",
+    "dev:platforms": "bun run --watch src/cli.ts platforms"
   },
   "keywords": [
     "cold-email",
@@ -27,9 +39,15 @@
     "instantly",
     "salesforge",
     "apollo",
+    "emailbison",
+    "amplemarket",
+    "lemlist",
+    "outreach",
+    "salesloft",
     "cli",
     "react-ink",
-    "typescript"
+    "typescript",
+    "bun"
   ],
   "author": "Community Contributors",
   "license": "MIT",
@@ -57,11 +75,13 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.0",
     "typescript": "^5.3.0"
   },
   "community": {
     "discord": "https://discord.gg/mB76X5QJ"
-  }
+  },
+  "funding": null
 }

@@ -1,107 +1,90 @@
-import { SmartLeadModule } from '../modules/smartlead/index';
-import { InstantlyModule } from '../modules/instantly/index';
-import { SalesforgeModule } from '../modules/salesforge/index';
-import { ApolloModule } from '../modules/apollo/index';
-import { CLIModule } from '../types/global';
-import { getTheme } from './utils/theme';
+import amplemarket from "../modules/amplemarket/index";
+import apollo from "../modules/apollo/index";
+import emailbison from "../modules/emailbison/index";
+import instantly from "../modules/instantly/index";
+import lemlist from "../modules/lemlist/index";
+import outreach from "../modules/outreach/index";
+import salesforge from "../modules/salesforge/index";
+import salesloft from "../modules/salesloft/index";
+import smartlead from "../modules/smartlead/index";
+import type { CLICommand } from "../types/global";
+import { getTheme } from "./utils/theme";
 
-export interface ModuleInfo {
-  id: string;
-  name: string;
-  description: string;
-  version: string;
-  commandCount: number;
-  status: 'Available' | 'Coming Soon' | 'Beta';
-  color: string;
-  icon: string;
-  module: CLIModule;
-}
+export const modules = {
+  smartlead,
+  instantly,
+  apollo,
+  salesforge,
+  emailbison,
+  amplemarket,
+  lemlist,
+  outreach,
+  salesloft,
+};
 
-const availableModules: ModuleInfo[] = [
-  {
-    id: 'smartlead',
-    name: 'smartlead',
-    description: 'Advanced Campaign Management & Analytics',
-    version: '2.0.0',
-    commandCount: 68,
-    status: 'Available',
-    color: '#0088ff',
-    icon: '⚡',
-    module: new SmartLeadModule()
-  },
-  {
-    id: 'instantly',
-    name: 'instantly',
-    description: 'High-Volume Automation & Deliverability',
-    version: '2.0.0',
-    commandCount: 45,
-    status: 'Available',
-    color: '#ff6b35',
-    icon: '🚀',
-    module: new InstantlyModule()
-  },
-  {
-    id: 'salesforge',
-    name: 'salesforge',
-    description: 'AI-Powered Multi-Channel Sequences',
-    version: '2.0.0',
-    commandCount: 42,
-    status: 'Available',
-    color: '#9b59b6',
-    icon: '🤖',
-    module: new SalesforgeModule()
-  },
-  {
-    id: 'apollo',
-    name: 'apollo',
-    description: 'Email Sequence & Outreach Automation',
-    version: '2.0.0',
-    commandCount: 42,
-    status: 'Available',
-    color: '#27ae60',
-    icon: '🎯',
-    module: new ApolloModule()
+export const getModule = (name: string) => {
+  return modules[name as keyof typeof modules];
+};
+
+export const getAllCommands = (): CLICommand[] => {
+  const allCommands: CLICommand[] = [];
+  for (const module of Object.values(modules)) {
+    allCommands.push(...module.commands);
   }
-];
+  return allCommands;
+};
 
-export function getAvailableModules(): ModuleInfo[] {
-  return availableModules;
-}
+export const getCommandByName = (commandName: string): CLICommand | null => {
+  for (const module of Object.values(modules)) {
+    const command = module.commands.find((cmd) => cmd.name === commandName);
+    if (command) return command;
+  }
+  return null;
+};
 
-export function getModule(id: string): ModuleInfo | undefined {
-  return getAvailableModules().find(mod => mod.id === id);
-}
+export const getAvailableModules = () => {
+  return Object.entries(modules).map(([key, module]) => ({
+    name: key,
+    info: module.platformInfo,
+  }));
+};
 
 export function listModules(): void {
-  console.log('\n❄️ Cold Email CLI - Available Platforms:\n');
-  
-  availableModules.forEach(module => {
-    console.log(`${module.icon} ${module.name}`);
-    console.log(`   Description: ${module.description}`);
-    console.log(`   Version: ${module.version}`);
-    console.log(`   Commands: ${module.commandCount}`);
-    console.log(`   Status: ${module.status}\n`);
+  const _theme = getTheme("default");
+  console.log("\n❄️ Cold Email CLI - Available Platforms:\n");
+
+  Object.entries(modules).forEach(([_key, module]) => {
+    const statusIcon = module.platformInfo.status === "active" ? "✅" : "🚧";
+    const totalCommands = module.platformInfo.totalCommands;
+
+    console.log(`${statusIcon} ${module.platformInfo.name}`);
+    console.log(`   Description: ${module.platformInfo.description}`);
+    console.log(`   Commands: ${totalCommands}`);
+    console.log(`   Status: ${module.platformInfo.status === "active" ? "Available" : "Coming Soon"}\n`);
   });
 }
 
-export async function selectModule(moduleName: string): Promise<CLIModule | null> {
+export async function selectModule(moduleName: string) {
   const normalizedName = moduleName.toLowerCase();
-  
-  // Check if module exists
-  if (!availableModules.find(mod => mod.name === normalizedName)) {
-    const theme = getTheme('default');
-    console.log(theme.error(`❌ Module "${moduleName}" not found`) + '\n');
-    console.log('Available modules:');
+  const module = modules[normalizedName as keyof typeof modules];
+
+  if (!module) {
+    const theme = getTheme("default");
+    console.log(`${theme.error(`❌ Module "${moduleName}" not found`)}\n`);
+    console.log("Available modules:");
     listModules();
     return null;
   }
 
-  // Create and return a fresh instance of the selected module
-  return availableModules.find(mod => mod.name === normalizedName)?.module || null;
+  return module;
 }
 
 export default {
-  selectModule,
+  modules,
+  getModule,
+  getAllCommands,
+  getCommandByName,
+  getAvailableModules,
   listModules,
-  availableModules
-}; 
+  selectModule,
+};

@@ -1,0 +1,196 @@
+{
+  "mcpServers": {
+    "smartlead": {
+      "command": "@cec/smartlead/mcp-server",
+      "env": {
+        "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "smartlead_campaigns",
+      "description": "SmartLead campaign management with advanced analytics",
+      "type": "api",
+      "base_url": "https://server.smartlead.ai/api/v1",
+      "auth": "api_key=${SMARTLEAD_API_KEY}",
+      "endpoints": [
+        {
+          "path": "/campaigns?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "List all campaigns"
+        },
+        {
+          "path": "/campaigns?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Create new campaign"
+        },
+        {
+          "path": "/campaigns/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Get campaign details"
+        },
+        {
+          "path": "/campaigns/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "PATCH",
+          "description": "Update campaign"
+        },
+        {
+          "path": "/campaigns/{id}/start?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Start campaign"
+        },
+        {
+          "path": "/campaigns/{id}/pause?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Pause campaign"
+        }
+      ]
+    },
+    {
+      "name": "smartlead_leads",
+      "description": "SmartLead lead management with bulk operations",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/campaigns/{id}/leads?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "List campaign leads"
+        },
+        {
+          "path": "/campaigns/{id}/leads?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Add leads to campaign"
+        },
+        {
+          "path": "/campaigns/{id}/leads/bulk?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Bulk add leads"
+        },
+        {
+          "path": "/leads/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Get lead details"
+        }
+      ]
+    },
+    {
+      "name": "smartlead_accounts",
+      "description": "SmartLead email account management and warmup",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/email-accounts?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "List email accounts"
+        },
+        {
+          "path": "/email-accounts?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Add email account"
+        },
+        {
+          "path": "/email-accounts/{id}/warmup/start?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Start account warmup"
+        },
+        {
+          "path": "/email-accounts/{id}/warmup/stop?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Stop account warmup"
+        }
+      ]
+    },
+    {
+      "name": "smartlead_sequences",
+      "description": "SmartLead email sequence automation",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/sequences?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "List sequences"
+        },
+        {
+          "path": "/sequences?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Create sequence"
+        },
+        {
+          "path": "/sequences/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Get sequence details"
+        },
+        {
+          "path": "/sequences/{id}/analytics?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Get sequence analytics"
+        }
+      ]
+    },
+    {
+      "name": "smartlead_templates",
+      "description": "SmartLead email template management",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/templates?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "List templates"
+        },
+        {
+          "path": "/templates?api_key=${SMARTLEAD_API_KEY}",
+          "method": "POST",
+          "description": "Create template"
+        },
+        {
+          "path": "/templates/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Get template"
+        }
+      ]
+    },
+    {
+      "name": "smartlead_analytics",
+      "description": "SmartLead comprehensive analytics and reporting",
+      "type": "api",
+      "endpoints": [
+        {
+          "path": "/analytics/campaign/{id}?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Campaign analytics"
+        },
+        {
+          "path": "/analytics/account?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Account overview"
+        },
+        {
+          "path": "/analytics/deliverability?api_key=${SMARTLEAD_API_KEY}",
+          "method": "GET",
+          "description": "Deliverability metrics"
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "cec_smartlead",
+      "description": "Execute SmartLead commands via CEC CLI",
+      "examples": [
+        "cec smartlead campaigns:list",
+        "cec smartlead campaigns:create --name 'Q4 Outreach'",
+        "cec smartlead analytics:campaign --id campaign_123",
+        "cec smartlead accounts:warmup --email user@domain.com"
+      ]
+    }
+  ],
+  "metadata": {
+    "name": "SmartLead.ai Advanced Campaign Management",
+    "version": "2.0.0",
+    "description": "Advanced email campaign management with comprehensive analytics and warmup",
+    "total_operations": 68,
+    "focus": "Campaign analytics, email warmup, bulk operations, advanced reporting",
+    "documentation": "https://smartlead.ai/help/smartlead-api/"
+  }
+} 

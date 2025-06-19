@@ -1,7 +1,7 @@
 export interface Campaign {
   id: number;
   name: string;
-  status: 'ACTIVE' | 'PAUSED' | 'STOPPED' | 'DRAFTED' | 'COMPLETED';
+  status: "ACTIVE" | "PAUSED" | "STOPPED" | "DRAFTED" | "COMPLETED";
   created_at: string;
   updated_at: string;
   max_leads_per_day?: number;
@@ -50,7 +50,7 @@ export interface EmailAccount {
   imap_host: string;
   imap_port: number;
   username?: string;
-  status: 'active' | 'inactive' | 'failed' | 'reconnecting';
+  status: "active" | "inactive" | "failed" | "reconnecting";
   warmup_enabled?: boolean;
   daily_limit?: number;
   created_at: string;
@@ -105,7 +105,7 @@ export interface Webhook {
   url: string;
   events: string[];
   categories?: string[];
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   created_at: string;
 }
 
@@ -125,7 +125,7 @@ export interface EmailSequence {
   subject_line: string;
   email_body?: string;
   delay_days: number;
-  email_type: 'initial' | 'followup';
+  email_type: "initial" | "followup";
   created_at: string;
 }
 
@@ -142,7 +142,7 @@ export interface MessageHistory {
   from: string;
   to: string;
   history: Array<{
-    type: 'SENT' | 'RECEIVED' | 'OPENED' | 'CLICKED' | 'REPLIED';
+    type: "SENT" | "RECEIVED" | "OPENED" | "CLICKED" | "REPLIED";
     time: string;
     subject?: string;
     email_body?: string;
@@ -245,5 +245,5 @@ export interface SequenceCreateData {
   subject_line: string;
   email_body?: string;
   delay_days: number;
-  email_type: 'initial' | 'followup';
-} 
+  email_type: "initial" | "followup";
+}

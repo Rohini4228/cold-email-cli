@@ -17,7 +17,7 @@ export interface CommandOption {
   flag: string;
   description: string;
   required?: boolean;
-  type?: 'string' | 'number' | 'boolean' | 'array';
+  type?: "string" | "number" | "boolean" | "array";
   default?: any;
   choices?: string[];
 }
@@ -35,7 +35,7 @@ export interface ModuleInfo {
   description: string;
   version: string;
   commandCount: number;
-  status: 'Available' | 'Coming Soon' | 'Beta';
+  status: "Available" | "Coming Soon" | "Beta";
   color: string;
   icon: string;
 }
@@ -57,7 +57,7 @@ export interface Config {
 export interface SmartLeadCampaign {
   id: string;
   name: string;
-  status: 'active' | 'paused' | 'completed' | 'draft';
+  status: "active" | "paused" | "completed" | "draft";
   created_at: string;
   updated_at: string;
   daily_limit: number;
@@ -88,7 +88,7 @@ export interface SmartLeadLead {
   title: string;
   phone?: string;
   linkedin?: string;
-  status: 'active' | 'replied' | 'bounced' | 'unsubscribed' | 'paused';
+  status: "active" | "replied" | "bounced" | "unsubscribed" | "paused";
   campaign_id: string;
   created_at: string;
   last_contacted: string;
@@ -98,20 +98,20 @@ export interface SmartLeadLead {
 export interface SmartLeadEmailAccount {
   id: string;
   email: string;
-  provider: 'google' | 'outlook' | 'smtp' | 'other';
-  status: 'connected' | 'disconnected' | 'error' | 'warming';
+  provider: "google" | "outlook" | "smtp" | "other";
+  status: "connected" | "disconnected" | "error" | "warming";
   daily_limit: number;
   sent_today: number;
   warmup_enabled: boolean;
   deliverability_score: number;
-  reputation_status: 'good' | 'warning' | 'poor';
+  reputation_status: "good" | "warning" | "poor";
 }
 
 // Instantly specific types
 export interface InstantlyCampaign {
   id: string;
   name: string;
-  status: 'active' | 'paused' | 'draft';
+  status: "active" | "paused" | "draft";
   created_at: string;
   leads_count: number;
   sequence_steps: number;
@@ -140,7 +140,7 @@ export interface InstantlyLead {
   company?: string;
   website?: string;
   custom_variables?: Record<string, string>;
-  status: 'active' | 'paused' | 'completed' | 'replied' | 'bounced';
+  status: "active" | "paused" | "completed" | "replied" | "bounced";
   campaign_id: string;
   sequence_step: number;
 }
@@ -150,7 +150,7 @@ export interface InstantlyAccount {
   smtp_host: string;
   smtp_port: number;
   username: string;
-  status: 'active' | 'inactive' | 'error';
+  status: "active" | "inactive" | "error";
   daily_limit: number;
   sent_today: number;
   warmup_enabled: boolean;
@@ -161,13 +161,13 @@ export interface InstantlyAccount {
 export interface SalesforgeCampaign {
   id: string;
   name: string;
-  type: 'email' | 'multichannel';
-  status: 'active' | 'paused' | 'draft';
+  type: "email" | "multichannel";
+  status: "active" | "paused" | "draft";
   ai_optimization_enabled: boolean;
   created_at: string;
   target_personas: string[];
   industry: string;
-  performance_goal: 'open-rate' | 'click-rate' | 'reply-rate' | 'conversion';
+  performance_goal: "open-rate" | "click-rate" | "reply-rate" | "conversion";
   ai_insights: SalesforgeAIInsights;
 }
 
@@ -197,7 +197,7 @@ export interface SalesforgeSequence {
 
 export interface SalesforgeSequenceStep {
   step_number: number;
-  channel: 'email' | 'linkedin' | 'phone' | 'sms';
+  channel: "email" | "linkedin" | "phone" | "sms";
   delay_days: number;
   content: string;
   subject?: string;
@@ -232,7 +232,7 @@ export interface SalesforgeTemplate {
 export interface ApolloSequence {
   id: string;
   name: string;
-  status: 'active' | 'paused' | 'archived';
+  status: "active" | "paused" | "archived";
   steps_count: number;
   contacts_count: number;
   created_at: string;
@@ -262,7 +262,7 @@ export interface ApolloContact {
   company: string;
   phone?: string;
   linkedin_url?: string;
-  sequence_status?: 'not_contacted' | 'contacted' | 'replied' | 'bounced' | 'opted_out';
+  sequence_status?: "not_contacted" | "contacted" | "replied" | "bounced" | "opted_out";
   sequence_step?: number;
   last_contacted?: string;
 }
@@ -290,7 +290,7 @@ export interface ApolloTemplateMetrics {
 
 export interface ApolloEmailAccount {
   email: string;
-  status: 'active' | 'inactive' | 'error';
+  status: "active" | "inactive" | "error";
   daily_limit: number;
   sent_today: number;
   quota_remaining: number;
@@ -317,7 +317,7 @@ export interface PaginationOptions {
   page?: number;
   limit?: number;
   sort_by?: string;
-  sort_order?: 'asc' | 'desc';
+  sort_order?: "asc" | "desc";
 }
 
 export interface FilterOptions {
@@ -375,7 +375,7 @@ export interface CLIError {
 
 // Export and import types
 export interface ExportOptions {
-  format: 'csv' | 'xlsx' | 'json';
+  format: "csv" | "xlsx" | "json";
   include_analytics?: boolean;
   date_range?: {
     from: string;
@@ -402,8 +402,8 @@ export interface WebhookConfig {
 }
 
 export interface CRMIntegration {
-  platform: 'salesforce' | 'hubspot' | 'pipedrive' | 'custom';
-  status: 'connected' | 'disconnected' | 'error';
+  platform: "salesforce" | "hubspot" | "pipedrive" | "custom";
+  status: "connected" | "disconnected" | "error";
   sync_enabled: boolean;
   last_sync: string;
   field_mappings: Record<string, string>;
@@ -411,17 +411,17 @@ export interface CRMIntegration {
 
 // Type guards for runtime type checking
 export function isSmartLeadCampaign(obj: any): obj is SmartLeadCampaign {
-  return obj && typeof obj.id === 'string' && obj.analytics;
+  return obj && typeof obj.id === "string" && obj.analytics;
 }
 
 export function isInstantlyCampaign(obj: any): obj is InstantlyCampaign {
-  return obj && typeof obj.id === 'string' && typeof obj.track_opens === 'boolean';
+  return obj && typeof obj.id === "string" && typeof obj.track_opens === "boolean";
 }
 
 export function isSalesforgeCampaign(obj: any): obj is SalesforgeCampaign {
-  return obj && typeof obj.id === 'string' && typeof obj.ai_optimization_enabled === 'boolean';
+  return obj && typeof obj.id === "string" && typeof obj.ai_optimization_enabled === "boolean";
 }
 
 export function isApolloSequence(obj: any): obj is ApolloSequence {
-  return obj && typeof obj.id === 'string' && typeof obj.steps_count === 'number';
-} 
+  return obj && typeof obj.id === "string" && typeof obj.steps_count === "number";
+}

@@ -1,0 +1,94 @@
+{
+  "mcpServers": {
+    "@cec/amplemarket": {
+      "command": "node",
+      "args": ["dist/mcp-server.js"],
+      "env": {
+        "AMPLEMARKET_API_KEY": "your-amplemarket-api-key"
+      }
+    }
+  },
+  "description": "AmpleMarket MCP Server - Sales Intelligence & Prospecting Platform",
+  "version": "2.0.0",
+  "endpoints": {
+    "base_url": "https://api.amplemarket.com",
+    "auth_type": "bearer_token",
+    "rate_limits": {
+      "default": "500/minute",
+      "people_search": "300/minute",
+      "people_find": "350/minute"
+    },
+    "resources": {
+      "account": {
+        "description": "Account management and user details",
+        "methods": ["GET"],
+        "endpoints": ["GET /account - Get account details", "GET /users - List all users"]
+      },
+      "lead_lists": {
+        "description": "Lead list management and organization",
+        "methods": ["GET", "POST"],
+        "endpoints": [
+          "GET /lead-lists - List all lead lists",
+          "POST /lead-lists - Create new lead list",
+          "GET /lead-lists/{id} - Get lead list details"
+        ]
+      },
+      "people_search": {
+        "description": "Search for people (non-enrichment)",
+        "methods": ["POST"],
+        "endpoints": ["POST /people/search - Search people by criteria"],
+        "rate_limit": "300/minute"
+      },
+      "contacts": {
+        "description": "Contact management (basic operations)",
+        "methods": ["GET"],
+        "endpoints": [
+          "GET /contacts - List contacts with pagination",
+          "GET /contacts/{id} - Get contact by ID",
+          "GET /contacts/email/{email} - Get contact by email"
+        ]
+      },
+      "sequences": {
+        "description": "Sequence management and lead assignment",
+        "methods": ["GET", "POST"],
+        "endpoints": ["GET /sequences - List all sequences", "POST /sequences/{id}/leads - Add leads to sequence"]
+      },
+      "tasks": {
+        "description": "Task management and completion tracking",
+        "methods": ["GET", "POST"],
+        "endpoints": [
+          "GET /tasks - List tasks with filtering",
+          "POST /tasks/{id}/complete - Complete task",
+          "POST /tasks/{id}/skip - Skip task",
+          "GET /tasks/statuses - List task statuses",
+          "GET /tasks/types - List task types"
+        ]
+      },
+      "phone_numbers": {
+        "description": "Phone number validation and review",
+        "methods": ["POST"],
+        "endpoints": ["POST /phone-numbers/{id}/review - Review phone number validity"]
+      }
+    }
+  },
+  "authentication": {
+    "type": "bearer_token",
+    "header": "Authorization: Bearer {token}",
+    "environment_variable": "AMPLEMARKET_API_KEY"
+  },
+  "cli_commands": {
+    "total": 15,
+    "categories": [
+      "🏢 Account Management (3 commands)",
+      "📊 Lead List Management (3 commands)",
+      "👤 Contact Management (4 commands)",
+      "🚀 Sequence Management (2 commands)",
+      "✅ Task Management (5 commands)"
+    ]
+  },
+  "features": {
+    "no_enrichment": "Focused on non-enrichment operations per user requirements",
+    "rate_limited": "500 requests/minute with endpoint-specific limits",
+    "task_management": "Complete task workflow with statuses and types"
+  }
+}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, Box } from 'ink';
+import { Box, Text } from "ink";
+import type React from "react";
 
 export const SalesforgeShell: React.FC = () => {
   return (
@@ -10,4 +10,4 @@ export const SalesforgeShell: React.FC = () => {
       <Text>Interactive shell coming soon...</Text>
     </Box>
   );
-}; 
+};

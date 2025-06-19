@@ -1,9 +1,17 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Base schemas
 export const TimezoneSchema = z.enum([
-  'Etc/GMT+12', 'Etc/GMT+11', 'Etc/GMT+10', 'America/Anchorage', 'America/Dawson',
-  'America/Creston', 'America/Chihuahua', 'America/Boise', 'America/Belize', 'America/Chicago'
+  "Etc/GMT+12",
+  "Etc/GMT+11",
+  "Etc/GMT+10",
+  "America/Anchorage",
+  "America/Dawson",
+  "America/Creston",
+  "America/Chihuahua",
+  "America/Boise",
+  "America/Belize",
+  "America/Chicago",
   // Add more timezones as needed
 ]);
 
@@ -295,10 +303,11 @@ export const StepAnalyticsSchema = z.object({
 });
 
 // API Response schemas
-export const PaginatedResponseSchema = <T>(itemSchema: z.ZodType<T>) => z.object({
-  items: z.array(itemSchema),
-  next_starting_after: z.string().optional(),
-});
+export const PaginatedResponseSchema = <T>(itemSchema: z.ZodType<T>) =>
+  z.object({
+    items: z.array(itemSchema),
+    next_starting_after: z.string().optional(),
+  });
 
 // Email Verification schemas
 export const EmailVerificationSchema = z.object({
@@ -407,4 +416,4 @@ export type BlockListEntry = z.infer<typeof BlockListEntrySchema>;
 export type LeadLabel = z.infer<typeof LeadLabelSchema>;
 export type Workspace = z.infer<typeof WorkspaceSchema>;
 export type BackgroundJob = z.infer<typeof BackgroundJobSchema>;
-export type APIKey = z.infer<typeof APIKeySchema>; 
+export type APIKey = z.infer<typeof APIKeySchema>;

@@ -465,4 +465,4 @@ export interface InstantlyConfig {
     emailGap?: number;
     timezone?: string;
   };
-} 
+}

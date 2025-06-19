@@ -23,7 +23,7 @@ export interface ApolloTemplate {
   name: string;
   subject: string;
   body: string;
-  template_type: 'email';
+  template_type: "email";
 }
 
 export interface ApolloSequenceStep {
@@ -40,4 +40,4 @@ export interface ApolloSequenceAnalytics {
   open_rate: number;
   reply_rate: number;
   bounce_rate: number;
-} 
+}

@@ -99,12 +99,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
 # IDE and Editor files
 .vscode/
 .idea/
@@ -163,3 +157,51 @@ pids
 # Local convenience shortcuts (don't commit these)
 /sl
 /smartlead
+
+# Temporary scripts and files (NEVER COMMIT THESE)
+fix_*.js
+fix_*.ts
+fix_*.cjs
+fix_*.mjs
+debug_*.js
+debug_*.ts
+temp_*.js
+temp_*.ts
+test_script.*
+cleanup.*
+*.script.js
+*.script.ts
+*.helper.js
+*.helper.ts
+
+# Temporary directories
+temp/
+tmp/
+.temp/
+.tmp/
+
+# Editor temporary files
+*~
+.#*
+#*#
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+*.swp
+*.swo
+
+# Lock files (keep only one package manager)
+package-lock.json
+yarn.lock
+# Keep bun.lock
+
+# Binary builds (keep structured builds only)
+*.exe
+*.dmg
+*.pkg
+*.deb
+*.rpm
+*.msi

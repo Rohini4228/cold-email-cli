@@ -1,53 +1,108 @@
-import chalk from 'chalk';
-import { CLIModule, CLICommand } from '../../types/global';
+import chalk from "chalk";
+import type { CLICommand, CLIModule } from "../../types/global";
 
-// Core theme colors for each platform
+// Core theme colors based on actual company branding
 const themes = {
   default: {
-    primary: '#ffffff',
-    secondary: '#94a3b8',
-    accent: '#06b6d4',
-    success: '#10b981', 
-    warning: '#f59e0b',
-    error: '#ef4444',
-    muted: '#64748b'
+    primary: "#ffffff",
+    secondary: "#94a3b8",
+    accent: "#06b6d4",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
   },
   smartlead: {
-    primary: '#2563eb',
-    secondary: '#0ea5e9', 
-    accent: '#06b6d4',
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    muted: '#64748b'
+    primary: "#0ea5e9", // SmartLead blue
+    secondary: "#38bdf8",
+    accent: "#0284c7",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
   },
   instantly: {
-    primary: '#7c3aed',
-    secondary: '#8b5cf6',
-    accent: '#a855f7', 
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    muted: '#64748b'
+    primary: "#8b5cf6", // Instantly purple
+    secondary: "#a78bfa",
+    accent: "#7c3aed",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
   },
   salesforge: {
-    primary: '#ea580c',
-    secondary: '#f97316',
-    accent: '#fb923c',
-    success: '#10b981',
-    warning: '#f59e0b', 
-    error: '#ef4444',
-    muted: '#64748b'
+    primary: "#f97316", // Salesforge orange
+    secondary: "#fb923c",
+    accent: "#ea580c",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
   },
   apollo: {
-    primary: '#f59e0b',
-    secondary: '#f97316',
-    accent: '#fb923c',
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    muted: '#64748b'
-  }
+    primary: "#f59e0b", // Apollo amber/gold
+    secondary: "#fbbf24",
+    accent: "#d97706",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
+  emailbison: {
+    primary: "#a16207", // Email Bison brown/amber
+    secondary: "#ca8a04",
+    accent: "#92400e",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
+  amplemarket: {
+    primary: "#2563eb", // AmpleMarket professional blue
+    secondary: "#3b82f6",
+    accent: "#1d4ed8",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
+  outreach: {
+    primary: "#1e40af", // Outreach enterprise blue
+    secondary: "#3b82f6",
+    accent: "#1e3a8a",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
+  salesloft: {
+    primary: "#6366f1", // SalesLoft modern indigo
+    secondary: "#818cf8",
+    accent: "#4f46e5",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
+  lemlist: {
+    primary: "#ec4899", // LemList creative pink
+    secondary: "#f472b6",
+    accent: "#db2777",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
 };
 
 export interface ThemeColors {
@@ -58,11 +113,12 @@ export interface ThemeColors {
   warning: (text: string) => string;
   error: (text: string) => string;
   muted: (text: string) => string;
+  text: (text: string) => string;
   gradient: (text: string) => string;
 }
 
 export function getTheme(module?: string): ThemeColors {
-  const themeKey = module && themes[module as keyof typeof themes] ? module : 'default';
+  const themeKey = module && themes[module as keyof typeof themes] ? module : "default";
   const colors = themes[themeKey as keyof typeof themes];
 
   return {
@@ -73,61 +129,58 @@ export function getTheme(module?: string): ThemeColors {
     warning: (text: string) => chalk.hex(colors.warning)(text),
     error: (text: string) => chalk.hex(colors.error)(text),
     muted: (text: string) => chalk.hex(colors.muted)(text),
+    text: (text: string) => chalk.hex(colors.text)(text),
     gradient: (text: string) => {
       // Create gradient effect using primary colors
-      if (themeKey === 'smartlead') {
-        return chalk.hex('#2563eb').bold(text);
-      } else if (themeKey === 'instantly') {
-        return chalk.hex('#7c3aed').bold(text);
-      } else if (themeKey === 'salesforge') {
-        return chalk.hex('#ea580c').bold(text);
-      } else if (themeKey === 'apollo') {
-        return chalk.hex('#f59e0b').bold(text);
-      }
-      return chalk.hex('#06b6d4').bold(text);
-    }
+      return chalk.hex(colors.primary).bold(text);
+    },
   };
 }
 
 export function createBanner(title: string, subtitle?: string, module?: string): string {
   const theme = getTheme(module);
   const width = 80;
-  const border = '━'.repeat(width);
-  
+  const border = "━".repeat(width);
+
   let banner = `\n${theme.primary(border)}\n`;
   banner += `${theme.gradient(` 🚀 ${title.toUpperCase()}`)}\n`;
-  
+
   if (subtitle) {
     banner += `${theme.secondary(`    ${subtitle}`)}\n`;
   }
-  
+
   banner += `${theme.primary(border)}\n`;
-  
+
   return banner;
 }
 
 export function showWelcomeMessage(module: string): void {
   const theme = getTheme(module);
   const moduleNames = {
-    smartlead: 'smartlead.ai',
-    instantly: 'instantly.ai', 
-    salesforge: 'salesforge.ai',
-    apollo: 'apollo.io'
+    smartlead: "SmartLead.ai",
+    instantly: "Instantly.ai",
+    salesforge: "Salesforge.ai",
+    apollo: "Apollo.io",
+    emailbison: "Email Bison",
+    amplemarket: "AmpleMarket",
+    outreach: "Outreach.io",
+    salesloft: "SalesLoft",
+    lemlist: "LemList",
   };
-  
-  const moduleName = moduleNames[module as keyof typeof moduleNames] || 'Cold Email CLI';
-  
-  console.log(createBanner(`${moduleName} Cold Email Platform`, 'Professional Cold Outreach Automation', module));
-  
-  console.log(theme.secondary('🎯 Advanced Features:'));
-  console.log(theme.muted('   • Campaign Management & Automation'));
-  console.log(theme.muted('   • Lead Generation & Segmentation')); 
-  console.log(theme.muted('   • Email Deliverability Optimization'));
-  console.log(theme.muted('   • Advanced Analytics & Reporting'));
-  console.log(theme.muted('   • Multi-Channel Outreach Sequences'));
+
+  const moduleName = moduleNames[module as keyof typeof moduleNames] || "Cold Email CLI";
+
+  console.log(createBanner(`${moduleName} Platform`, "Professional Cold Outreach Automation", module));
+
+  console.log(theme.secondary("🎯 Platform Features:"));
+  console.log(theme.muted("   • Campaign Management & Automation"));
+  console.log(theme.muted("   • Lead Generation & Segmentation"));
+  console.log(theme.muted("   • Email Deliverability Optimization"));
+  console.log(theme.muted("   • Advanced Analytics & Reporting"));
+  console.log(theme.muted("   • Multi-Channel Outreach Sequences"));
   console.log();
-  
-  console.log(theme.accent('💡 Quick Start:'));
+
+  console.log(theme.accent("💡 Quick Start:"));
   console.log(theme.muted('   Type "help" to see all available commands'));
   console.log(theme.muted('   Type "help <command>" for detailed usage'));
   console.log(theme.muted('   Type "config" to setup your API credentials'));
@@ -136,58 +189,61 @@ export function showWelcomeMessage(module: string): void {
 
 export function formatCommandList(commands: CLICommand[], module?: string): void {
   const theme = getTheme(module);
-  
+
   // Group commands by category
-  const categories = commands.reduce((acc, cmd) => {
-    const category = cmd.category || 'General';
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(cmd);
-    return acc;
-  }, {} as Record<string, CLICommand[]>);
-  
+  const categories = commands.reduce(
+    (acc, cmd) => {
+      const category = cmd.category || "General";
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(cmd);
+      return acc;
+    },
+    {} as Record<string, CLICommand[]>,
+  );
+
   Object.entries(categories).forEach(([category, categoryCommands]) => {
     console.log(theme.primary(`\n📂 ${category}:`));
-    console.log(theme.muted('─'.repeat(50)));
-    
+    console.log(theme.muted("─".repeat(50)));
+
     categoryCommands.forEach((cmd: CLICommand) => {
       console.log(`  ${theme.accent(cmd.name.padEnd(25))} ${theme.secondary(cmd.description)}`);
       if (cmd.usage) {
-        console.log(`  ${theme.muted(' '.repeat(25))} ${theme.muted(cmd.usage)}`);
+        console.log(`  ${theme.muted(" ".repeat(25))} ${theme.muted(cmd.usage)}`);
       }
     });
   });
-  
+
   console.log();
 }
 
 export function showCommandHelp(moduleInstance: CLIModule, module?: string): void {
   const theme = getTheme(module);
-  
+
   console.log(theme.primary(`\n📖 ${moduleInstance.name} Commands`));
-  console.log(theme.muted('─'.repeat(50)));
-  console.log(`${theme.secondary('Description:')} ${moduleInstance.description}`);
-  console.log(`${theme.secondary('Version:')} ${moduleInstance.version}`);
-  console.log(`${theme.secondary('Total Commands:')} ${moduleInstance.commands.length}`);
-  
+  console.log(theme.muted("─".repeat(50)));
+  console.log(`${theme.secondary("Description:")} ${moduleInstance.description}`);
+  console.log(`${theme.secondary("Version:")} ${moduleInstance.version}`);
+  console.log(`${theme.secondary("Total Commands:")} ${moduleInstance.commands.length}`);
+
   formatCommandList(moduleInstance.commands, module);
 }
 
 export function showError(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.error('❌ Error:')} ${message}\n`);
+  console.log(`\n${theme.error("❌ Error:")} ${message}\n`);
 }
 
 export function showSuccess(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.success('✅ Success:')} ${message}\n`);
+  console.log(`\n${theme.success("✅ Success:")} ${message}\n`);
 }
 
 export function showWarning(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.warning('⚠️  Warning:')} ${message}\n`);
+  console.log(`\n${theme.warning("⚠️  Warning:")} ${message}\n`);
 }
 
 export function showInfo(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.accent('ℹ️  Info:')} ${message}\n`);
-} 
+  console.log(`\n${theme.accent("ℹ️  Info:")} ${message}\n`);
+}

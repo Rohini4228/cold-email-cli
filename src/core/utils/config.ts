@@ -1,15 +1,15 @@
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
-import { Config, ModuleConfig } from '../../types/global';
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import type { Config, ModuleConfig } from "../../types/global";
 
 export class ConfigManager {
   private configDir: string;
   private configFile: string;
 
   constructor() {
-    this.configDir = path.join(os.homedir(), '.cold-email-cli');
-    this.configFile = path.join(this.configDir, 'config.json');
+    this.configDir = path.join(os.homedir(), ".cold-email-cli");
+    this.configFile = path.join(this.configDir, "config.json");
     this.ensureConfigDir();
   }
 
@@ -22,15 +22,15 @@ export class ConfigManager {
   getConfig(): Config {
     try {
       if (fs.existsSync(this.configFile)) {
-        const content = fs.readFileSync(this.configFile, 'utf8');
+        const content = fs.readFileSync(this.configFile, "utf8");
         return JSON.parse(content);
       }
     } catch (error) {
       console.warn(`Warning: Failed to read config file: ${error}`);
     }
-    
+
     return {
-      modules: {}
+      modules: {},
     };
   }
 
@@ -84,12 +84,12 @@ export class ConfigManager {
 
     // Default URLs for each platform
     const defaultUrls: Record<string, string> = {
-      smartlead: 'https://server.smartlead.ai',
-      instantly: 'https://api.instantly.ai',
-      salesforge: 'https://api.salesforge.ai'
+      smartlead: "https://server.smartlead.ai",
+      instantly: "https://api.instantly.ai",
+      salesforge: "https://api.salesforge.ai",
     };
 
-    return defaultUrls[moduleName] ?? 'https://server.smartlead.ai';
+    return defaultUrls[moduleName] ?? "https://server.smartlead.ai";
   }
 
   setBaseUrl(moduleName: string, baseUrl: string): void {
@@ -97,4 +97,4 @@ export class ConfigManager {
     moduleConfig.baseUrl = baseUrl;
     this.saveModuleConfig(moduleName, moduleConfig);
   }
-} 
+}

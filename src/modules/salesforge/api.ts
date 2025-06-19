@@ -1,28 +1,28 @@
-import axios, { AxiosInstance } from 'axios';
-import { SalesforgeCampaignSchema, SalesforgeSequenceSchema } from '../../types/schemas';
+import axios, { type AxiosInstance } from "axios";
+import { SalesforgeCampaignSchema, SalesforgeSequenceSchema } from "../../types/schemas";
 
 export class SalesforgeAPI {
   private client: AxiosInstance;
-  private baseURL = 'https://api.salesforge.ai/public/v2';
+  private baseURL = "https://api.salesforge.ai/public/v2";
 
   constructor(apiKey?: string) {
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
-        'Authorization': `Bearer ${apiKey || process.env.SALESFORGE_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${apiKey || process.env.SALESFORGE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
   // AI Campaign Management
   async getCampaigns(params?: any) {
-    const response = await this.client.get('/campaigns', { params });
+    const response = await this.client.get("/campaigns", { params });
     return response.data;
   }
 
   async createCampaign(data: any) {
-    const response = await this.client.post('/campaigns', data);
+    const response = await this.client.post("/campaigns", data);
     return SalesforgeCampaignSchema.parse(response.data);
   }
 
@@ -31,20 +31,19 @@ export class SalesforgeAPI {
     return response.data;
   }
 
-  // AI Sequence Management  
-  async getSequences(campaignId?: string) {
-    const params = campaignId ? { campaign_id: campaignId } : {};
-    const response = await this.client.get('/sequences', { params });
+  // AI Sequence Management
+  async getSequences(params?: any) {
+    const response = await this.client.get("/sequences", { params });
     return response.data;
   }
 
   async createSequence(data: any) {
-    const response = await this.client.post('/sequences', data);
+    const response = await this.client.post("/sequences", data);
     return SalesforgeSequenceSchema.parse(response.data);
   }
 
   async generateSequence(brief: string, persona: string) {
-    const response = await this.client.post('/sequences/generate', { brief, persona });
+    const response = await this.client.post("/sequences/generate", { brief, persona });
     return response.data;
   }
 
@@ -53,14 +52,19 @@ export class SalesforgeAPI {
     return response.data;
   }
 
+  async getSequenceAnalytics(id: string) {
+    const response = await this.client.get(`/sequences/${id}/analytics`);
+    return response.data;
+  }
+
   // AI Template Management
   async getTemplates(params?: any) {
-    const response = await this.client.get('/templates', { params });
+    const response = await this.client.get("/templates", { params });
     return response.data;
   }
 
   async generateTemplate(persona: string, tone: string, industry?: string) {
-    const response = await this.client.post('/templates/generate', { persona, tone, industry });
+    const response = await this.client.post("/templates/generate", { persona, tone, industry });
     return response.data;
   }
 
@@ -76,7 +80,7 @@ export class SalesforgeAPI {
 
   // Lead Management with AI
   async getLeads(params?: any) {
-    const response = await this.client.get('/leads', { params });
+    const response = await this.client.get("/leads", { params });
     return response.data;
   }
 
@@ -97,12 +101,12 @@ export class SalesforgeAPI {
 
   // Multi-Channel Management
   async getMultiChannelSequences() {
-    const response = await this.client.get('/multichannel/sequences');
+    const response = await this.client.get("/multichannel/sequences");
     return response.data;
   }
 
   async createMultiChannelSequence(data: any) {
-    const response = await this.client.post('/multichannel/sequences', data);
+    const response = await this.client.post("/multichannel/sequences", data);
     return response.data;
   }
 
@@ -114,15 +118,15 @@ export class SalesforgeAPI {
 
   async getPerformancePredictions(campaignId: string, forecastDays?: number) {
     const params = forecastDays ? { forecast_days: forecastDays } : {};
-    const response = await this.client.get(`/analytics/predictions`, { 
-      params: { campaign_id: campaignId, ...params }
+    const response = await this.client.get(`/analytics/predictions`, {
+      params: { campaign_id: campaignId, ...params },
     });
     return response.data;
   }
 
   async getPerformanceAnalytics(campaignId?: string) {
     const params = campaignId ? { campaign_id: campaignId } : {};
-    const response = await this.client.get('/analytics/performance', { params });
+    const response = await this.client.get("/analytics/performance", { params });
     return response.data;
   }
-} 
+}

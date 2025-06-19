@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, Box } from 'ink';
+import { Box, Text } from "ink";
+import type React from "react";
 
 export const EmailBisonShell: React.FC = () => {
   return (
@@ -11,4 +11,4 @@ export const EmailBisonShell: React.FC = () => {
       <Text color="gray">Advanced email automation platform integration in development</Text>
     </Box>
   );
-}; 
+};

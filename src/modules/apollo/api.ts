@@ -1,137 +1,182 @@
-import axios, { AxiosInstance } from 'axios';
-import { ApolloSequenceSchema, ApolloContactSchema } from '../../types/schemas';
+import axios, { type AxiosInstance } from "axios";
 
 export class ApolloAPI {
   private client: AxiosInstance;
-  private baseURL = 'https://api.apollo.io/v1';
+  private baseURL = "https://api.apollo.io/v1";
 
   constructor(apiKey?: string) {
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
-        'Cache-Control': 'no-cache',
-        'Content-Type': 'application/json',
-        'X-Api-Key': apiKey || process.env.APOLLO_API_KEY
-      }
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Add API key to all requests
+    this.client.interceptors.request.use((config) => {
+      config.params = {
+        ...config.params,
+        api_key: apiKey || process.env.APOLLO_API_KEY,
+      };
+      return config;
     });
   }
 
-  // Sequence Management
-  async getSequences() {
-    const response = await this.client.get('/emailer_campaigns');
+  // EMAIL SEQUENCES - Apollo's main focus
+  async createEmailSequence(data: any) {
+    const response = await this.client.post("/sequences", data);
     return response.data;
   }
 
-  async createSequence(data: any) {
-    const response = await this.client.post('/emailer_campaigns', data);
-    return ApolloSequenceSchema.parse(response.data);
-  }
-
-  async getSequence(id: string) {
-    const response = await this.client.get(`/emailer_campaigns/${id}`);
+  async getEmailSequences(params?: any) {
+    const response = await this.client.get("/sequences", { params });
     return response.data;
   }
 
-  async startSequence(id: string) {
-    const response = await this.client.patch(`/emailer_campaigns/${id}`, { active: true });
+  async getEmailSequence(id: string) {
+    const response = await this.client.get(`/sequences/${id}`);
     return response.data;
   }
 
-  async pauseSequence(id: string) {
-    const response = await this.client.patch(`/emailer_campaigns/${id}`, { active: false });
+  async updateEmailSequence(id: string, data: any) {
+    const response = await this.client.put(`/sequences/${id}`, data);
     return response.data;
   }
 
-  async addContactToSequence(sequenceId: string, contactId: string) {
-    const response = await this.client.post(`/emailer_campaigns/${sequenceId}/add_contact_ids`, {
-      contact_ids: [contactId]
-    });
+  async deleteEmailSequence(id: string) {
+    const response = await this.client.delete(`/sequences/${id}`);
     return response.data;
   }
 
-  // Contact Management
-  async searchContacts(params: any) {
-    const response = await this.client.post('/mixed_people/search', params);
+  async duplicateEmailSequence(id: string, data?: any) {
+    const response = await this.client.post(`/sequences/${id}/duplicate`, data);
+    return response.data;
+  }
+
+  // EMAIL SEQUENCE STEPS
+  async createSequenceStep(sequenceId: string, data: any) {
+    const response = await this.client.post(`/sequences/${sequenceId}/steps`, data);
+    return response.data;
+  }
+
+  async getSequenceSteps(sequenceId: string) {
+    const response = await this.client.get(`/sequences/${sequenceId}/steps`);
+    return response.data;
+  }
+
+  async updateSequenceStep(sequenceId: string, stepId: string, data: any) {
+    const response = await this.client.put(`/sequences/${sequenceId}/steps/${stepId}`, data);
+    return response.data;
+  }
+
+  async deleteSequenceStep(sequenceId: string, stepId: string) {
+    const response = await this.client.delete(`/sequences/${sequenceId}/steps/${stepId}`);
+    return response.data;
+  }
+
+  // EMAIL SEQUENCE CONTACTS
+  async addContactsToSequence(sequenceId: string, data: any) {
+    const response = await this.client.post(`/sequences/${sequenceId}/contacts`, data);
+    return response.data;
+  }
+
+  async getSequenceContacts(sequenceId: string, params?: any) {
+    const response = await this.client.get(`/sequences/${sequenceId}/contacts`, { params });
+    return response.data;
+  }
+
+  async removeContactFromSequence(sequenceId: string, contactId: string) {
+    const response = await this.client.delete(`/sequences/${sequenceId}/contacts/${contactId}`);
+    return response.data;
+  }
+
+  async pauseSequenceContact(sequenceId: string, contactId: string) {
+    const response = await this.client.post(`/sequences/${sequenceId}/contacts/${contactId}/pause`);
+    return response.data;
+  }
+
+  async resumeSequenceContact(sequenceId: string, contactId: string) {
+    const response = await this.client.post(`/sequences/${sequenceId}/contacts/${contactId}/resume`);
+    return response.data;
+  }
+
+  // EMAIL ANALYTICS
+  async getSequenceStats(sequenceId: string, params?: any) {
+    const response = await this.client.get(`/sequences/${sequenceId}/stats`, { params });
+    return response.data;
+  }
+
+  async getSequenceAnalytics(sequenceId: string, params?: any) {
+    const response = await this.client.get(`/sequences/${sequenceId}/analytics`, { params });
+    return response.data;
+  }
+
+  // EMAIL TEMPLATES
+  async createEmailTemplate(data: any) {
+    const response = await this.client.post("/email_templates", data);
+    return response.data;
+  }
+
+  async getEmailTemplates(params?: any) {
+    const response = await this.client.get("/email_templates", { params });
+    return response.data;
+  }
+
+  async getEmailTemplate(id: string) {
+    const response = await this.client.get(`/email_templates/${id}`);
+    return response.data;
+  }
+
+  async updateEmailTemplate(id: string, data: any) {
+    const response = await this.client.put(`/email_templates/${id}`, data);
+    return response.data;
+  }
+
+  async deleteEmailTemplate(id: string) {
+    const response = await this.client.delete(`/email_templates/${id}`);
+    return response.data;
+  }
+
+  // CONTACTS
+  async createContact(data: any) {
+    const response = await this.client.post("/contacts", data);
+    return response.data;
+  }
+
+  async getContacts(params?: any) {
+    const response = await this.client.get("/contacts", { params });
     return response.data;
   }
 
   async getContact(id: string) {
     const response = await this.client.get(`/contacts/${id}`);
-    return ApolloContactSchema.parse(response.data);
-  }
-
-  async createContact(data: any) {
-    const response = await this.client.post('/contacts', data);
     return response.data;
   }
 
   async updateContact(id: string, data: any) {
-    const response = await this.client.patch(`/contacts/${id}`, data);
+    const response = await this.client.put(`/contacts/${id}`, data);
     return response.data;
   }
 
-  async enrichContact(id: string) {
-    const response = await this.client.post(`/contacts/${id}/enrich`);
+  async deleteContact(id: string) {
+    const response = await this.client.delete(`/contacts/${id}`);
     return response.data;
   }
 
-  // Template Management
-  async getTemplates() {
-    const response = await this.client.get('/emailer_templates');
+  // EMAIL ACCOUNTS
+  async getEmailAccounts() {
+    const response = await this.client.get("/email_accounts");
     return response.data;
   }
 
-  async createTemplate(data: any) {
-    const response = await this.client.post('/emailer_templates', data);
+  async getEmailAccount(id: string) {
+    const response = await this.client.get(`/email_accounts/${id}`);
     return response.data;
   }
 
-  async updateTemplate(id: string, data: any) {
-    const response = await this.client.patch(`/emailer_templates/${id}`, data);
+  async updateEmailAccount(id: string, data: any) {
+    const response = await this.client.put(`/email_accounts/${id}`, data);
     return response.data;
   }
-
-  // Account & Organization Search
-  async searchOrganizations(params: any) {
-    const response = await this.client.post('/mixed_companies/search', params);
-    return response.data;
-  }
-
-  async getOrganization(id: string) {
-    const response = await this.client.get(`/organizations/${id}`);
-    return response.data;
-  }
-
-  // Analytics
-  async getSequenceAnalytics(id: string) {
-    const response = await this.client.get(`/emailer_campaigns/${id}/stats`);
-    return response.data;
-  }
-
-  async getContactAnalytics(id: string) {
-    const response = await this.client.get(`/contacts/${id}/stats`);
-    return response.data;
-  }
-
-  // Inbox Management
-  async getInboxMessages(params?: any) {
-    const response = await this.client.get('/emailer_messages', { params });
-    return response.data;
-  }
-
-  async replyToMessage(messageId: string, text: string) {
-    const response = await this.client.post(`/emailer_messages/${messageId}/reply`, { body: text });
-    return response.data;
-  }
-
-  // Data Enrichment
-  async enrichPerson(params: any) {
-    const response = await this.client.post('/people/match', params);
-    return response.data;
-  }
-
-  async enrichCompany(params: any) {
-    const response = await this.client.post('/organizations/enrich', params);
-    return response.data;
-  }
-} 
+}

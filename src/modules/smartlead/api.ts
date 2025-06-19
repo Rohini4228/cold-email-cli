@@ -1,28 +1,28 @@
-import axios, { AxiosInstance } from 'axios';
-import { SmartLeadCampaignSchema, SmartLeadLeadSchema } from '../../types/schemas';
+import axios, { type AxiosInstance } from "axios";
+import { SmartLeadCampaignSchema } from "../../types/schemas";
 
 export class SmartLeadAPI {
   private client: AxiosInstance;
-  private baseURL = 'https://server.smartlead.ai/api/v1';
+  private baseURL = "https://server.smartlead.ai/api/v1";
 
   constructor(apiKey?: string) {
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
-        'Authorization': `Bearer ${apiKey || process.env.SMARTLEAD_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${apiKey || process.env.SMARTLEAD_API_KEY}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
   // Campaign Management
   async getCampaigns(params?: { limit?: number; offset?: number }) {
-    const response = await this.client.get('/campaigns', { params });
+    const response = await this.client.get("/campaigns", { params });
     return response.data;
   }
 
   async createCampaign(data: any) {
-    const response = await this.client.post('/campaigns', data);
+    const response = await this.client.post("/campaigns", data);
     return SmartLeadCampaignSchema.parse(response.data);
   }
 
@@ -68,16 +68,16 @@ export class SmartLeadAPI {
 
   // Email Accounts
   async getEmailAccounts() {
-    const response = await this.client.get('/email-accounts');
+    const response = await this.client.get("/email-accounts");
     return response.data;
   }
 
   async addEmailAccount(data: any) {
-    const response = await this.client.post('/email-accounts', data);
+    const response = await this.client.post("/email-accounts", data);
     return response.data;
   }
 
-  async warmupEmailAccount(email: string, action: 'start' | 'stop') {
+  async warmupEmailAccount(email: string, action: "start" | "stop") {
     const response = await this.client.post(`/email-accounts/${email}/warmup`, { action });
     return response.data;
   }
@@ -94,25 +94,58 @@ export class SmartLeadAPI {
   }
 
   // Templates
-  async getTemplates() {
-    const response = await this.client.get('/templates');
+  async getTemplates(params?: any) {
+    const response = await this.client.get("/templates", { params });
+    return response.data;
+  }
+
+  async getTemplate(id: string) {
+    const response = await this.client.get(`/templates/${id}`);
     return response.data;
   }
 
   async createTemplate(data: any) {
-    const response = await this.client.post('/templates', data);
+    const response = await this.client.post("/templates", data);
     return response.data;
+  }
+
+  async updateTemplate(id: string, data: any) {
+    const response = await this.client.patch(`/templates/${id}`, data);
+    return response.data;
+  }
+
+  async deleteTemplate(id: string) {
+    await this.client.delete(`/templates/${id}`);
   }
 
   // Sequences
   async getSequences(campaignId?: string) {
     const params = campaignId ? { campaign_id: campaignId } : {};
-    const response = await this.client.get('/sequences', { params });
+    const response = await this.client.get("/sequences", { params });
     return response.data;
   }
 
-  async createSequence(data: any) {
-    const response = await this.client.post('/sequences', data);
+  async getCampaignSequences(campaignId: string) {
+    const response = await this.client.get(`/campaigns/${campaignId}/sequences`);
     return response.data;
   }
-} 
+
+  async createSequence(campaignId: string, data: any) {
+    const response = await this.client.post(`/campaigns/${campaignId}/sequences`, data);
+    return response.data;
+  }
+
+  async updateSequence(id: string, data: any) {
+    const response = await this.client.patch(`/sequences/${id}`, data);
+    return response.data;
+  }
+
+  async deleteSequence(id: string) {
+    await this.client.delete(`/sequences/${id}`);
+  }
+
+  async getSequenceAnalytics(id: string) {
+    const response = await this.client.get(`/sequences/${id}/analytics`);
+    return response.data;
+  }
+}
