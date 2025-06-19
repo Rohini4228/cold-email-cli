@@ -3,132 +3,129 @@
 import { render } from "ink";
 import React from "react";
 import type { CLICommand } from "../types/global";
-import { getCommandByName, getModule, listModules, modules } from "./module-selector";
+import { CLIError } from "../types/global";
+import { 
+  getCommandByName, 
+  getModule, 
+  listModules, 
+  initializePlatforms,
+  getShellComponent,
+  performHealthCheck
+} from "./module-selector";
+import { platformRegistry, getPlatformSafe, getShellSafe } from "./registry";
 import { formatCommandList, getTheme, showCommandHelp, showError } from "./utils/theme";
 import { writeFileSync } from "fs";
 
+// Initialize platforms on module load
+let platformsInitialized = false;
+
+async function ensurePlatformsInitialized() {
+  if (!platformsInitialized) {
+    await initializePlatforms();
+    platformsInitialized = true;
+  }
+}
+
 async function main() {
   try {
+    // Ensure platforms are initialized
+    await ensurePlatformsInitialized();
+
     const args = process.argv.slice(2);
 
     if (args.length === 0) {
-      console.log("❄️ Cold Email CLI v2.0.0\n");
-      console.log("Professional command-line interface for cold email automation\n");
-      console.log("Usage: cold-email-cli <module> <command> [options]");
-      console.log("   or: cec <module> <command> [options]\n");
-      console.log("Available modules:");
-      console.log("  smartlead     - Advanced Campaign Management & Analytics (68 commands)");
-      console.log("  instantly     - High-Volume Automation & Deliverability (45 commands)");
-      console.log("  salesforge    - AI-Powered Multi-Channel Sequences (42 commands)");
-      console.log("  apollo        - Email Sequence & Outreach Automation (42 commands)\n");
-      console.log("Examples:");
-      console.log("  cold-email-cli smartlead campaigns:list");
-      console.log("  cec instantly leads:add --email john@company.com");
-      console.log('  cold-email-cli salesforge sequences:create --persona "VP Sales"');
-      console.log('  cec apollo sequences:create --name "Enterprise Outreach"');
+      await showHelp();
       return;
     }
 
-    if (args[0] === "--help" || args[0] === "-h") {
-      console.log("❄️ Cold Email CLI v2.0.0 - Professional Email Sequence Automation\n");
-      console.log("USAGE:");
-      console.log("  cold-email-cli <module> <command> [options]");
-      console.log("  cec <module> <command> [options]  # Short alias\n");
-
-      console.log("MODULES:");
-      console.log("  smartlead     Advanced Campaign Management & Analytics");
-      console.log("  instantly     High-Volume Automation & Deliverability");
-      console.log("  salesforge    AI-Powered Multi-Channel Sequences");
-      console.log("  apollo        Email Sequence & Outreach Automation\n");
-
-      console.log("EXAMPLES:");
-      console.log("  cold-email-cli smartlead campaigns:list --status active");
-      console.log('  cec instantly campaigns:create --name "Q1 Outreach"');
-      console.log('  cold-email-cli salesforge sequences:create --persona "Enterprise VP"');
-      console.log("  cec apollo sequences:start --id seq_12345\n");
-
-      console.log("For module-specific help:");
-      console.log("  cold-email-cli <module> --help");
+    if (args[0] === "--help" || args[0] === "-h" || args[0] === "help") {
+      await showHelp();
       return;
     }
 
-    const moduleName = args[0];
-    const command = args[1];
-
-    if (!moduleName) {
-      showError("Module name is required");
+    if (args[0] === "platforms") {
+      listModules();
       return;
     }
 
-    if (!command) {
-      const module = await getModule(moduleName);
-      if (!module) {
+    if (args[0] === "health") {
+      await performHealthCheck();
+      return;
+    }
+
+    if (args[0] === "discord") {
+      console.log("🚀 Join our Discord community: https://discord.gg/coldemail");
+      return;
+    }
+
+    if (args[0] === "exec") {
+      if (args.length < 3) {
+        showError("Usage: cec exec <platform> <command> --args '{...}'");
         return;
       }
-
-      const theme = getTheme(moduleName);
-      const version = module.version || "2.0.0";
-      console.log(`\n${theme.primary(`🎯 ${module.name} v${version}`)}`);
-      console.log(`${theme.secondary(module.description)}\n`);
-
-      formatCommandList(module.commands, moduleName);
-      return;
-    }
-
-    if (command === "--help" || command === "-h") {
-      const module = await getModule(moduleName);
-      if (!module) {
-        return;
-      }
-
-      // Create a proper CLIModule object for showCommandHelp
-      const cliModule = {
-        name: module.name,
-        description: module.description,
-        version: module.version || "2.0.0",
-        commands: module.commands,
-        execute: async (command: string, args: Record<string, any>) => {
-          const cmd = module.commands.find((c) => c.name === command);
-          if (!cmd) throw new Error(`Command '${command}' not found`);
-          return cmd.handler(args);
-        },
-      };
-
-      showCommandHelp(cliModule, moduleName);
-      return;
-    }
-
-    const module = await getModule(moduleName);
-    if (!module) {
-      return;
-    }
-
-    // Parse command line arguments
-    const commandArgs: Record<string, any> = {};
-    for (let i = 2; i < args.length; i++) {
-      const arg = args[i];
-      if (arg?.startsWith("--")) {
-        const key = arg.slice(2);
-        const value = args[i + 1];
-        if (value && !value.startsWith("--")) {
-          commandArgs[key] = value;
-          i++; // Skip the value
-        } else {
-          commandArgs[key] = true;
+      
+      const platformName = args[1];
+      const commandName = args[2];
+      
+      // Parse --args parameter
+      let commandArgs = {};
+      const argsIndex = args.indexOf("--args");
+      if (argsIndex !== -1 && args[argsIndex + 1]) {
+        try {
+          commandArgs = JSON.parse(args[argsIndex + 1]);
+        } catch (error) {
+          showError("Invalid JSON in --args parameter");
+          return;
         }
       }
+      
+      await executeCommand(platformName, commandName, commandArgs);
+      return;
     }
 
-    await module.commands.find((c) => c.name === command)?.handler(commandArgs);
+    // Handle platform shell opening
+    const platformName = args[0];
+    
+    if (!platformRegistry.get(platformName)) {
+      showError(`Platform "${platformName}" not found`);
+      listModules();
+      return;
+    }
+
+    if (!platformRegistry.isActive(platformName)) {
+      const status = platformRegistry.getStatus(platformName);
+      showError(`Platform "${platformName}" is not active`);
+      if (status?.error) {
+        console.log(`Error: ${status.error}`);
+      }
+      return;
+    }
+
+    // Open platform shell
+    await openPlatformShell(platformName);
+
   } catch (error: any) {
-    showError(`Error: ${error.message}`);
+    if (error instanceof CLIError) {
+      showError(`${error.code}: ${error.message}`);
+      if (error.platform) {
+        console.log(`Platform: ${error.platform}`);
+      }
+      if (error.command) {
+        console.log(`Command: ${error.command}`);
+      }
+    } else {
+      showError(`Unexpected error: ${error.message}`);
+    }
     process.exit(1);
   }
 }
 
 // Only run if this file is executed directly
 if (require.main === module) {
-  main().catch(console.error);
+  main().catch((error) => {
+    console.error("Fatal error:", error);
+    process.exit(1);
+  });
 }
 
 export async function showHelp() {
@@ -138,23 +135,27 @@ export async function showHelp() {
   console.log("  platforms          List available platforms");
   console.log("  <platform>         Enter interactive shell for platform");
   console.log('  exec <platform> <command> --args "{...}"   Execute command directly');
+  console.log("  health             Perform platform health check");
   console.log("  discord            Join our Discord community");
   console.log("  help               Show this help message\n");
   console.log("Examples:");
   console.log("  cec platforms");
   console.log("  cec smartlead");
   console.log("  cec exec smartlead campaigns:list --args '{\"limit\":10}'");
+  console.log("  cec health");
   console.log("  cec discord\n");
 }
 
 export async function runCommandByName(commandName: string, args: Record<string, any>) {
-  const command = getCommandByName(commandName);
-  if (!command) {
-    console.log(`❌ Command "${commandName}" not found`);
-    return;
-  }
-
   try {
+    await ensurePlatformsInitialized();
+    
+    const command = getCommandByName(commandName);
+    if (!command) {
+      console.log(`❌ Command "${commandName}" not found`);
+      return;
+    }
+
     await command.handler(args);
   } catch (error: any) {
     console.error(`❌ Error executing ${commandName}: ${error.message}`);
@@ -163,78 +164,23 @@ export async function runCommandByName(commandName: string, args: Record<string,
 
 export async function openPlatformShell(platformName: string) {
   try {
-    const module = modules[platformName as keyof typeof modules];
-    if (!module) {
+    await ensurePlatformsInitialized();
+    
+    // Get platform module safely
+    const platformModule = getPlatformSafe(platformName);
+    
+    // Get shell component with lazy loading
+    const ShellComponent = await getShellComponent(platformName);
+    
+    if (!ShellComponent) {
       const theme = getTheme(platformName);
-      console.log(theme.error(`❌ Platform "${platformName}" not found\n`));
-      listModules();
+      console.log(theme.error(`❌ Shell not available for ${platformName}`));
       return;
     }
 
-    // All modules are active by default in the new structure
-
-    // Handle different shell imports based on platform
-    let ShellComponent: any;
-    
-    switch (platformName) {
-      case "smartlead": {
-        const { SmartLeadShell } = await import("../modules/smartlead/shell");
-        ShellComponent = SmartLeadShell;
-        break;
-      }
-      case "instantly": {
-        const { InstantlyShell } = await import("../modules/instantly/shell");
-        ShellComponent = InstantlyShell;
-        break;
-      }
-      case "salesforge": {
-        const { SalesforgeShell } = await import("../modules/salesforge/shell");
-        ShellComponent = SalesforgeShell;
-        break;
-      }
-      case "apollo": {
-        const { ApolloShell } = await import("../modules/apollo/shell");
-        ShellComponent = ApolloShell;
-        break;
-      }
-      case "emailbison": {
-        const { EmailBisonShell } = await import("../modules/emailbison/shell");
-        ShellComponent = EmailBisonShell;
-        break;
-      }
-      case "amplemarket": {
-        const { AmplemarketShell } = await import("../modules/amplemarket/shell");
-        ShellComponent = AmplemarketShell;
-        break;
-      }
-      case "outreach": {
-        const { OutreachShell } = await import("../modules/outreach/shell");
-        ShellComponent = OutreachShell;
-        break;
-      }
-      case "salesloft": {
-        const { SalesloftShell } = await import("../modules/salesloft/shell");
-        ShellComponent = SalesloftShell;
-        break;
-      }
-      case "lemlist": {
-        const { lemlistShell } = await import("../modules/lemlist/shell");
-        ShellComponent = lemlistShell;
-        break;
-      }
-      default: {
-        const theme = getTheme(platformName);
-        console.log(theme.error(`❌ Shell not implemented for ${platformName}`));
-        return;
-      }
-    }
-
-    // Render shell using React Ink
-    const { render } = await import("ink");
-    const { createElement } = await import("react");
-    
+    // Render shell using React Ink with direct imports
     const app = render(
-      createElement(ShellComponent, {
+      React.createElement(ShellComponent, {
         onBack: () => {
           process.exit(0);
         }
@@ -249,7 +195,12 @@ export async function openPlatformShell(platformName: string) {
 
   } catch (error) {
     const theme = getTheme(platformName);
-    console.log(theme.error(`❌ Error opening ${platformName} shell: ${error}`));
+    
+    if (error instanceof CLIError) {
+      console.log(theme.error(`❌ ${error.code}: ${error.message}`));
+    } else {
+      console.log(theme.error(`❌ Error opening ${platformName} shell: ${error}`));
+    }
   }
 }
 
@@ -277,37 +228,53 @@ function _showCommandHelp(commands: CLICommand[], moduleName: string) {
 }
 
 export async function executeCommand(platformName: string, command: string, commandArgs: Record<string, any>) {
-  const module = getModule(platformName);
-
-  if (!module) {
-    console.log(`❌ Platform "${platformName}" not found`);
-    return;
-  }
-
-  // All modules are active by default in the new structure
-
-  const cmd = module.commands.find((c) => c.name === command);
-  if (!cmd) {
-    console.log(`❌ Command "${command}" not found in ${platformName}`);
-    return;
-  }
-
   try {
+    await ensurePlatformsInitialized();
+    
+    const module = getModule(platformName);
+
+    if (!module) {
+      console.log(`❌ Platform "${platformName}" not found`);
+      return;
+    }
+
+    if (!platformRegistry.isActive(platformName)) {
+      const status = platformRegistry.getStatus(platformName);
+      console.log(`❌ Platform "${platformName}" is not active`);
+      if (status?.error) {
+        console.log(`Error: ${status.error}`);
+      }
+      return;
+    }
+
+    const cmd = module.commands.find((c) => c.name === command);
+    if (!cmd) {
+      console.log(`❌ Command "${command}" not found in ${platformName}`);
+      return;
+    }
+
     await cmd.handler(commandArgs);
   } catch (error: any) {
-    console.error(`❌ Error executing ${command}: ${error.message}`);
+    if (error instanceof CLIError) {
+      console.error(`❌ ${error.code}: ${error.message}`);
+    } else {
+      console.error(`❌ Error executing ${command}: ${error.message}`);
+    }
   }
 }
 
 export async function listCommands(platformName: string) {
   try {
-    const module = modules[platformName as keyof typeof modules];
-    if (!module) {
+    await ensurePlatformsInitialized();
+    
+    const platformModule = platformRegistry.get(platformName);
+    if (!platformModule) {
       const theme = getTheme(platformName);
       console.log(theme.error(`❌ Platform '${platformName}' not found`));
       return;
     }
 
+    const module = platformModule.platform;
     const theme = getTheme(platformName);
     const version = module.version || "2.0.0";
     console.log(`\n${theme.primary(`🎯 ${module.name} v${version}`)}`);
@@ -322,7 +289,7 @@ export async function listCommands(platformName: string) {
         version: module.version || "2.0.0",
         totalCommands: module.totalCommands,
         categories: module.categories,
-        status: "active",
+        status: platformRegistry.isActive(platformName) ? "active" : "inactive",
         lastUpdated: new Date().toISOString(),
       },
       commands: module.commands.map((cmd) => ({
@@ -332,6 +299,7 @@ export async function listCommands(platformName: string) {
         category: cmd.category,
         options: cmd.options || [],
         examples: cmd.examples || [],
+        aliases: cmd.aliases || [],
       })),
     };
 

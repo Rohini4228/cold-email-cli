@@ -369,12 +369,112 @@ export const TemplateCreateRequestSchema = z.object({
   variables: z.array(z.string()).optional(),
 });
 
+// QuickMail Schemas
+export const QuickMailCampaignSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  subject: z.string(),
+  from_name: z.string(),
+  from_email: z.string().email(),
+  reply_to: z.string().email().optional(),
+  status: z.enum(["draft", "running", "paused", "stopped", "completed"]),
+  track_opens: z.boolean(),
+  track_clicks: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  analytics: z.object({
+    sent: z.number().int().min(0),
+    delivered: z.number().int().min(0),
+    opens: z.number().int().min(0),
+    clicks: z.number().int().min(0),
+    replies: z.number().int().min(0),
+    bounces: z.number().int().min(0),
+    unsubscribes: z.number().int().min(0),
+    open_rate: z.number().min(0).max(100),
+    click_rate: z.number().min(0).max(100),
+    reply_rate: z.number().min(0).max(100),
+    bounce_rate: z.number().min(0).max(100),
+  }),
+});
+
+export const QuickMailContactSchema = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  company: z.string().optional(),
+  position: z.string().optional(),
+  phone: z.string().optional(),
+  website: z.string().url().optional(),
+  linkedin: z.string().url().optional(),
+  custom_fields: z.record(z.any()).optional(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const QuickMailOutreachSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  subject: z.string(),
+  body: z.string(),
+  from_name: z.string(),
+  from_email: z.string().email(),
+  delay_days: z.number().int().min(0),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const QuickMailEmailAccountSchema = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  smtp_host: z.string(),
+  smtp_port: z.number().int().min(1).max(65535),
+  imap_host: z.string(),
+  imap_port: z.number().int().min(1).max(65535),
+  use_ssl: z.boolean(),
+  status: z.enum(["connected", "disconnected", "testing", "error"]),
+  warmup_enabled: z.boolean(),
+  daily_limit: z.number().int().positive().optional(),
+  sent_today: z.number().int().min(0).optional(),
+  deliverability_score: z.number().min(0).max(100).optional(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const QuickMailTemplateSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  subject: z.string(),
+  body: z.string(),
+  category: z.string(),
+  variables: z.array(z.string()).optional(),
+  usage_count: z.number().int().min(0).optional(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const QuickMailWebhookSchema = z.object({
+  id: z.string(),
+  url: z.string().url(),
+  events: z.array(z.string()),
+  active: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
 // Export types
 export type SmartLeadCampaign = z.infer<typeof SmartLeadCampaignSchema>;
 export type SmartLeadLead = z.infer<typeof SmartLeadLeadSchema>;
 export type SmartLeadEmailAccount = z.infer<typeof SmartLeadEmailAccountSchema>;
 export type SmartLeadSequence = z.infer<typeof SmartLeadSequenceSchema>;
 export type SmartLeadTemplate = z.infer<typeof SmartLeadTemplateSchema>;
+
+export type QuickMailCampaign = z.infer<typeof QuickMailCampaignSchema>;
+export type QuickMailContact = z.infer<typeof QuickMailContactSchema>;
+export type QuickMailOutreach = z.infer<typeof QuickMailOutreachSchema>;
+export type QuickMailEmailAccount = z.infer<typeof QuickMailEmailAccountSchema>;
+export type QuickMailTemplate = z.infer<typeof QuickMailTemplateSchema>;
+export type QuickMailWebhook = z.infer<typeof QuickMailWebhookSchema>;
 
 export type InstantlyCampaign = z.infer<typeof InstantlyCampaignSchema>;
 export type InstantlyLead = z.infer<typeof InstantlyLeadSchema>;

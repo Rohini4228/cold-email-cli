@@ -1,142 +1,212 @@
 {
-  "mcpServers": {
-    "outreach": {
-      "command": "@cec/outreach/mcp-server",
-      "env": {
-        "OUTREACH_API_KEY": "${OUTREACH_API_KEY}"
-      }
+  "name": "outreach-cli",
+  "description": "Outreach CLI integration for Enterprise sales engagement platform with advanced sequence management",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "Outreach CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": [
+      "run",
+      "src/cli.ts",
+      "outreach"
+    ],
+    "env": {
+      "OUTREACH_API_KEY": "${OUTREACH_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "resources": [
-    {
-      "name": "outreach_sequences",
-      "description": "Outreach sequence management and automation",
-      "type": "api",
-      "base_url": "https://api.outreach.io/api/v2",
-      "auth": "Bearer ${OUTREACH_API_KEY}",
-      "endpoints": [
-        {
-          "path": "/sequences",
-          "method": "GET",
-          "description": "List all sequences"
-        },
-        {
-          "path": "/sequences",
-          "method": "POST",
-          "description": "Create new sequence"
-        },
-        {
-          "path": "/sequences/{id}",
-          "method": "GET",
-          "description": "Get sequence details"
-        },
-        {
-          "path": "/sequences/{id}",
-          "method": "PATCH",
-          "description": "Update sequence"
-        },
-        {
-          "path": "/sequences/{id}",
-          "method": "DELETE",
-          "description": "Delete sequence"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "outreach_sequences",
+        "description": "Manage Outreach sequences operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "outreach_prospects",
-      "description": "Outreach prospect management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/prospects",
-          "method": "GET",
-          "description": "List prospects"
-        },
-        {
-          "path": "/prospects",
-          "method": "POST",
-          "description": "Create prospect"
-        },
-        {
-          "path": "/prospects/{id}",
-          "method": "GET",
-          "description": "Get prospect details"
-        },
-        {
-          "path": "/prospects/{id}",
-          "method": "PATCH",
-          "description": "Update prospect"
+      },
+      {
+        "name": "outreach_prospects",
+        "description": "Manage Outreach prospects operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "outreach_mailboxes",
-      "description": "Outreach mailbox management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/mailboxes",
-          "method": "GET",
-          "description": "List mailboxes"
-        },
-        {
-          "path": "/mailboxes/{id}",
-          "method": "GET",
-          "description": "Get mailbox details"
-        },
-        {
-          "path": "/mailboxes/{id}",
-          "method": "PATCH",
-          "description": "Update mailbox"
+      },
+      {
+        "name": "outreach_mailboxes",
+        "description": "Manage Outreach mailboxes operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "outreach_templates",
-      "description": "Outreach template management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/templates",
-          "method": "GET",
-          "description": "List templates"
-        },
-        {
-          "path": "/templates",
-          "method": "POST",
-          "description": "Create template"
-        },
-        {
-          "path": "/templates/{id}",
-          "method": "GET",
-          "description": "Get template details"
-        },
-        {
-          "path": "/templates/{id}",
-          "method": "PATCH",
-          "description": "Update template"
+      },
+      {
+        "name": "outreach_templates",
+        "description": "Manage Outreach templates operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    }
-  ],
-  "tools": [
-    {
-      "name": "cec_outreach",
-      "description": "Execute Outreach commands via CEC CLI",
-      "examples": [
-        "cec outreach sequences:list",
-        "cec outreach sequences:create --name 'Q4 Outreach'",
-        "cec outreach prospects:create --firstName John --lastName Doe --email john@company.com",
-        "cec outreach analytics:sequences --id sequence_123"
-      ]
-    }
-  ],
-  "metadata": {
-    "name": "Outreach.io Enterprise Sales Engagement",
-    "version": "2.0.0",
-    "description": "Enterprise sales engagement platform with advanced sequence management",
-    "total_operations": 55,
-    "focus": "Enterprise sequences, prospect management, team collaboration, CRM integration",
-    "documentation": "https://api.outreach.io/api/v2/docs"
+      },
+      {
+        "name": "outreach_analytics",
+        "description": "Manage Outreach analytics operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "outreach_settings",
+        "description": "Manage Outreach settings operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      }
+    ]
+  },
+  "features": {
+    "specialization": "Enterprise Sales Engagement",
+    "total_tools": 6,
+    "capabilities": [
+      "api_integration",
+      "cli_commands",
+      "analytics",
+      "automation"
+    ]
+  },
+  "documentation": {
+    "api_reference": "https://outreach.com/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/outreach.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/outreach"
   }
-} 
+}

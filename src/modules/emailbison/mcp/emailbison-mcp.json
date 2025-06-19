@@ -1,107 +1,212 @@
 {
-  "mcpServers": {
-    "@cec/emailbison": {
-      "command": "node",
-      "args": ["dist/mcp-server.js"],
-      "env": {
-        "EMAILBISON_API_KEY": "your-emailbison-api-key"
-      }
-    }
-  },
-  "description": "Email Bison MCP Server - Power-Driven Email Automation Platform",
+  "name": "emailbison-cli",
+  "description": "EmailBison CLI integration for Power-driven email automation with levels 1-10 intensity management",
   "version": "2.0.0",
-  "endpoints": {
-    "base_url": "https://api.emailbison.com/v1",
-    "auth_type": "bearer_token",
-    "rate_limits": {
-      "default": "900/minute"
-    },
-    "resources": {
-      "power_campaigns": {
-        "description": "Power-driven campaigns with levels 1-10",
-        "methods": ["GET", "POST", "PUT", "DELETE"],
-        "endpoints": [
-          "GET /campaigns - List power campaigns",
-          "POST /campaigns - Create power campaign",
-          "GET /campaigns/{id} - Get campaign details",
-          "PUT /campaigns/{id} - Update campaign",
-          "DELETE /campaigns/{id} - Delete campaign",
-          "POST /campaigns/{id}/boost - Apply power boost",
-          "GET /campaigns/{id}/power-level - Get current power level",
-          "PUT /campaigns/{id}/power-level - Set power level (1-10)"
-        ]
-      },
-      "power_automation": {
-        "description": "Advanced power automation rules",
-        "methods": ["GET", "POST", "PUT", "DELETE"],
-        "endpoints": [
-          "GET /automation/rules - List automation rules",
-          "POST /automation/rules - Create automation rule",
-          "GET /automation/rules/{id} - Get rule details",
-          "PUT /automation/rules/{id} - Update rule",
-          "DELETE /automation/rules/{id} - Delete rule",
-          "POST /automation/rules/{id}/activate - Activate rule",
-          "POST /automation/rules/{id}/deactivate - Deactivate rule"
-        ]
-      },
-      "power_warmup": {
-        "description": "Power warmup optimization",
-        "methods": ["GET", "POST", "PUT"],
-        "endpoints": [
-          "GET /warmup/accounts - List warmup accounts",
-          "POST /warmup/accounts - Add account to warmup",
-          "GET /warmup/accounts/{id}/status - Get warmup status",
-          "PUT /warmup/accounts/{id}/power-level - Set warmup power level",
-          "POST /warmup/accounts/{id}/boost - Apply warmup boost"
-        ]
-      },
-      "power_segmentation": {
-        "description": "AI-powered contact segmentation",
-        "methods": ["GET", "POST", "PUT", "DELETE"],
-        "endpoints": [
-          "GET /segments - List power segments",
-          "POST /segments - Create power segment",
-          "GET /segments/{id} - Get segment details",
-          "PUT /segments/{id} - Update segment",
-          "DELETE /segments/{id} - Delete segment",
-          "POST /segments/{id}/analyze - AI analyze segment power"
-        ]
-      },
-      "power_templates": {
-        "description": "AI template personalization with power levels",
-        "methods": ["GET", "POST", "PUT", "DELETE"],
-        "endpoints": [
-          "GET /templates - List power templates",
-          "POST /templates - Create power template",
-          "GET /templates/{id} - Get template details",
-          "PUT /templates/{id} - Update template",
-          "DELETE /templates/{id} - Delete template",
-          "POST /templates/{id}/personalize - AI personalize template",
-          "POST /templates/{id}/power-optimize - Power optimize template"
-        ]
-      }
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "EmailBison CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": [
+      "run",
+      "src/cli.ts",
+      "emailbison"
+    ],
+    "env": {
+      "EMAILBISON_API_KEY": "${EMAILBISON_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "authentication": {
-    "type": "bearer_token",
-    "header": "Authorization: Bearer {token}",
-    "environment_variable": "EMAILBISON_API_KEY"
-  },
-  "cli_commands": {
-    "total": 32,
-    "categories": [
-      "⚡ Power Campaigns (8 commands)",
-      "🤖 Power Automation (7 commands)",
-      "🔥 Power Warmup (5 commands)",
-      "📊 Power Segmentation (6 commands)",
-      "📝 Power Templates (6 commands)"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "emailbison_campaigns",
+        "description": "Manage EmailBison campaigns operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "emailbison_automation",
+        "description": "Manage EmailBison automation operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "emailbison_analytics",
+        "description": "Manage EmailBison analytics operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "emailbison_accounts",
+        "description": "Manage EmailBison accounts operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "emailbison_sequences",
+        "description": "Manage EmailBison sequences operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "emailbison_templates",
+        "description": "Manage EmailBison templates operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      }
     ]
   },
   "features": {
-    "power_levels": "Unique 1-10 power level system for campaigns and features",
-    "power_boost": "Advanced power boost capabilities across all features",
-    "ai_personalization": "AI-powered template personalization",
-    "power_automation": "Sophisticated automation rules with power optimization",
-    "power_segmentation": "AI-driven contact segmentation with power analysis"
+    "specialization": "Power-Level Email Automation",
+    "total_tools": 6,
+    "capabilities": [
+      "api_integration",
+      "cli_commands",
+      "analytics",
+      "automation"
+    ]
+  },
+  "documentation": {
+    "api_reference": "https://emailbison.com/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/emailbison.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/emailbison"
   }
 }

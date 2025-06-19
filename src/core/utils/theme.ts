@@ -103,6 +103,16 @@ const themes = {
     muted: "#64748b",
     text: "#ffffff",
   },
+  quickmail: {
+    primary: "#06b6d4", // QuickMail teal/cyan
+    secondary: "#14b8a6",
+    accent: "#0891b2",
+    success: "#10b981",
+    warning: "#f59e0b",
+    error: "#ef4444",
+    muted: "#64748b",
+    text: "#ffffff",
+  },
 };
 
 export interface ThemeColors {
@@ -166,6 +176,7 @@ export function showWelcomeMessage(module: string): void {
     outreach: "Outreach",
     salesloft: "Salesloft",
     lemlist: "lemlist",
+    quickmail: "QuickMail",
   };
 
   const moduleName = moduleNames[module as keyof typeof moduleNames] || "Cold Email CLI";
@@ -258,4 +269,5 @@ export const platformNames = {
   outreach: "Outreach",
   salesloft: "Salesloft",
   lemlist: "lemlist",
+  quickmail: "QuickMail",
 } as const;

@@ -1,0 +1,326 @@
+{
+  "name": "quickmail-cli",
+  "description": "QuickMail CLI integration for lightning-fast email automation and outreach management",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "QuickMail CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": ["run", "src/cli.ts", "quickmail"],
+    "env": {
+      "QUICKMAIL_API_KEY": "${QUICKMAIL_API_KEY}",
+      "NODE_ENV": "production"
+    }
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "quickmail_campaigns",
+        "description": "Manage QuickMail email campaigns - create, update, launch, pause, and analyze campaigns",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "launch", "pause", "stop", "stats"],
+              "description": "Action to perform on campaigns"
+            },
+            "id": {
+              "type": "string",
+              "description": "Campaign ID for specific operations"
+            },
+            "name": {
+              "type": "string",
+              "description": "Campaign name"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "from_name": {
+              "type": "string",
+              "description": "Sender name"
+            },
+            "from_email": {
+              "type": "string",
+              "description": "Sender email address"
+            },
+            "track_opens": {
+              "type": "boolean",
+              "description": "Enable open tracking"
+            },
+            "track_clicks": {
+              "type": "boolean",
+              "description": "Enable click tracking"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "quickmail_contacts",
+        "description": "Manage QuickMail contacts - import, create, update, search and organize contact databases",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "bulk-create", "import", "search"],
+              "description": "Action to perform on contacts"
+            },
+            "id": {
+              "type": "string",
+              "description": "Contact ID for specific operations"
+            },
+            "email": {
+              "type": "string",
+              "description": "Contact email address"
+            },
+            "first_name": {
+              "type": "string",
+              "description": "Contact first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Contact last name"
+            },
+            "company": {
+              "type": "string",
+              "description": "Contact company"
+            },
+            "position": {
+              "type": "string",
+              "description": "Contact job position"
+            },
+            "query": {
+              "type": "string",
+              "description": "Search query for contacts"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "quickmail_outreaches",
+        "description": "Manage QuickMail outreach sequences - create automated follow-up sequences and drip campaigns",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "clone"],
+              "description": "Action to perform on outreach sequences"
+            },
+            "id": {
+              "type": "string",
+              "description": "Outreach sequence ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Sequence name"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject"
+            },
+            "body": {
+              "type": "string",
+              "description": "Email body content"
+            },
+            "delay_days": {
+              "type": "number",
+              "description": "Delay in days before sending"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "quickmail_accounts",
+        "description": "Manage QuickMail email accounts - configure SMTP/IMAP settings, warmup management, and deliverability monitoring",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "test", "warmup-start", "warmup-stop", "warmup-stats", "deliverability"],
+              "description": "Action to perform on email accounts"
+            },
+            "id": {
+              "type": "string",
+              "description": "Email account ID"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address"
+            },
+            "smtp_host": {
+              "type": "string",
+              "description": "SMTP server hostname"
+            },
+            "smtp_port": {
+              "type": "number",
+              "description": "SMTP server port"
+            },
+            "imap_host": {
+              "type": "string",
+              "description": "IMAP server hostname"
+            },
+            "imap_port": {
+              "type": "number",
+              "description": "IMAP server port"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "quickmail_templates",
+        "description": "Manage QuickMail email templates - create, edit, clone templates with variable support and preview functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "clone", "variables", "preview"],
+              "description": "Action to perform on templates"
+            },
+            "id": {
+              "type": "string",
+              "description": "Template ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Template name"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject template"
+            },
+            "body": {
+              "type": "string",
+              "description": "Email body template"
+            },
+            "category": {
+              "type": "string",
+              "description": "Template category"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "quickmail_analytics",
+        "description": "Access QuickMail analytics and reporting - campaign performance, email metrics, click tracking, and deliverability stats",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["overview", "campaigns", "emails", "clicks", "unsubscribes", "deliverability", "performance", "compare"],
+              "description": "Type of analytics to retrieve"
+            },
+            "id": {
+              "type": "string",
+              "description": "Campaign or account ID for specific analytics"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Start date for analytics period (YYYY-MM-DD)"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "End date for analytics period (YYYY-MM-DD)"
+            },
+            "period": {
+              "type": "string",
+              "enum": ["7d", "30d", "90d"],
+              "description": "Predefined period for performance analytics"
+            }
+          },
+          "required": ["action"]
+        }
+      }
+    ]
+  },
+  "features": {
+    "campaign_management": {
+      "description": "Complete campaign lifecycle management",
+      "commands": 9,
+      "capabilities": ["create", "launch", "pause", "analytics", "optimization"]
+    },
+    "contact_management": {
+      "description": "Advanced contact database operations",
+      "commands": 8,
+      "capabilities": ["import", "search", "segmentation", "bulk_operations"]
+    },
+    "outreach_sequences": {
+      "description": "Automated follow-up sequences",
+      "commands": 6,
+      "capabilities": ["multi_step", "delays", "personalization", "cloning"]
+    },
+    "email_accounts": {
+      "description": "Email account configuration and warmup",
+      "commands": 10,
+      "capabilities": ["smtp_imap", "warmup", "deliverability", "testing"]
+    },
+    "template_system": {
+      "description": "Advanced template management",
+      "commands": 8,
+      "capabilities": ["variables", "preview", "categorization", "cloning"]
+    },
+    "analytics": {
+      "description": "Comprehensive reporting and analytics",
+      "commands": 8,
+      "capabilities": ["performance", "comparison", "deliverability", "real_time"]
+    }
+  },
+  "usage_examples": [
+    {
+      "name": "Create Campaign",
+      "description": "Create a new email campaign with tracking",
+      "command": "quickmail_campaigns",
+      "parameters": {
+        "action": "create",
+        "name": "Q1 Outreach",
+        "subject": "Partnership Opportunity",
+        "from_name": "John Doe",
+        "from_email": "john@company.com",
+        "track_opens": true,
+        "track_clicks": true
+      }
+    },
+    {
+      "name": "Import Contacts",
+      "description": "Bulk import contacts from CSV data",
+      "command": "quickmail_contacts",
+      "parameters": {
+        "action": "import",
+        "csv_data": "email,first_name,company\\njohn@example.com,John,Example Corp",
+        "mapping": "{\"email\":\"email\",\"first_name\":\"first_name\",\"company\":\"company\"}"
+      }
+    },
+    {
+      "name": "Get Analytics",
+      "description": "Get campaign performance analytics",
+      "command": "quickmail_analytics",
+      "parameters": {
+        "action": "campaigns",
+        "id": "campaign_123",
+        "start_date": "2024-01-01",
+        "end_date": "2024-01-31"
+      }
+    }
+  ],
+  "documentation": {
+    "api_reference": "https://quickmail.co/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/quickmail.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/quickmail"
+  }
+} 

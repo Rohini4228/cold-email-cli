@@ -1,102 +1,191 @@
 {
-  "mcpServers": {
-    "instantly": {
-      "command": "@cec/instantly/mcp-server",
-      "env": {
-        "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}"
-      }
+  "name": "instantly-cli",
+  "description": "Instantly CLI integration for high-volume email automation and deliverability optimization",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "Instantly CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": ["run", "src/cli.ts", "instantly"],
+    "env": {
+      "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "resources": [
-    {
-      "name": "instantly_accounts",
-      "description": "Instantly email account management",
-      "type": "api",
-      "base_url": "https://api.instantly.ai/api/v1",
-      "auth": "Bearer ${INSTANTLY_API_KEY}",
-      "endpoints": [
-        {
-          "path": "/account/accounts",
-          "method": "GET",
-          "description": "List email accounts"
-        },
-        {
-          "path": "/account/accounts",
-          "method": "POST",
-          "description": "Add email account"
-        },
-        {
-          "path": "/account/accounts/{email}/warmup",
-          "method": "PATCH",
-          "description": "Control warmup status"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "instantly_campaigns",
+        "description": "Manage Instantly campaigns - create, launch, pause with advanced analytics and optimization",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "launch", "pause", "stop", "clone", "analytics", "subsequences", "optimization"],
+              "description": "Action to perform on campaigns"
+            },
+            "id": {
+              "type": "string",
+              "description": "Campaign ID for specific operations"
+            },
+            "name": {
+              "type": "string",
+              "description": "Campaign name"
+            },
+            "track_opens": {
+              "type": "boolean",
+              "description": "Enable open tracking"
+            },
+            "track_clicks": {
+              "type": "boolean",
+              "description": "Enable click tracking"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Analytics start date"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "Analytics end date"
+            }
+          },
+          "required": ["action"]
         }
-      ]
+      },
+      {
+        "name": "instantly_accounts",
+        "description": "Manage Instantly email accounts - warmup, vitals, analytics with comprehensive monitoring",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "add", "get", "update", "delete", "warmup", "vitals", "test", "pause", "resume", "analytics", "deliverability"],
+              "description": "Action to perform on email accounts"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address"
+            },
+            "smtp_host": {
+              "type": "string",
+              "description": "SMTP host"
+            },
+            "smtp_port": {
+              "type": "number",
+              "description": "SMTP port"
+            },
+            "warmup_enabled": {
+              "type": "boolean",
+              "description": "Enable warmup"
+            },
+            "daily_limit": {
+              "type": "number",
+              "description": "Daily sending limit"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "instantly_leads",
+        "description": "Manage Instantly leads - add, verify, search with bulk operations and advanced filtering",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "add", "bulk-add", "get", "update", "delete", "verify", "search", "tags", "labels", "export"],
+              "description": "Action to perform on leads"
+            },
+            "campaign_id": {
+              "type": "string",
+              "description": "Campaign ID for lead operations"
+            },
+            "email": {
+              "type": "string",
+              "description": "Lead email address"
+            },
+            "first_name": {
+              "type": "string",
+              "description": "Lead first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Lead last name"
+            },
+            "company": {
+              "type": "string",
+              "description": "Lead company"
+            },
+            "leads": {
+              "type": "array",
+              "description": "Array of leads for bulk operations"
+            }
+          },
+          "required": ["action"]
+        }
+      }
+    ]
+  },
+  "features": {
+    "campaign_management": {
+      "description": "High-volume campaign automation",
+      "commands": 25,
+      "capabilities": ["v2_api", "analytics", "subsequences", "optimization", "cloning"]
+    },
+    "account_management": {
+      "description": "Email account vitals and warmup",
+      "commands": 25,
+      "capabilities": ["vitals_testing", "warmup_analytics", "pause_resume", "deliverability"]
+    },
+    "lead_management": {
+      "description": "Lead operations with verification",
+      "commands": 18,
+      "capabilities": ["bulk_operations", "email_verification", "tags_labels", "search"]
+    }
+  },
+  "usage_examples": [
+    {
+      "name": "Create Campaign",
+      "description": "Create a new high-volume email campaign",
+      "command": "instantly_campaigns",
+      "parameters": {
+        "action": "create",
+        "name": "High Volume Outreach",
+        "track_opens": true,
+        "track_clicks": true
+      }
     },
     {
-      "name": "instantly_campaigns",
-      "description": "Instantly campaign management",
-      "endpoints": [
-        {
-          "path": "/campaign/list",
-          "method": "GET",
-          "description": "List campaigns"
-        },
-        {
-          "path": "/campaign/create",
-          "method": "POST",
-          "description": "Create campaign"
-        },
-        {
-          "path": "/campaign/launch/{id}",
-          "method": "POST",
-          "description": "Launch campaign"
-        },
-        {
-          "path": "/campaign/pause/{id}",
-          "method": "POST",
-          "description": "Pause campaign"
-        }
-      ]
+      "name": "Test Account Vitals",
+      "description": "Test email account health and vitals",
+      "command": "instantly_accounts",
+      "parameters": {
+        "action": "vitals",
+        "email": "sales@company.com"
+      }
     },
     {
-      "name": "instantly_leads",
-      "description": "Instantly lead management",
-      "endpoints": [
-        {
-          "path": "/campaign/add_leads/{campaign_id}",
-          "method": "POST",
-          "description": "Add leads to campaign"
-        },
-        {
-          "path": "/campaign/leads/{campaign_id}",
-          "method": "GET",
-          "description": "Get campaign leads"
-        },
-        {
-          "path": "/leads/verify/{campaign_id}",
-          "method": "POST",
-          "description": "Verify lead emails"
-        }
-      ]
+      "name": "Verify Lead Emails",
+      "description": "Verify email addresses for deliverability",
+      "command": "instantly_leads",
+      "parameters": {
+        "action": "verify",
+        "campaign_id": "123"
+      }
     }
   ],
-  "tools": [
-    {
-      "name": "cec_instantly",
-      "description": "Execute Instantly commands via CEC CLI",
-      "examples": [
-        "cec exec instantly campaigns:list",
-        "cec exec instantly accounts:warmup --args '{\"email\":\"user@domain.com\",\"status\":\"start\"}'",
-        "cec exec instantly analytics:campaign --args '{\"id\":\"123\",\"period\":\"30d\"}'"
-      ]
-    }
-  ],
-  "metadata": {
-    "name": "Instantly.ai High-Volume Email Automation",
-    "version": "2.0.0",
-    "description": "High-volume email automation with industry-leading deliverability",
-    "total_operations": 35,
-    "focus": "High-volume sending, deliverability, inbox management",
-    "documentation": "https://developer.instantly.ai/"
+  "documentation": {
+    "api_reference": "https://developer.instantly.ai/",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/instantly.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/instantly"
   }
 } 

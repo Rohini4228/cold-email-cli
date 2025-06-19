@@ -1,528 +1,124 @@
 {
   "mcpServers": {
-    "cold-email-cli": {
-      "command": "cold-email-cli",
-      "args": ["--mcp-server"],
+    "smartlead": {
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "smartlead"
+      ],
       "env": {
         "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}",
-        "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}",
-        "SALESFORGE_API_KEY": "${SALESFORGE_API_KEY}",
-        "APOLLO_API_KEY": "${APOLLO_API_KEY}",
-        "EMAILBISON_API_KEY": "${EMAILBISON_API_KEY}",
-        "AMPLEMARKET_API_KEY": "${AMPLEMARKET_API_KEY}",
-        "OUTREACH_API_KEY": "${OUTREACH_API_KEY}",
-        "SALESLOFT_API_KEY": "${SALESLOFT_API_KEY}",
-        "LEMLIST_API_KEY": "${LEMLIST_API_KEY}"
+        "NODE_ENV": "production"
       }
-    }
-  },
-  "description": "Cold Email CLI MCP Server - Complete Multi-Platform Email Automation Suite",
-  "version": "2.0.0",
-  "platforms": {
-    "smartlead": {
-      "name": "SmartLead",
-      "description": "Advanced Campaign Management & Analytics Platform", 
-      "commands": 68,
-      "categories": ["📊 Campaigns", "👥 Leads", "📧 Accounts", "🔄 Sequences", "📝 Templates", "📈 Analytics"],
-      "features": ["Advanced Analytics", "Email Warmup", "Bulk Operations", "Sequence Automation"]
     },
     "instantly": {
-      "name": "Instantly",
-      "description": "High-Volume Email Automation & Deliverability Platform",
-      "commands": 45,
-      "categories": ["🚀 Campaigns", "👥 Leads", "📧 Accounts"],
-      "features": ["High Volume", "File Upload", "Deliverability Focus", "Account Warmup"]
-    },
-    "salesforge": {
-      "name": "Salesforge", 
-      "description": "AI-Powered Multi-Channel Sequences Platform",
-      "commands": 42,
-      "categories": ["🤖 AI Sequences", "📝 AI Templates", "🎯 AI Campaigns"],
-      "features": ["AI Powered", "Multi Channel", "Optimization", "Performance Prediction"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "instantly"
+      ],
+      "env": {
+        "INSTANTLY_API_KEY": "${INSTANTLY_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "apollo": {
-      "name": "Apollo",
-      "description": "Email Sequence & Outreach Automation Platform",
-      "commands": 42,
-      "categories": ["🔄 Sequences", "📝 Templates", "👤 Contacts", "📧 Accounts"],
-      "features": ["Sequence Focused", "Template Management", "Contact Management", "Outreach Automation"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "apollo"
+      ],
+      "env": {
+        "APOLLO_API_KEY": "${APOLLO_API_KEY}",
+        "NODE_ENV": "production"
+      }
+    },
+    "salesforge": {
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "salesforge"
+      ],
+      "env": {
+        "SALESFORGE_API_KEY": "${SALESFORGE_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "emailbison": {
-      "name": "Email Bison",
-      "description": "Power-Driven Email Automation Platform",
-      "commands": 32,
-      "categories": ["⚡ Power Campaigns", "🤖 Power Automation", "🔥 Power Warmup", "📊 Power Segmentation", "📝 Power Templates"],
-      "features": ["Power Levels 1-10", "Power Boost", "AI Personalization", "Power Automation"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "emailbison"
+      ],
+      "env": {
+        "EMAILBISON_API_KEY": "${EMAILBISON_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "amplemarket": {
-      "name": "AmpleMarket",
-      "description": "Sales Intelligence & Prospecting Platform",
-      "commands": 15,
-      "categories": ["🏢 Account Management", "📊 Lead Lists", "👤 Contacts", "🚀 Sequences", "✅ Tasks"],
-      "features": ["Task Management", "Lead Lists", "Sales Intelligence", "Sequence Management"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "amplemarket"
+      ],
+      "env": {
+        "AMPLEMARKET_API_KEY": "${AMPLEMARKET_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "outreach": {
-      "name": "Outreach",
-      "description": "Enterprise Sales Engagement & Sequence Platform",
-      "commands": 55,
-      "categories": ["🎯 Sequences", "👤 Prospects", "📧 Mailboxes", "📝 Templates", "📊 Analytics", "⚙️ Settings"],
-      "features": ["Enterprise Scale", "Advanced Sequences", "CRM Integration", "Team Management"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "outreach"
+      ],
+      "env": {
+        "OUTREACH_API_KEY": "${OUTREACH_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "salesloft": {
-      "name": "SalesLoft",
-      "description": "Modern Sales Engagement & Cadence Platform",
-      "commands": 48,
-      "categories": ["🔄 Cadences", "👥 People", "📧 Email", "📞 Calls", "📊 Analytics", "⚙️ Admin"],
-      "features": ["Modern Interface", "Cadence Management", "Multi-Channel", "Sales Intelligence"]
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "salesloft"
+      ],
+      "env": {
+        "SALESLOFT_API_KEY": "${SALESLOFT_API_KEY}",
+        "NODE_ENV": "production"
+      }
     },
     "lemlist": {
-      "name": "LemList",
-      "description": "Creative Email Outreach & Automation Platform",
-      "commands": 25,
-      "categories": ["🚀 Campaigns", "👥 Leads", "🔄 Sequences", "📝 Templates", "📊 Analytics", "⚙️ Team"],
-      "features": ["Creative Outreach", "Personalization", "Visual Templates", "Campaign Analytics"]
-    }
-  },
-  "totals": {
-    "platforms": 9,
-    "commands": 372,
-    "api_methods": "175+",
-    "categories": 41
-  },
-  "authentication": {
-    "required_keys": [
-      "SMARTLEAD_API_KEY",
-      "INSTANTLY_API_KEY", 
-      "SALESFORGE_API_KEY",
-      "APOLLO_API_KEY",
-      "EMAILBISON_API_KEY",
-      "AMPLEMARKET_API_KEY",
-      "OUTREACH_API_KEY",
-      "SALESLOFT_API_KEY",
-      "LEMLIST_API_KEY"
-    ],
-    "note": "Each platform requires its own API key configured as environment variable"
-  },
-  "features": {
-    "multi_platform": "Complete integration with 9 major email automation platforms",
-    "ai_powered": "Salesforge and Email Bison provide AI-powered features",
-    "high_volume": "SmartLead and Instantly optimized for high-volume campaigns",
-    "enterprise_ready": "Outreach and SalesLoft provide enterprise-grade features",
-    "task_management": "AmpleMarket provides comprehensive task management workflow",
-    "power_features": "Email Bison offers unique 1-10 power level system",
-    "creative_outreach": "LemList specializes in creative and visual email campaigns"
-  },
-  "tools": [
-    {
-      "name": "smartlead",
-      "description": "SmartLead.ai advanced cold email campaign management with 68+ commands",
-      "version": "2.0.0",
-      "categories": [
-        "Campaign Management",
-        "Lead Management", 
-        "Email Accounts",
-        "Advanced Analytics",
-        "Templates & Content",
-        "Integrations"
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "lemlist"
       ],
-      "endpoints": {
-        "base_url": "https://server.smartlead.ai/api/v1",
-        "auth": "Bearer API_KEY",
-        "rate_limits": {
-          "requests_per_minute": 100,
-          "requests_per_hour": 1000
-        }
-      },
-      "command_groups": {
-        "campaigns": {
-          "count": 15,
-          "commands": [
-            "campaigns:list",
-            "campaigns:create", 
-            "campaigns:get",
-            "campaigns:update",
-            "campaigns:delete",
-            "campaigns:start",
-            "campaigns:pause",
-            "campaigns:resume",
-            "campaigns:clone",
-            "campaigns:analytics",
-            "campaigns:optimize",
-            "campaigns:sequences",
-            "campaigns:export",
-            "campaigns:schedule",
-            "campaigns:test"
-          ]
-        },
-        "leads": {
-          "count": 18,
-          "commands": [
-            "leads:list",
-            "leads:create",
-            "leads:bulk-create",
-            "leads:get",
-            "leads:update",
-            "leads:delete",
-            "leads:merge",
-            "leads:segment",
-            "leads:score",
-            "leads:enrich",
-            "leads:validate",
-            "leads:export",
-            "leads:import-linkedin",
-            "leads:blacklist",
-            "leads:timeline",
-            "leads:duplicate-detection",
-            "leads:engagement",
-            "leads:lifecycle"
-          ]
-        },
-        "accounts": {
-          "count": 12,
-          "commands": [
-            "accounts:list",
-            "accounts:create",
-            "accounts:get",
-            "accounts:update",
-            "accounts:delete",
-            "accounts:warmup-start",
-            "accounts:warmup-stop",
-            "accounts:warmup-analytics",
-            "accounts:deliverability",
-            "accounts:test-connectivity",
-            "accounts:usage-analytics",
-            "accounts:reputation"
-          ]
-        },
-        "analytics": {
-          "count": 10,
-          "commands": [
-            "analytics:dashboard",
-            "analytics:performance",
-            "analytics:deliverability",
-            "analytics:engagement",
-            "analytics:roi",
-            "analytics:trends",
-            "analytics:cohort",
-            "analytics:attribution",
-            "analytics:real-time",
-            "analytics:export"
-          ]
-        },
-        "templates": {
-          "count": 8,
-          "commands": [
-            "templates:list",
-            "templates:create",
-            "templates:get",
-            "templates:update",
-            "templates:delete",
-            "templates:test",
-            "templates:optimize",
-            "templates:performance"
-          ]
-        },
-        "integrations": {
-          "count": 5,
-          "commands": [
-            "integrations:list",
-            "integrations:crm-sync",
-            "integrations:webhooks",
-            "integrations:automation",
-            "integrations:api-usage"
-          ]
-        }
+      "env": {
+        "LEMLIST_API_KEY": "${LEMLIST_API_KEY}",
+        "NODE_ENV": "production"
       }
     },
-    {
-      "name": "instantly",
-      "description": "Instantly.ai high-volume cold email automation with 35+ commands",
-      "version": "2.0.0",
-      "categories": [
-        "Campaign Management",
-        "Lead Management",
-        "Account Management", 
-        "Inbox Management",
-        "Analytics & Reporting"
+    "quickmail": {
+      "command": "bun",
+      "args": [
+        "run",
+        "src/cli.ts",
+        "quickmail"
       ],
-      "endpoints": {
-        "base_url": "https://api.instantly.ai/api/v1",
-        "auth": "Bearer API_KEY",
-        "rate_limits": {
-          "requests_per_minute": 200,
-          "requests_per_hour": 2000
-        }
-      },
-      "command_groups": {
-        "campaigns": {
-          "count": 8,
-          "commands": [
-            "campaigns:list",
-            "campaigns:create",
-            "campaigns:get", 
-            "campaigns:update",
-            "campaigns:delete",
-            "campaigns:launch",
-            "campaigns:pause",
-            "campaigns:analytics"
-          ]
-        },
-        "leads": {
-          "count": 12,
-          "commands": [
-            "leads:add",
-            "leads:bulk-add",
-            "leads:list",
-            "leads:get",
-            "leads:update",
-            "leads:delete",
-            "leads:pause",
-            "leads:resume",
-            "leads:unsubscribe",
-            "leads:export",
-            "leads:search",
-            "leads:blacklist"
-          ]
-        },
-        "accounts": {
-          "count": 6,
-          "commands": [
-            "accounts:list",
-            "accounts:add",
-            "accounts:get",
-            "accounts:update",
-            "accounts:delete",
-            "accounts:warmup"
-          ]
-        },
-        "unibox": {
-          "count": 5,
-          "commands": [
-            "unibox:conversations",
-            "unibox:get",
-            "unibox:reply",
-            "unibox:mark-read",
-            "unibox:export"
-          ]
-        },
-        "analytics": {
-          "count": 4,
-          "commands": [
-            "analytics:summary",
-            "analytics:deliverability",
-            "analytics:performance",
-            "analytics:export"
-          ]
-        }
-      }
-    },
-    {
-      "name": "salesforge",
-      "description": "Salesforge.ai AI-powered cold email automation with 42+ commands",
-      "version": "1.0.0",
-      "categories": [
-        "Campaign Management",
-        "AI Sequences",
-        "Lead Management",
-        "AI Templates",
-        "Multi-Channel",
-        "AI Analytics"
-      ],
-      "endpoints": {
-        "base_url": "https://api.salesforge.ai/public/v2",
-        "auth": "Bearer API_KEY",
-        "rate_limits": {
-          "requests_per_minute": 150,
-          "requests_per_hour": 1500
-        }
-      },
-      "command_groups": {
-        "campaigns": {
-          "count": 10,
-          "commands": [
-            "campaigns:create",
-            "campaigns:list",
-            "campaigns:get",
-            "campaigns:update",
-            "campaigns:delete",
-            "campaigns:start",
-            "campaigns:pause",
-            "campaigns:clone",
-            "campaigns:analytics",
-            "campaigns:optimize"
-          ]
-        },
-        "sequences": {
-          "count": 8,
-          "commands": [
-            "sequences:create",
-            "sequences:list",
-            "sequences:get",
-            "sequences:update",
-            "sequences:delete",
-            "sequences:optimize",
-            "sequences:test",
-            "sequences:generate"
-          ]
-        },
-        "leads": {
-          "count": 6,
-          "commands": [
-            "leads:import",
-            "leads:score",
-            "leads:segment",
-            "leads:personalize",
-            "leads:export",
-            "leads:predict"
-          ]
-        },
-        "templates": {
-          "count": 7,
-          "commands": [
-            "templates:generate",
-            "templates:list",
-            "templates:get",
-            "templates:optimize",
-            "templates:test",
-            "templates:personalize",
-            "templates:analyze"
-          ]
-        },
-        "multichannel": {
-          "count": 5,
-          "commands": [
-            "multichannel:create",
-            "multichannel:list",
-            "multichannel:get",
-            "multichannel:optimize",
-            "multichannel:analytics"
-          ]
-        },
-        "analytics": {
-          "count": 6,
-          "commands": [
-            "analytics:ai-insights",
-            "analytics:predict",
-            "analytics:optimize",
-            "analytics:compare",
-            "analytics:trends",
-            "analytics:export"
-          ]
-        }
-      }
-    },
-    {
-      "name": "apollo",
-      "description": "Apollo.io email sequences & outreach automation with 42+ commands",
-      "version": "1.0.0",
-      "categories": [
-        "Email Sequences",
-        "Contact Management",
-        "Email Templates",
-        "Email Accounts",
-        "Analytics",
-        "Inbox Management"
-      ],
-      "endpoints": {
-        "base_url": "https://api.apollo.io/v1",
-        "auth": "Bearer API_KEY",
-        "rate_limits": {
-          "requests_per_minute": 120,
-          "requests_per_hour": 1200
-        }
-      },
-      "command_groups": {
-        "sequences": {
-          "count": 12,
-          "commands": [
-            "sequences:create",
-            "sequences:list",
-            "sequences:get",
-            "sequences:update",
-            "sequences:delete",
-            "sequences:clone",
-            "sequences:start",
-            "sequences:pause",
-            "sequences:resume",
-            "sequences:analytics",
-            "sequences:templates",
-            "sequences:export"
-          ]
-        },
-        "contacts": {
-          "count": 8,
-          "commands": [
-            "contacts:add-to-sequence",
-            "contacts:remove-from-sequence",
-            "contacts:sequence-status",
-            "contacts:bulk-add",
-            "contacts:pause-in-sequence",
-            "contacts:resume-in-sequence",
-            "contacts:skip-step",
-            "contacts:sequence-history"
-          ]
-        },
-        "templates": {
-          "count": 7,
-          "commands": [
-            "templates:create",
-            "templates:list",
-            "templates:get",
-            "templates:update",
-            "templates:delete",
-            "templates:test",
-            "templates:performance"
-          ]
-        },
-        "accounts": {
-          "count": 6,
-          "commands": [
-            "accounts:list",
-            "accounts:get",
-            "accounts:update",
-            "accounts:test",
-            "accounts:quota",
-            "accounts:warmup"
-          ]
-        },
-        "analytics": {
-          "count": 5,
-          "commands": [
-            "analytics:sequence-performance",
-            "analytics:account-summary",
-            "analytics:compare-sequences",
-            "analytics:export",
-            "analytics:email-deliverability"
-          ]
-        },
-        "inbox": {
-          "count": 4,
-          "commands": [
-            "inbox:replies",
-            "inbox:reply",
-            "inbox:mark-read",
-            "inbox:auto-respond"
-          ]
-        }
+      "env": {
+        "QUICKMAIL_API_KEY": "${QUICKMAIL_API_KEY}",
+        "NODE_ENV": "production"
       }
     }
-  ],
-  "development": {
-    "typescript": true,
-    "react_ink": true,
-    "testing": "Jest",
-    "linting": "ESLint + Prettier",
-    "build_system": "TypeScript Compiler",
-    "platforms": ["macOS", "Linux", "Windows"],
-    "node_version": ">=18.0.0"
-  },
-  "metadata": {
-    "created": "2025-01-14",
-    "updated": "2025-01-14",
-    "version": "1.0.0",
-    "license": "MIT",
-    "repository": "https://github.com/LeadMagic/cold-email-cli",
-    "documentation": "https://github.com/LeadMagic/cold-email-cli#readme",
-    "issues": "https://github.com/LeadMagic/cold-email-cli/issues"
   }
-} 
+}

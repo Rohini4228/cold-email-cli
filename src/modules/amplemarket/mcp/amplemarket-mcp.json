@@ -1,94 +1,184 @@
 {
-  "mcpServers": {
-    "@cec/amplemarket": {
-      "command": "node",
-      "args": ["dist/mcp-server.js"],
-      "env": {
-        "AMPLEMARKET_API_KEY": "your-amplemarket-api-key"
-      }
-    }
-  },
-  "description": "AmpleMarket MCP Server - Sales Intelligence & Prospecting Platform",
+  "name": "amplemarket-cli",
+  "description": "Amplemarket CLI integration for B2B sales intelligence and prospecting platform with advanced lead generation",
   "version": "2.0.0",
-  "endpoints": {
-    "base_url": "https://api.amplemarket.com",
-    "auth_type": "bearer_token",
-    "rate_limits": {
-      "default": "500/minute",
-      "people_search": "300/minute",
-      "people_find": "350/minute"
-    },
-    "resources": {
-      "account": {
-        "description": "Account management and user details",
-        "methods": ["GET"],
-        "endpoints": ["GET /account - Get account details", "GET /users - List all users"]
-      },
-      "lead_lists": {
-        "description": "Lead list management and organization",
-        "methods": ["GET", "POST"],
-        "endpoints": [
-          "GET /lead-lists - List all lead lists",
-          "POST /lead-lists - Create new lead list",
-          "GET /lead-lists/{id} - Get lead list details"
-        ]
-      },
-      "people_search": {
-        "description": "Search for people (non-enrichment)",
-        "methods": ["POST"],
-        "endpoints": ["POST /people/search - Search people by criteria"],
-        "rate_limit": "300/minute"
-      },
-      "contacts": {
-        "description": "Contact management (basic operations)",
-        "methods": ["GET"],
-        "endpoints": [
-          "GET /contacts - List contacts with pagination",
-          "GET /contacts/{id} - Get contact by ID",
-          "GET /contacts/email/{email} - Get contact by email"
-        ]
-      },
-      "sequences": {
-        "description": "Sequence management and lead assignment",
-        "methods": ["GET", "POST"],
-        "endpoints": ["GET /sequences - List all sequences", "POST /sequences/{id}/leads - Add leads to sequence"]
-      },
-      "tasks": {
-        "description": "Task management and completion tracking",
-        "methods": ["GET", "POST"],
-        "endpoints": [
-          "GET /tasks - List tasks with filtering",
-          "POST /tasks/{id}/complete - Complete task",
-          "POST /tasks/{id}/skip - Skip task",
-          "GET /tasks/statuses - List task statuses",
-          "GET /tasks/types - List task types"
-        ]
-      },
-      "phone_numbers": {
-        "description": "Phone number validation and review",
-        "methods": ["POST"],
-        "endpoints": ["POST /phone-numbers/{id}/review - Review phone number validity"]
-      }
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "Amplemarket CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": [
+      "run",
+      "src/cli.ts",
+      "amplemarket"
+    ],
+    "env": {
+      "AMPLEMARKET_API_KEY": "${AMPLEMARKET_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "authentication": {
-    "type": "bearer_token",
-    "header": "Authorization: Bearer {token}",
-    "environment_variable": "AMPLEMARKET_API_KEY"
-  },
-  "cli_commands": {
-    "total": 15,
-    "categories": [
-      "🏢 Account Management (3 commands)",
-      "📊 Lead List Management (3 commands)",
-      "👤 Contact Management (4 commands)",
-      "🚀 Sequence Management (2 commands)",
-      "✅ Task Management (5 commands)"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "amplemarket_leadlists",
+        "description": "Manage Amplemarket leadlists operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "amplemarket_contacts",
+        "description": "Manage Amplemarket contacts operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "amplemarket_sequences",
+        "description": "Manage Amplemarket sequences operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "amplemarket_calls",
+        "description": "Manage Amplemarket calls operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "amplemarket_tasks",
+        "description": "Manage Amplemarket tasks operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      }
     ]
   },
   "features": {
-    "no_enrichment": "Focused on non-enrichment operations per user requirements",
-    "rate_limited": "500 requests/minute with endpoint-specific limits",
-    "task_management": "Complete task workflow with statuses and types"
+    "specialization": "B2B Intelligence & Prospecting",
+    "total_tools": 5,
+    "capabilities": [
+      "api_integration",
+      "cli_commands",
+      "analytics",
+      "automation"
+    ]
+  },
+  "documentation": {
+    "api_reference": "https://amplemarket.com/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/amplemarket.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/amplemarket"
   }
 }

@@ -1,120 +1,212 @@
 {
-  "mcpServers": {
-    "salesloft": {
-      "command": "@cec/salesloft/mcp-server",
-      "env": {
-        "SALESLOFT_API_KEY": "${SALESLOFT_API_KEY}"
-      }
+  "name": "salesloft-cli",
+  "description": "Salesloft CLI integration for Modern sales engagement and cadence platform with comprehensive analytics",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "Salesloft CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": [
+      "run",
+      "src/cli.ts",
+      "salesloft"
+    ],
+    "env": {
+      "SALESLOFT_API_KEY": "${SALESLOFT_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "resources": [
-    {
-      "name": "salesloft_cadences",
-      "description": "SalesLoft cadence management and automation",
-      "type": "api",
-      "base_url": "https://api.salesloft.com/v2",
-      "auth": "Bearer ${SALESLOFT_API_KEY}",
-      "endpoints": [
-        {
-          "path": "/cadences",
-          "method": "GET",
-          "description": "List all cadences"
-        },
-        {
-          "path": "/cadences",
-          "method": "POST",
-          "description": "Create new cadence"
-        },
-        {
-          "path": "/cadences/{id}",
-          "method": "GET",
-          "description": "Get cadence details"
-        },
-        {
-          "path": "/cadences/{id}",
-          "method": "PUT",
-          "description": "Update cadence"
-        },
-        {
-          "path": "/cadences/{id}",
-          "method": "DELETE",
-          "description": "Delete cadence"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "salesloft_cadences",
+        "description": "Manage Salesloft cadences operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "salesloft_people",
-      "description": "SalesLoft people management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/people",
-          "method": "GET",
-          "description": "List people"
-        },
-        {
-          "path": "/people",
-          "method": "POST",
-          "description": "Create person"
-        },
-        {
-          "path": "/people/{id}",
-          "method": "GET",
-          "description": "Get person details"
-        },
-        {
-          "path": "/people/{id}",
-          "method": "PUT",
-          "description": "Update person"
+      },
+      {
+        "name": "salesloft_people",
+        "description": "Manage Salesloft people operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "salesloft_activities",
-      "description": "SalesLoft activity management (emails, calls)",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/activities/emails",
-          "method": "GET",
-          "description": "List email activities"
-        },
-        {
-          "path": "/activities/emails",
-          "method": "POST",
-          "description": "Send email"
-        },
-        {
-          "path": "/activities/calls",
-          "method": "GET",
-          "description": "List call activities"
-        },
-        {
-          "path": "/activities/calls",
-          "method": "POST",
-          "description": "Log call"
+      },
+      {
+        "name": "salesloft_emails",
+        "description": "Manage Salesloft emails operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    }
-  ],
-  "tools": [
-    {
-      "name": "cec_salesloft",
-      "description": "Execute SalesLoft commands via CEC CLI",
-      "examples": [
-        "cec salesloft cadences:list",
-        "cec salesloft cadences:create --name 'Q4 Cadence'",
-        "cec salesloft people:create --first_name John --last_name Doe --email_address john@company.com",
-        "cec salesloft analytics:cadence --id cadence_123"
-      ]
-    }
-  ],
-  "metadata": {
-    "name": "SalesLoft Modern Sales Engagement",
-    "version": "2.0.0",
-    "description": "Modern sales engagement platform with comprehensive cadence and people management",
-    "total_operations": 48,
-    "focus": "Cadence management, people operations, activity tracking, sales intelligence",
-    "documentation": "https://developers.salesloft.com/api.html"
+      },
+      {
+        "name": "salesloft_calls",
+        "description": "Manage Salesloft calls operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "salesloft_analytics",
+        "description": "Manage Salesloft analytics operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "salesloft_admin",
+        "description": "Manage Salesloft admin operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      }
+    ]
+  },
+  "features": {
+    "specialization": "Modern Sales Cadence Management",
+    "total_tools": 6,
+    "capabilities": [
+      "api_integration",
+      "cli_commands",
+      "analytics",
+      "automation"
+    ]
+  },
+  "documentation": {
+    "api_reference": "https://salesloft.com/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/salesloft.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/salesloft"
   }
-} 
+}

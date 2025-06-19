@@ -1,313 +1,458 @@
-# 🌊 Cold Email CLI - Multi-Platform Automation Suite
+# ❄️ Cold Email CLI v2.0.0
 
-<div align="center">
+Professional multi-platform cold email automation CLI with **500+ commands** across **10 major platforms**. Built with TypeScript, Bun, and React Ink for maximum performance and beautiful user experience.
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
-![Platforms](https://img.shields.io/badge/platforms-9-green.svg)
-![Commands](https://img.shields.io/badge/commands-500+-orange.svg)
-![Performance](https://img.shields.io/badge/performance-⚡%20Bun%20Powered-yellow.svg)
+## 🚀 Quick Start
 
-**⚡ Built for Performance & Scale**
-- 🚀 **Bun-Powered** (~2x faster than Node.js)
-- 🔒 **Type-Safe** (100% TypeScript + Zod validation)
-- 🎨 **Beautiful UI** (React Ink + branded themes)
-- 📱 **Interactive Shells** (Platform-specific experiences)
-
-</div>
-
----
-
-## 🏢 **Supported Platforms - 500+ Commands**
-
-| Platform | Icon | **Commands** | Categories | Theme | Specialization |
-|----------|------|:------------:|:----------:|-------|---------------|
-| [**SmartLead**](https://smartlead.ai) | 🌊 | **125** | 6 | Ocean Blue | Advanced Analytics |
-| [**Instantly**](https://instantly.ai) | 🚀 | **68** | 3 | Royal Purple | Campaign Automation |
-| [**Salesforge**](https://salesforge.ai) | 🔥 | **42** | 1 | Vibrant Orange | AI-Powered Sequences |
-| [**Apollo**](https://apollo.io) | ☀️ | **42** | 4 | Amber Gold | Sales Intelligence |
-| [**EmailBison**](https://emailbison.com) | ⚡ | **72** | 6 | Rich Brown | Power Automation |
-| [**Amplemarket**](https://amplemarket.com) | 💼 | **34** | 5 | Professional Blue | B2B Intelligence |
-| [**Outreach**](https://outreach.io) | 🏢 | **31** | 6 | Enterprise Blue | Enterprise Sales |
-| [**Salesloft**](https://salesloft.com) | 🌟 | **16** | 6 | Modern Indigo | Cadence Management |
-| [**lemlist**](https://lemlist.com) | 💖 | **33** | 6 | Creative Pink | Visual Templates |
-
----
-
-## ⚡ **Quick Start**
-
-### **Installation**
+### Interactive Mode (Recommended)
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/smartlead-cli-ink.git
-cd smartlead-cli-ink
-
-# Install dependencies (Bun recommended for 2x performance)
-bun install
-
-# Build the project
-bun run build
+bun run menu
+# or simply
+bun run src/cli.ts
 ```
 
-### **API Configuration**
+This opens an interactive menu where you can:
+- 🎯 **Direct Platform Access**: Type platform names to enter their shells
+- 🔍 **Global Search**: Find commands across all platforms instantly  
+- 📊 **Health Monitoring**: Check platform status and command counts
+- 💡 **Smart Navigation**: Intuitive shortcuts and tips
+
+### Platform Shortcuts
 ```bash
-# Set up your API keys in environment variables
-export SMARTLEAD_API_KEY="your_smartlead_api_key"
-export INSTANTLY_API_KEY="your_instantly_api_key"
-export APOLLO_API_KEY="your_apollo_api_key"
-export SALESFORGE_API_KEY="your_salesforge_api_key"
-export EMAILBISON_API_KEY="your_emailbison_api_key"
-export AMPLEMARKET_API_KEY="your_amplemarket_api_key"
-export OUTREACH_API_KEY="your_outreach_api_key"
-export SALESLOFT_API_KEY="your_salesloft_api_key"
-export LEMLIST_API_KEY="your_lemlist_api_key"
+# Major platforms - direct access
+bun run smartlead     # 125 commands - Campaign Management & Analytics
+bun run instantly     # 68 commands  - High-Volume Automation  
+bun run emailbison    # 72 commands  - Power-Driven Automation
+bun run apollo        # 42 commands  - Sales Intelligence
+bun run salesforge    # 42 commands  - AI-Powered Sequences
+bun run quickmail     # 90 commands  - Lightning-Fast Automation
+bun run amplemarket   # 34 commands  - B2B Intelligence
+bun run lemlist       # 33 commands  - Creative Outreach
+bun run outreach      # 31 commands  - Enterprise Sales
+bun run salesloft     # 16 commands  - Cadence Management
 ```
 
-### **Usage Examples**
-
-#### **🎯 Interactive Platform Shells**
+### Global Commands
 ```bash
-# Launch platform-specific shells with beautiful ASCII art
-bun run src/cli.ts smartlead    # 🌊 SmartLead Command Center
-bun run src/cli.ts instantly    # 🚀 Instantly Automation Hub  
-bun run src/cli.ts apollo       # ☀️ Apollo Sequence Center
-bun run src/cli.ts lemlist      # 💖 lemlist Creative Studio
+bun run platforms     # List all platforms
+bun run search campaign  # Search across all platforms
+bun run health        # Platform health check
 ```
 
-#### **📋 Platform Overview**
-```bash
-# List all available platforms
-bun run src/cli.ts platforms
+## 🌟 Platform Overview
 
-# Get help
-bun run src/cli.ts --help
-```
+<details>
+<summary><strong>🌊 SmartLead - Advanced Campaign Management (125 commands)</strong></summary>
 
----
+### Complete API coverage for campaign lifecycle management
 
-## 🌊 **SmartLead - Advanced Campaign Management (125 commands)**
-
-**Complete API coverage for campaign lifecycle management:**
-
-### **🎯 Campaign Management (45 commands)**
+**🎯 Campaign Management (45 commands)**
 - Complete CRUD operations for campaigns
 - Advanced scheduling and automation
 - Real-time analytics with date ranges
 - Webhook management and integration
 - Campaign cloning and templating
+- Campaign settings and configurations
+- Status management (start/pause/stop)
+- Multi-account campaign distribution
 
-### **📧 Email Account Management (35 commands)**
+**📧 Email Account Management (35 commands)**
 - Full account lifecycle management
 - Advanced warmup with detailed controls
-- Account health monitoring
-- Custom tracking domains
-- Provider-based statistics
+- Account health monitoring and vitals
+- Custom tracking domains setup
+- Provider-based statistics and analytics
+- Account rotation and optimization
+- SMTP configuration management
+- Deliverability scoring and insights
 
-### **👥 Lead Management (30 commands)**
-- Complete lead lifecycle
-- Message history tracking
+**👥 Lead Management (30 commands)**
+- Complete lead lifecycle management
+- Message history tracking and analysis
 - Master inbox reply capabilities
-- Lead categorization
+- Lead categorization and tagging
 - Global blocklist management
+- Lead status tracking and updates
+- Bulk lead operations and imports
+- Lead engagement scoring
 
-### **📊 Analytics & Reporting (15 commands)**
+**📊 Analytics & Reporting (15 commands)**
 - Comprehensive performance metrics
-- Date-range analytics
+- Date-range analytics and comparisons
+- Export functionality (CSV/JSON)
+- Real-time campaign insights
+- ROI calculations and conversions
+- Detailed engagement analytics
+
+*Access: `bun run smartlead`*
+</details>
+
+<details>
+<summary><strong>🚀 Instantly - High-Volume Automation (68 commands)</strong></summary>
+
+### V2 API integration with advanced automation features
+
+**🚀 Campaign Management (25 commands)**
+- Multi-dimensional analytics and insights
+- Subsequence management and optimization
+- Advanced campaign controls and settings
+- Campaign cloning and templating
+- Automated follow-up sequences
+- Performance tracking and optimization
+- Campaign A/B testing capabilities
+- Advanced targeting and segmentation
+
+**📧 Account Management (25 commands)**
+- Account vitals testing and monitoring
+- Advanced warmup analytics and tracking
+- Account pause/resume functionality
+- Provider optimization and switching
+- Account health scoring and alerts
+- SMTP configuration and testing
+- Deliverability monitoring and improvement
+- Account reputation management
+
+**👥 Lead Management (18 commands)**
+- Bulk lead operations and management
+- Email verification system integration
+- Interest status tracking and updates
+- Tags and labels for organization
+- Lead engagement tracking
+- Automated lead scoring
+- Lead lifecycle management
+- Contact database optimization
+
+*Access: `bun run instantly`*
+</details>
+
+<details>
+<summary><strong>⚡ EmailBison - Power-Driven Automation (72 commands)</strong></summary>
+
+### Power-driven automation with levels 1-10 intensity
+
+**🔥 Automation Levels (1-10)**
+- Level 1-3: Basic automation and sequences
+- Level 4-6: Advanced multi-channel outreach
+- Level 7-8: High-intensity campaigns with AI
+- Level 9-10: Maximum automation with advanced AI
+
+**📊 Power Analytics (6 categories)**
+- Campaign performance optimization
+- Advanced automation analytics
+- Real-time power metrics
+- Automation rule management
+- Sequence performance tracking
+- Lead engagement optimization
+
+*Access: `bun run emailbison`*
+</details>
+
+<details>
+<summary><strong>🎯 Apollo - Sales Intelligence (42 commands)</strong></summary>
+
+### Professional email sequences with CRM integration
+
+**📈 Sales Intelligence**
+- Advanced contact discovery and enrichment
+- Company and prospect research
+- Email sequence automation
+- CRM integration and sync
+- Contact scoring and prioritization
+
+**🔄 Sequence Management**
+- Multi-step email sequences
+- Template management and optimization
+- Performance tracking and analytics
+- A/B testing capabilities
+- Automated follow-ups
+
+*Access: `bun run apollo`*
+</details>
+
+<details>
+<summary><strong>🤖 Salesforge - AI-Powered Sequences (42 commands)</strong></summary>
+
+### Complete AI sequence management with intelligent optimization
+
+**🧠 AI-Powered Features**
+- Intelligent sequence generation
+- AI-optimized content creation
+- Predictive performance analytics
+- Smart timing optimization
+- Automated A/B testing
+
+**📊 Performance Optimization**
+- ML-driven improvements
+- Intelligent targeting
+- Automated personalization
+- Conversion optimization
+- ROI maximization
+
+*Access: `bun run salesforge`*
+</details>
+
+<details>
+<summary><strong>⚡ QuickMail - Lightning-Fast Automation (90 commands)</strong></summary>
+
+### Lightning-fast email automation and outreach platform
+
+**🌊 Campaign Management (16 commands)**
+- Quick campaign setup and deployment
+- Real-time campaign monitoring
+- Advanced scheduling options
+- Campaign analytics and reporting
+
+**👥 Contact Management (14 commands)**
+- Contact import and management
+- List segmentation and targeting
+- Contact enrichment and validation
+
+**🔄 Outreach Sequences (12 commands)**
+- Multi-step sequence automation
+- Template management
+- Follow-up optimization
+
+**📧 Email Account Management (19 commands)**
+- Account setup and configuration
+- Deliverability optimization
+- Account health monitoring
+
+**📄 Template Management (15 commands)**
+- Template creation and editing
+- Performance tracking
+- A/B testing capabilities
+
+**📈 Analytics & Reporting (14 commands)**
+- Comprehensive performance metrics
 - Export functionality
 - Real-time insights
 
----
+*Access: `bun run quickmail`*
+</details>
 
-## 🚀 **Instantly - High-Volume Automation (68 commands)**
+<details>
+<summary><strong>🎯 Amplemarket - B2B Intelligence (34 commands)</strong></summary>
 
-**V2 API integration with advanced features:**
+### Sales intelligence and prospecting platform
 
-### **🚀 Campaign Management (25 commands)**
-- Multi-dimensional analytics
-- Subsequence management
-- Advanced campaign controls
-- Campaign cloning
+**🔍 Prospecting & Intelligence**
+- Advanced lead discovery
+- Company research and insights
+- Contact enrichment and validation
+- Market intelligence and trends
+- Competitive analysis
 
-### **📧 Account Management (25 commands)**
-- Account vitals testing
-- Warmup analytics
-- Account pause/resume
-- Provider optimization
+**📊 Analytics & Insights**
+- Prospecting performance metrics
+- Lead quality scoring
+- Market penetration analysis
+- ROI tracking and optimization
 
-### **👥 Lead Management (18 commands)**
-- Bulk lead operations
-- Email verification system
-- Interest status tracking
-- Tags and labels
+*Access: `bun run amplemarket`*
+</details>
 
----
+<details>
+<summary><strong>🏢 Outreach - Enterprise Sales (31 commands)</strong></summary>
 
-## 🔥 **Other Platforms**
+### Enterprise-grade sales engagement platform
 
-### **Salesforge** - AI-Powered Sequences (42 commands)
-Complete AI sequence management with intelligent optimization
+**🎯 Enterprise Features**
+- Advanced sequence management
+- Team collaboration tools
+- Enterprise-grade analytics
+- CRM integrations
+- Compliance and governance
 
-### **Apollo** - Sales Intelligence (42 commands)  
-Professional email sequences with CRM integration
+**📊 Sales Intelligence**
+- Prospect research and insights
+- Performance tracking
+- Team analytics and reporting
+- Pipeline management
 
-### **EmailBison** - Power Automation (72 commands)
-Power-driven automation with levels 1-10
+*Access: `bun run outreach`*
+</details>
 
-### **Amplemarket** - B2B Intelligence (34 commands)
-Sales intelligence and prospecting platform
+<details>
+<summary><strong>💼 Salesloft - Cadence Management (16 commands)</strong></summary>
 
-### **Outreach** - Enterprise Sales (31 commands)
-Enterprise-grade sales engagement
+### Modern sales engagement and cadence platform
 
-### **Salesloft** - Cadence Management (16 commands)
-Modern sales engagement platform
+**🔄 Cadence Management**
+- Multi-touch cadence creation
+- Automated follow-up sequences
+- Performance optimization
+- Team cadence templates
 
-### **lemlist** - Creative Outreach (33 commands)
-Creative personalized email automation
+**📊 Engagement Analytics**
+- Activity tracking and reporting
+- Performance metrics
+- Team analytics
+- ROI analysis
 
----
+*Access: `bun run salesloft`*
+</details>
 
-## 🏗️ **Technical Architecture**
+<details>
+<summary><strong>🎨 lemlist - Creative Outreach (33 commands)</strong></summary>
 
-### **🎯 Performance Focused**
-- **Bun Runtime** - ~2x faster than Node.js
-- **TypeScript** - Complete type safety
-- **Zod Validation** - Runtime schema validation
-- **React Ink** - Interactive terminal UI
-- **Modular Design** - Platform isolation
+### Creative personalized email automation
 
-### **📂 Project Structure**
-```
-src/
-├── cli.ts                 # Main CLI entry point
-├── components/
-│   └── MainMenu.tsx      # Platform selection UI
-├── core/
-│   ├── index.ts          # Core CLI functionality
-│   ├── module-selector.ts # Platform discovery
-│   └── utils/
-│       ├── config.ts     # Configuration management
-│       └── theme.ts      # Branded theming
-├── modules/              # Platform-specific modules
-│   ├── smartlead/        # 🌊 SmartLead (125 commands)
-│   ├── instantly/        # 🚀 Instantly (68 commands)
-│   ├── salesforge/       # 🔥 Salesforge (42 commands)
-│   ├── apollo/           # ☀️ Apollo (42 commands)
-│   ├── emailbison/       # ⚡ EmailBison (72 commands)
-│   ├── amplemarket/      # 💼 Amplemarket (34 commands)
-│   ├── outreach/         # 🏢 Outreach (31 commands)
-│   ├── salesloft/        # 🌟 Salesloft (16 commands)
-│   └── lemlist/          # 💖 lemlist (33 commands)
-└── types/
-    ├── global.ts         # Global type definitions
-    └── schemas.ts        # Zod validation schemas
-```
+**🎨 Creative Features**
+- Personalized image generation
+- Video personalization
+- Creative template designs
+- Dynamic content insertion
 
-### **🎨 Each Platform Module Contains:**
-```
-module/
-├── index.ts              # Platform configuration & exports
-├── api.ts                # Complete API client
-├── ascii.ts              # Branded ASCII art
-├── shell.tsx             # Interactive shell UI
-├── commands/             # Command implementations
-│   ├── campaigns.ts      # Campaign management
-│   ├── leads.ts          # Lead management
-│   ├── accounts.ts       # Account management
-│   └── analytics.ts      # Analytics & reporting
-└── mcp/
-    └── platform-mcp.json # MCP server configuration
-```
+**📈 Performance Tracking**
+- Creative performance analytics
+- A/B testing for creatives
+- Engagement optimization
+- Conversion tracking
 
----
+*Access: `bun run lemlist`*
+</details>
 
-## 🤖 **AI Assistant Integration**
+## ✨ Enhanced Interactive Features
 
-### **MCP (Model Context Protocol) Support**
-Each platform includes MCP server configurations for seamless AI assistant integration:
+### 🌊 Beautiful Platform Shells
+Each platform has a custom interactive shell with:
+- **Stunning ASCII Art** with authentic branded colors
+- **Category Navigation** (press 1-6 for categories)
+- **Live Search** (press `/` to search commands)
+- **Command Details** (press 1-9 in categories for details)
+- **Smart Help** (press `h` for tips)
 
-```json
-{
-  "mcpServers": {
-    "smartlead": {
-      "command": "node",
-      "args": ["dist/mcp/smartlead-mcp.js"],
-      "env": {
-        "SMARTLEAD_API_KEY": "your_api_key"
-      }
-    }
-  }
-}
-```
-
----
-
-## 🚀 **Development**
-
-### **Build & Test**
+### 🔍 Powerful Search
 ```bash
-# Development
-bun run dev
-
-# Build
-bun run build
-
-# Test specific platform
-bun run src/cli.ts [platform]
-
-# Lint & Format
-bun run lint
-bun run format
+# Global command search
+bun run search "campaign"  # Find all campaign-related commands
+bun run search "email"     # Find email management commands
+bun run search "analytics" # Find analytics commands
 ```
 
-### **Adding New Platforms**
-1. Create new module in `src/modules/[platform]/`
-2. Implement API client with full endpoint coverage
-3. Create branded ASCII art and theme
-4. Build interactive shell with React Ink
-5. Add comprehensive command coverage
-6. Configure MCP integration
+### 📊 Real-time Health Monitoring
+```bash
+bun run health
+# Shows:
+# ✅ Platform status (active/inactive/error)
+# 📈 Command counts and categories  
+# 🕐 Last health check timestamp
+# ⚠️ Any platform issues
+```
+
+## 💻 Command Examples
+
+### Direct Execution
+```bash
+# Execute commands directly
+bun run src/cli.ts exec smartlead campaigns:list --args '{"limit":10}'
+bun run src/cli.ts exec instantly leads:add --args '{"email":"test@example.com"}'
+bun run src/cli.ts exec apollo sequences:create --args '{"name":"Enterprise Outreach"}'
+```
+
+### Interactive Navigation
+```bash
+# Enter SmartLead shell
+bun run smartlead
+# Press 1 for Campaign Management (45 commands)
+# Press 2 for Email Account Management (35 commands)
+# Press / to search across all 125 commands
+```
+
+### Search & Discovery
+```bash
+# Find all campaign commands across platforms
+bun run search campaign
+
+# Find AI-powered commands
+bun run search ai
+
+# Find analytics commands
+bun run search analytics
+```
+
+## 🏗️ Architecture
+
+### TypeScript-First Design
+- **Enhanced Type Safety**: Comprehensive interfaces and error handling
+- **Plugin Registry**: Scalable platform management system
+- **Lazy Loading**: Shells and assets loaded only when needed
+- **Error Boundaries**: Robust error handling with context
+
+### Modular Platform Structure
+```
+src/modules/
+├── smartlead/      # 125 commands - Campaign Management
+├── instantly/      # 68 commands  - High-Volume Automation
+├── emailbison/     # 72 commands  - Power-Driven Automation
+├── quickmail/      # 90 commands  - Lightning-Fast Automation
+├── apollo/         # 42 commands  - Sales Intelligence
+├── salesforge/     # 42 commands  - AI-Powered Sequences
+├── amplemarket/    # 34 commands  - B2B Intelligence
+├── lemlist/        # 33 commands  - Creative Outreach
+├── outreach/       # 31 commands  - Enterprise Sales
+└── salesloft/      # 16 commands  - Cadence Management
+```
+
+## 🔧 Development
+
+### Setup
+```bash
+git clone <repository>
+cd smartlead-cli-ink
+bun install
+```
+
+### Development Commands
+```bash
+bun run dev         # Start development
+bun run type-check  # TypeScript checking
+bun run lint        # Code linting
+bun run test        # Run tests
+bun run build       # Build for production
+```
+
+### Adding New Platforms
+1. Create module in `src/modules/newplatform/`
+2. Follow the existing pattern (api.ts, shell.tsx, commands/, ascii.ts)
+3. Register in `src/core/module-selector.ts`
+4. Add to package.json scripts
+
+## 🏆 Key Features
+
+### ✅ Professional Architecture
+- **TypeScript Excellence**: Full type safety with comprehensive interfaces
+- **Plugin System**: Scalable registry for easy platform additions
+- **Performance Optimized**: Lazy loading and efficient resource management
+- **Error Handling**: Robust error boundaries with contextual information
+
+### ✅ Superior User Experience
+- **Interactive Shells**: Beautiful ASCII art with smooth navigation
+- **Global Search**: Find commands across all 500+ commands instantly
+- **Health Monitoring**: Real-time platform status and diagnostics
+- **Smart Shortcuts**: Convenient access to all platforms and features
+
+### ✅ Enterprise Ready
+- **500+ Commands**: Comprehensive coverage across 10 major platforms
+- **Multiple Access Methods**: CLI, interactive shells, direct execution
+- **Developer Friendly**: Clean APIs, comprehensive documentation
+- **Community Driven**: Open source with active Discord community
+
+## 📚 Documentation
+
+- [API Documentation](docs/API_COMPLETION_SUMMARY.md)
+- [Platform Guides](docs/)
+- [Contributing](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+
+## 🌟 Community
+
+- 💬 [Discord Community](https://discord.gg/coldemail)
+- 🐛 [Report Issues](https://github.com/your-username/smartlead-cli-ink/issues)
+- 🤝 [Contributing Guide](CONTRIBUTING.md)
 
 ---
 
-## 📊 **Statistics**
+**Built with ❤️ by the Cold Email Community**
 
-| Metric | Value |
-|--------|-------|
-| **Total Platforms** | 9 Active |
-| **Total Commands** | 500+ |
-| **Categories** | 41 |
-| **API Methods** | 750+ |
-| **Lines of Code** | 20,000+ |
-| **TypeScript Coverage** | 100% |
-| **Performance Boost** | ~2x (Bun) |
-
----
-
-## 🤝 **Contributing**
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### **Development Guidelines**
-- Follow TypeScript best practices
-- Maintain 100% type safety
-- Add comprehensive tests
-- Update documentation
-- Follow the existing module structure
-
----
-
-## 📜 **License**
-
-MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-<div align="center">
-
-**🌊 Built with ❤️ for the Cold Email Community**
-
-*Professional multi-platform automation suite with 500+ commands across 9 major cold email platforms*
-
-**[⭐ Star this repo](https://github.com/your-username/smartlead-cli-ink) | [🐛 Report Issues](https://github.com/your-username/smartlead-cli-ink/issues) | [💬 Join Discord](https://discord.gg/mB76X5QJ)**
-
-</div> 
+*Professional CLI for serious email automation professionals.*

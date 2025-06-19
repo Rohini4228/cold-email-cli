@@ -1,157 +1,212 @@
 {
-  "mcpServers": {
-    "lemlist": {
-      "command": "@cec/lemlist/mcp-server",
-      "env": {
-        "LEMLIST_API_KEY": "${LEMLIST_API_KEY}"
-      }
+  "name": "lemlist-cli",
+  "description": "lemlist CLI integration for Creative personalized email automation with visual templates and sequences",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "lemlist CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": [
+      "run",
+      "src/cli.ts",
+      "lemlist"
+    ],
+    "env": {
+      "LEMLIST_API_KEY": "${LEMLIST_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "resources": [
-    {
-      "name": "lemlist_campaigns",
-      "description": "LemList campaign management and automation",
-      "type": "api",
-      "base_url": "https://api.lemlist.com/api",
-      "auth": "Bearer ${LEMLIST_API_KEY}",
-      "endpoints": [
-        {
-          "path": "/campaigns",
-          "method": "GET",
-          "description": "List all campaigns"
-        },
-        {
-          "path": "/campaigns",
-          "method": "POST",
-          "description": "Create new campaign"
-        },
-        {
-          "path": "/campaigns/{id}",
-          "method": "GET",
-          "description": "Get campaign details"
-        },
-        {
-          "path": "/campaigns/{id}",
-          "method": "PATCH",
-          "description": "Update campaign"
-        },
-        {
-          "path": "/campaigns/{id}/start",
-          "method": "PATCH",
-          "description": "Start campaign"
-        },
-        {
-          "path": "/campaigns/{id}/pause",
-          "method": "PATCH",
-          "description": "Pause campaign"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "lemlist_campaigns",
+        "description": "Manage lemlist campaigns operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "lemlist_leads",
-      "description": "LemList lead management within campaigns",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/campaigns/{campaign_id}/leads",
-          "method": "GET",
-          "description": "List campaign leads"
-        },
-        {
-          "path": "/campaigns/{campaign_id}/leads/{email}",
-          "method": "POST",
-          "description": "Add lead to campaign"
-        },
-        {
-          "path": "/campaigns/{campaign_id}/leads/{email}",
-          "method": "GET",
-          "description": "Get lead details"
-        },
-        {
-          "path": "/campaigns/{campaign_id}/leads/{email}",
-          "method": "PATCH",
-          "description": "Update lead"
-        },
-        {
-          "path": "/campaigns/{campaign_id}/leads/{email}/unsubscribe",
-          "method": "PATCH",
-          "description": "Unsubscribe lead"
+      },
+      {
+        "name": "lemlist_leads",
+        "description": "Manage lemlist leads operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "lemlist_sequences",
-      "description": "LemList sequence management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/sequences",
-          "method": "GET",
-          "description": "List sequences"
-        },
-        {
-          "path": "/sequences",
-          "method": "POST",
-          "description": "Create sequence"
-        },
-        {
-          "path": "/sequences/{id}",
-          "method": "GET",
-          "description": "Get sequence details"
-        },
-        {
-          "path": "/sequences/{id}",
-          "method": "PATCH",
-          "description": "Update sequence"
+      },
+      {
+        "name": "lemlist_sequences",
+        "description": "Manage lemlist sequences operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    },
-    {
-      "name": "lemlist_templates",
-      "description": "LemList template management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/templates",
-          "method": "GET",
-          "description": "List templates"
-        },
-        {
-          "path": "/templates",
-          "method": "POST",
-          "description": "Create template"
-        },
-        {
-          "path": "/templates/{id}",
-          "method": "GET",
-          "description": "Get template details"
-        },
-        {
-          "path": "/templates/{id}",
-          "method": "PATCH",
-          "description": "Update template"
+      },
+      {
+        "name": "lemlist_templates",
+        "description": "Manage lemlist templates operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
         }
-      ]
-    }
-  ],
-  "tools": [
-    {
-      "name": "cec_lemlist",
-      "description": "Execute LemList commands via CEC CLI",
-      "examples": [
-        "cec lemlist campaigns:list",
-        "cec lemlist campaigns:create --name 'Creative Outreach'",
-        "cec lemlist leads:add --campaign_id campaign_123 --email john@company.com --firstName John --lastName Doe",
-        "cec lemlist analytics:campaign --id campaign_123"
-      ]
-    }
-  ],
-  "metadata": {
-    "name": "LemList Creative Email Outreach",
-    "version": "2.0.0",
-    "description": "Creative email outreach platform with personalized campaign management",
-    "total_operations": 25,
-    "focus": "Creative campaigns, personalized outreach, lead nurturing, template management",
-    "documentation": "https://api.lemlist.com/"
+      },
+      {
+        "name": "lemlist_analytics",
+        "description": "Manage lemlist analytics operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "lemlist_team",
+        "description": "Manage lemlist team operations with comprehensive functionality",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "analytics"
+              ],
+              "description": "Action to perform"
+            },
+            "id": {
+              "type": "string",
+              "description": "Resource ID for specific operations"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      }
+    ]
+  },
+  "features": {
+    "specialization": "Creative Visual Email Automation",
+    "total_tools": 6,
+    "capabilities": [
+      "api_integration",
+      "cli_commands",
+      "analytics",
+      "automation"
+    ]
+  },
+  "documentation": {
+    "api_reference": "https://lemlist.com/api/docs",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/lemlist.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/lemlist"
   }
-} 
+}

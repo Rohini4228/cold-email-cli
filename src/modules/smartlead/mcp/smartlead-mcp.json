@@ -1,196 +1,338 @@
 {
-  "mcpServers": {
-    "smartlead": {
-      "command": "@cec/smartlead/mcp-server",
-      "env": {
-        "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}"
-      }
+  "name": "smartlead-cli",
+  "description": "SmartLead CLI integration for advanced email campaign management and analytics",
+  "version": "2.0.0",
+  "author": "Cold Email CLI Team",
+  "homepage": "https://github.com/jesseouellette/cold-email-cli",
+  "license": "MIT",
+  "mcpVersion": "0.1.0",
+  "client": {
+    "name": "SmartLead CLI",
+    "version": "2.0.0"
+  },
+  "server": {
+    "command": "bun",
+    "args": ["run", "src/cli.ts", "smartlead"],
+    "env": {
+      "SMARTLEAD_API_KEY": "${SMARTLEAD_API_KEY}",
+      "NODE_ENV": "production"
     }
   },
-  "resources": [
-    {
-      "name": "smartlead_campaigns",
-      "description": "SmartLead campaign management with advanced analytics",
-      "type": "api",
-      "base_url": "https://server.smartlead.ai/api/v1",
-      "auth": "api_key=${SMARTLEAD_API_KEY}",
-      "endpoints": [
-        {
-          "path": "/campaigns?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "List all campaigns"
-        },
-        {
-          "path": "/campaigns?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Create new campaign"
-        },
-        {
-          "path": "/campaigns/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Get campaign details"
-        },
-        {
-          "path": "/campaigns/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "PATCH",
-          "description": "Update campaign"
-        },
-        {
-          "path": "/campaigns/{id}/start?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Start campaign"
-        },
-        {
-          "path": "/campaigns/{id}/pause?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Pause campaign"
+  "capabilities": {
+    "tools": [
+      {
+        "name": "smartlead_campaigns",
+        "description": "Manage SmartLead campaigns - create, update, launch, pause, analyze with advanced analytics",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "start", "pause", "stop", "schedule", "settings", "sequences", "statistics", "export", "clone", "email-accounts"],
+              "description": "Action to perform on campaigns"
+            },
+            "id": {
+              "type": "string",
+              "description": "Campaign ID for specific operations"
+            },
+            "name": {
+              "type": "string",
+              "description": "Campaign name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Campaign description"
+            },
+            "limit": {
+              "type": "number",
+              "description": "Number of results to return"
+            },
+            "offset": {
+              "type": "number",
+              "description": "Offset for pagination"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["active", "paused", "stopped", "draft"],
+              "description": "Campaign status filter"
+            },
+            "timezone": {
+              "type": "string",
+              "description": "Campaign timezone"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Analytics start date (YYYY-MM-DD)"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "Analytics end date (YYYY-MM-DD)"
+            }
+          },
+          "required": ["action"]
         }
-      ]
+      },
+      {
+        "name": "smartlead_leads",
+        "description": "Manage SmartLead leads - add, update, search with advanced filtering and bulk operations",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "add", "bulk-add", "get", "update", "delete", "search", "replies", "blocklist", "master-inbox", "analytics", "export", "import"],
+              "description": "Action to perform on leads"
+            },
+            "campaign_id": {
+              "type": "string",
+              "description": "Campaign ID for lead operations"
+            },
+            "id": {
+              "type": "string",
+              "description": "Lead ID for specific operations"
+            },
+            "email": {
+              "type": "string",
+              "description": "Lead email address"
+            },
+            "first_name": {
+              "type": "string",
+              "description": "Lead first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Lead last name"
+            },
+            "company": {
+              "type": "string",
+              "description": "Lead company"
+            },
+            "leads": {
+              "type": "array",
+              "description": "Array of leads for bulk operations"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "smartlead_accounts",
+        "description": "Manage SmartLead email accounts - setup, warmup, monitoring with comprehensive analytics",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "add", "get", "update", "delete", "warmup-start", "warmup-stop", "warmup-status", "test", "analytics", "settings", "domains", "reputation", "health", "schedule"],
+              "description": "Action to perform on email accounts"
+            },
+            "id": {
+              "type": "string",
+              "description": "Email account ID"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address"
+            },
+            "smtp_host": {
+              "type": "string",
+              "description": "SMTP host"
+            },
+            "smtp_port": {
+              "type": "number",
+              "description": "SMTP port"
+            },
+            "warmup_enabled": {
+              "type": "boolean",
+              "description": "Enable warmup"
+            },
+            "daily_limit": {
+              "type": "number",
+              "description": "Daily sending limit"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "smartlead_sequences",
+        "description": "Manage SmartLead email sequences - create multi-step sequences with advanced automation",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
+              "description": "Action to perform on sequences"
+            },
+            "id": {
+              "type": "string",
+              "description": "Sequence ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Sequence name"
+            },
+            "campaign_id": {
+              "type": "string",
+              "description": "Associated campaign ID"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "smartlead_templates",
+        "description": "Manage SmartLead email templates - create, edit, organize with variable support",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "create", "get", "update", "delete", "categories", "clone", "analytics", "variables"],
+              "description": "Action to perform on templates"
+            },
+            "id": {
+              "type": "string",
+              "description": "Template ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Template name"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject"
+            },
+            "content": {
+              "type": "string",
+              "description": "Email content"
+            },
+            "category": {
+              "type": "string",
+              "description": "Template category"
+            }
+          },
+          "required": ["action"]
+        }
+      },
+      {
+        "name": "smartlead_analytics",
+        "description": "Access SmartLead analytics - comprehensive reporting and performance insights",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["overview", "campaign", "account", "deliverability", "revenue", "performance", "trends", "exports"],
+              "description": "Type of analytics to retrieve"
+            },
+            "id": {
+              "type": "string",
+              "description": "Campaign or account ID for specific analytics"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Start date for analytics period (YYYY-MM-DD)"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "End date for analytics period (YYYY-MM-DD)"
+            },
+            "granularity": {
+              "type": "string",
+              "enum": ["daily", "weekly", "monthly"],
+              "description": "Data granularity"
+            }
+          },
+          "required": ["action"]
+        }
+      }
+    ]
+  },
+  "features": {
+    "campaign_management": {
+      "description": "Complete campaign lifecycle management",
+      "commands": 45,
+      "capabilities": ["create", "schedule", "launch", "pause", "analytics", "optimization", "cloning", "export"]
+    },
+    "email_accounts": {
+      "description": "Advanced email account management",
+      "commands": 35,
+      "capabilities": ["warmup", "monitoring", "health_checks", "deliverability", "reputation_management"]
+    },
+    "lead_management": {
+      "description": "Comprehensive lead operations",
+      "commands": 30,
+      "capabilities": ["bulk_operations", "import_export", "search", "filtering", "master_inbox"]
+    },
+    "sequences": {
+      "description": "Multi-step email sequences",
+      "commands": 15,
+      "capabilities": ["automation", "personalization", "analytics", "optimization"]
+    },
+    "templates": {
+      "description": "Email template management",
+      "commands": 15,
+      "capabilities": ["variables", "categories", "performance_tracking", "cloning"]
+    },
+    "analytics": {
+      "description": "Advanced analytics and reporting",
+      "commands": 15,
+      "capabilities": ["performance_metrics", "deliverability", "revenue_tracking", "trends"]
+    }
+  },
+  "usage_examples": [
+    {
+      "name": "Create Campaign",
+      "description": "Create a new email campaign with advanced settings",
+      "command": "smartlead_campaigns",
+      "parameters": {
+        "action": "create",
+        "name": "Q1 Enterprise Outreach",
+        "description": "Targeting enterprise prospects for Q1",
+        "timezone": "America/New_York"
+      }
     },
     {
-      "name": "smartlead_leads",
-      "description": "SmartLead lead management with bulk operations",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/campaigns/{id}/leads?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "List campaign leads"
-        },
-        {
-          "path": "/campaigns/{id}/leads?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Add leads to campaign"
-        },
-        {
-          "path": "/campaigns/{id}/leads/bulk?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Bulk add leads"
-        },
-        {
-          "path": "/leads/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Get lead details"
-        }
-      ]
+      "name": "Bulk Add Leads",
+      "description": "Add multiple leads to a campaign",
+      "command": "smartlead_leads",
+      "parameters": {
+        "action": "bulk-add",
+        "campaign_id": "123",
+        "leads": [
+          {"email": "john@company.com", "first_name": "John", "company": "ACME Corp"},
+          {"email": "jane@startup.com", "first_name": "Jane", "company": "StartupXYZ"}
+        ]
+      }
     },
     {
-      "name": "smartlead_accounts",
-      "description": "SmartLead email account management and warmup",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/email-accounts?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "List email accounts"
-        },
-        {
-          "path": "/email-accounts?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Add email account"
-        },
-        {
-          "path": "/email-accounts/{id}/warmup/start?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Start account warmup"
-        },
-        {
-          "path": "/email-accounts/{id}/warmup/stop?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Stop account warmup"
-        }
-      ]
+      "name": "Start Email Warmup",
+      "description": "Begin warmup process for email account",
+      "command": "smartlead_accounts",
+      "parameters": {
+        "action": "warmup-start",
+        "email": "sales@company.com",
+        "daily_limit": 30
+      }
     },
     {
-      "name": "smartlead_sequences",
-      "description": "SmartLead email sequence automation",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/sequences?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "List sequences"
-        },
-        {
-          "path": "/sequences?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Create sequence"
-        },
-        {
-          "path": "/sequences/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Get sequence details"
-        },
-        {
-          "path": "/sequences/{id}/analytics?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Get sequence analytics"
-        }
-      ]
-    },
-    {
-      "name": "smartlead_templates",
-      "description": "SmartLead email template management",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/templates?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "List templates"
-        },
-        {
-          "path": "/templates?api_key=${SMARTLEAD_API_KEY}",
-          "method": "POST",
-          "description": "Create template"
-        },
-        {
-          "path": "/templates/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Get template"
-        }
-      ]
-    },
-    {
-      "name": "smartlead_analytics",
-      "description": "SmartLead comprehensive analytics and reporting",
-      "type": "api",
-      "endpoints": [
-        {
-          "path": "/analytics/campaign/{id}?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Campaign analytics"
-        },
-        {
-          "path": "/analytics/account?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Account overview"
-        },
-        {
-          "path": "/analytics/deliverability?api_key=${SMARTLEAD_API_KEY}",
-          "method": "GET",
-          "description": "Deliverability metrics"
-        }
-      ]
+      "name": "Campaign Analytics",
+      "description": "Get comprehensive campaign performance data",
+      "command": "smartlead_analytics",
+      "parameters": {
+        "action": "campaign",
+        "id": "123",
+        "start_date": "2024-01-01",
+        "end_date": "2024-01-31",
+        "granularity": "daily"
+      }
     }
   ],
-  "tools": [
-    {
-      "name": "cec_smartlead",
-      "description": "Execute SmartLead commands via CEC CLI",
-      "examples": [
-        "cec smartlead campaigns:list",
-        "cec smartlead campaigns:create --name 'Q4 Outreach'",
-        "cec smartlead analytics:campaign --id campaign_123",
-        "cec smartlead accounts:warmup --email user@domain.com"
-      ]
-    }
-  ],
-  "metadata": {
-    "name": "SmartLead.ai Advanced Campaign Management",
-    "version": "2.0.0",
-    "description": "Advanced email campaign management with comprehensive analytics and warmup",
-    "total_operations": 68,
-    "focus": "Campaign analytics, email warmup, bulk operations, advanced reporting",
-    "documentation": "https://smartlead.ai/help/smartlead-api/"
+  "documentation": {
+    "api_reference": "https://smartlead.ai/help/smartlead-api/",
+    "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/smartlead.md",
+    "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/smartlead"
   }
 } 

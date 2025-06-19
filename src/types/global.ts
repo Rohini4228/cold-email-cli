@@ -3,32 +3,226 @@
  * Supports SmartLead, Instantly, Salesforge, and Apollo modules
  */
 
+import type { ReactElement } from "react";
+
+// Core CLI Command interface
 export interface CLICommand {
   name: string;
   description: string;
   usage: string;
   category: string;
+  handler: (args: Record<string, any>) => Promise<void> | void;
   options?: CommandOption[];
   examples?: string[];
-  handler: (args: Record<string, any>) => Promise<void>;
+  aliases?: string[];
 }
 
+// Command option interface for better help generation
 export interface CommandOption {
-  flag: string;
+  name: string;
   description: string;
+  type: 'string' | 'number' | 'boolean' | 'array';
   required?: boolean;
-  type?: "string" | "number" | "boolean" | "array";
   default?: any;
   choices?: string[];
 }
 
+// Platform category interface
+export interface PlatformCategory {
+  name: string;
+  description: string;
+  commands: number;
+  icon?: string;
+}
+
+// Enhanced Platform interface with better typing
+export interface Platform {
+  // Metadata
+  name: string;
+  description: string;
+  version: string;
+  
+  // Commands and organization
+  commands: CLICommand[];
+  totalCommands: number;
+  categories: PlatformCategory[];
+  
+  // Optional configuration
+  config?: PlatformConfig;
+  
+  // API client (if available)
+  api?: any;
+  
+  // Validation and initialization
+  validate?: () => Promise<ValidationResult>;
+  initialize?: () => Promise<void>;
+}
+
+// Platform configuration interface
+export interface PlatformConfig {
+  apiKey?: string;
+  baseURL?: string;
+  timeout?: number;
+  retries?: number;
+  rateLimit?: {
+    requests: number;
+    windowMs: number;
+  };
+}
+
+// Validation result interface
+export interface ValidationResult {
+  isValid: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+// Shell component interface for type safety
+export interface ShellComponent {
+  (props: { onBack: () => void }): ReactElement;
+}
+
+// Platform module interface for registration
+export interface PlatformModule {
+  platform: Platform;
+  shell?: ShellComponent;
+  ascii?: {
+    logo: string;
+    banner: string;
+  };
+}
+
+// Theme interface for consistent styling
+export interface ThemeColors {
+  primary: (text: string) => string;
+  secondary: (text: string) => string;
+  accent: (text: string) => string;
+  success: (text: string) => string;
+  warning: (text: string) => string;
+  error: (text: string) => string;
+  muted: (text: string) => string;
+}
+
+// CLI execution context
+export interface ExecutionContext {
+  platform: string;
+  command: string;
+  args: Record<string, any>;
+  startTime: Date;
+}
+
+// Enhanced CLI module interface
 export interface CLIModule {
   name: string;
   description: string;
   version: string;
   commands: CLICommand[];
-  execute(command: string, args: Record<string, any>): Promise<void>;
+  execute: (command: string, args: Record<string, any>) => Promise<any>;
+  getCommand?: (name: string) => CLICommand | undefined;
+  validateCommand?: (name: string, args: Record<string, any>) => ValidationResult;
 }
+
+// Plugin registry interface for dynamic loading
+export interface PluginRegistry {
+  register(name: string, module: PlatformModule): void;
+  unregister(name: string): void;
+  get(name: string): PlatformModule | undefined;
+  getAll(): Map<string, PlatformModule>;
+  list(): string[];
+}
+
+// Command execution result
+export interface CommandResult {
+  success: boolean;
+  data?: any;
+  error?: string;
+  executionTime: number;
+  context: ExecutionContext;
+}
+
+// Enhanced module status
+export interface ModuleStatus {
+  name: string;
+  status: 'active' | 'inactive' | 'error' | 'loading';
+  version: string;
+  lastCheck: Date;
+  error?: string;
+  commands: number;
+  categories: number;
+}
+
+// Configuration management
+export interface CLIConfig {
+  defaultTimeout: number;
+  maxRetries: number;
+  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  platforms: Record<string, PlatformConfig>;
+  ui: {
+    theme: string;
+    colorMode: 'auto' | 'light' | 'dark';
+    animations: boolean;
+  };
+}
+
+// Error handling
+export class CLIError extends Error {
+  public readonly code: string;
+  public readonly platform?: string;
+  public readonly command?: string;
+  public readonly context?: Record<string, any>;
+
+  constructor(
+    message: string, 
+    code: string, 
+    platform?: string, 
+    command?: string, 
+    context?: Record<string, any>
+  ) {
+    super(message);
+    this.name = 'CLIError';
+    this.code = code;
+    this.platform = platform;
+    this.command = command;
+    this.context = context;
+  }
+}
+
+// Utility types
+export type PlatformName = 
+  | 'smartlead' 
+  | 'instantly' 
+  | 'apollo' 
+  | 'salesforge' 
+  | 'emailbison' 
+  | 'amplemarket' 
+  | 'lemlist' 
+  | 'outreach' 
+  | 'quickmail' 
+  | 'salesloft';
+
+export type CommandHandler = (args: Record<string, any>) => Promise<void> | void;
+
+// Event system for extensibility
+export interface CLIEvent {
+  type: string;
+  platform?: string;
+  command?: string;
+  data?: any;
+  timestamp: Date;
+}
+
+export interface EventListener {
+  (event: CLIEvent): void | Promise<void>;
+}
+
+export interface EventEmitter {
+  on(event: string, listener: EventListener): void;
+  off(event: string, listener: EventListener): void;
+  emit(event: string, data?: any): void;
+}
+
+// Export for backwards compatibility
+export type { CLICommand as Command };
 
 export interface ModuleInfo {
   name: string;
@@ -365,14 +559,6 @@ export interface CohortAnalysis {
   conversion_rates?: number[];
 }
 
-// Error types
-export interface CLIError {
-  code: string;
-  message: string;
-  details?: any;
-  timestamp: string;
-}
-
 // Export and import types
 export interface ExportOptions {
   format: "csv" | "xlsx" | "json";
@@ -424,18 +610,4 @@ export function isSalesforgeCampaign(obj: any): obj is SalesforgeCampaign {
 
 export function isApolloSequence(obj: any): obj is ApolloSequence {
   return obj && typeof obj.id === "string" && typeof obj.steps_count === "number";
-}
-
-export interface Platform {
-  name: string;
-  description: string;
-  version: string;
-  totalCommands: number;
-  categories: {
-    name: string;
-    description: string;
-    commands: number;
-  }[];
-  api: any;
-  commands: CLICommand[];
 }
