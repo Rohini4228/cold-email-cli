@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
-import { platformInfo, commandCategories } from "./index";
+import lemlistModule from "./index";
 import { lemlistAscii, lemlistBanner } from "./ascii";
 
 interface Props {
   onBack: () => void;
 }
 
-export function LemListShell({ onBack }: Props) {
+export function lemlistShell({ onBack }: Props) {
   const { exit } = useApp();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const theme = getTheme("lemlist");
 
   useInput((input, key) => {
     if (key.escape || input === "q") {
-      if (selectedCategory) {
+      if (selectedCategory !== null) {
         setSelectedCategory(null);
       } else {
         onBack();
@@ -33,11 +33,10 @@ export function LemListShell({ onBack }: Props) {
     }
 
     // Number keys for category selection
-    if (!selectedCategory && !showWelcome && /^[1-6]$/.test(input)) {
-      const categories = Object.keys(commandCategories);
+    if (selectedCategory === null && !showWelcome && /^[1-6]$/.test(input)) {
       const categoryIndex = parseInt(input) - 1;
-      if (categories[categoryIndex]) {
-        setSelectedCategory(categories[categoryIndex]);
+      if (lemlistModule.categories[categoryIndex]) {
+        setSelectedCategory(categoryIndex);
       }
     }
   });
@@ -54,19 +53,22 @@ export function LemListShell({ onBack }: Props) {
     );
   }
 
-  if (selectedCategory) {
-    const commands = commandCategories[selectedCategory as keyof typeof commandCategories];
+  if (selectedCategory !== null) {
+    const category = lemlistModule.categories[selectedCategory];
+    const categoryCommands = lemlistModule.commands.filter(cmd => 
+      cmd.category === category.name
+    );
     
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
           <Text color="magenta" bold>
-            💖 {platformInfo.name} - {selectedCategory}
+            💖 {lemlistModule.name} - {category.name}
           </Text>
         </Box>
         
         <Box flexDirection="column" marginBottom={1}>
-          {commands.map((cmd) => (
+          {categoryCommands.map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
               <Text color="magenta">{cmd.name}</Text>
               <Text color="gray"> - {cmd.description}</Text>
@@ -87,12 +89,12 @@ export function LemListShell({ onBack }: Props) {
     <Box flexDirection="column" padding={1}>
       <Box marginBottom={1}>
         <Text color="magenta" bold>
-          💖 {platformInfo.name} v{platformInfo.version}
+          💖 {lemlistModule.name} v{lemlistModule.version}
         </Text>
       </Box>
       
       <Box marginBottom={1}>
-        <Text color="gray">{platformInfo.description}</Text>
+        <Text color="gray">{lemlistModule.description}</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -100,13 +102,13 @@ export function LemListShell({ onBack }: Props) {
           📊 Platform Stats:
         </Text>
         <Text color="gray">
-          • Total Commands: {platformInfo.totalCommands}
+          • Total Commands: {lemlistModule.totalCommands}
         </Text>
         <Text color="gray">
-          • Categories: {platformInfo.categories.length}
+          • Categories: {lemlistModule.categories.length}
         </Text>
         <Text color="gray">
-          • Status: {platformInfo.status === "active" ? "✅ Active" : "⏸️  Inactive"}
+          • Status: ✅ Active
         </Text>
       </Box>
 
@@ -114,17 +116,13 @@ export function LemListShell({ onBack }: Props) {
         <Text color="magenta" bold>
           📋 Command Categories:
         </Text>
-        {Object.keys(commandCategories).map((category) => {
-          const commands = commandCategories[category as keyof typeof commandCategories];
-          const categoryIndex = Object.keys(commandCategories).indexOf(category);
-          return (
-            <Box key={category} marginLeft={2}>
-              <Text color="cyan">{categoryIndex + 1}.</Text>
-              <Text color="white"> {category}</Text>
-              <Text color="gray"> ({commands.length} commands)</Text>
-            </Box>
-          );
-        })}
+        {lemlistModule.categories.map((category, index) => (
+          <Box key={category.name} marginLeft={2}>
+            <Text color="cyan">{index + 1}.</Text>
+            <Text color="white"> {category.name}</Text>
+            <Text color="gray"> ({category.commands} commands)</Text>
+          </Box>
+        ))}
       </Box>
 
       <Box marginTop={1}>

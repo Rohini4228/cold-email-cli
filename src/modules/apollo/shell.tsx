@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
-import { platformInfo, commandCategories } from "./index";
+import apolloModule from "./index";
 import { apolloAscii, apolloBanner } from "./ascii";
 
 interface Props {
@@ -10,13 +10,13 @@ interface Props {
 
 export function ApolloShell({ onBack }: Props) {
   const { exit } = useApp();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const theme = getTheme("apollo");
 
   useInput((input, key) => {
     if (key.escape || input === "q") {
-      if (selectedCategory) {
+      if (selectedCategory !== null) {
         setSelectedCategory(null);
       } else {
         onBack();
@@ -33,11 +33,10 @@ export function ApolloShell({ onBack }: Props) {
     }
 
     // Number keys for category selection
-    if (!selectedCategory && !showWelcome && /^[1-4]$/.test(input)) {
-      const categories = Object.keys(commandCategories);
+    if (selectedCategory === null && !showWelcome && /^[1-4]$/.test(input)) {
       const categoryIndex = parseInt(input) - 1;
-      if (categories[categoryIndex]) {
-        setSelectedCategory(categories[categoryIndex]);
+      if (apolloModule.categories[categoryIndex]) {
+        setSelectedCategory(categoryIndex);
       }
     }
   });
@@ -54,24 +53,30 @@ export function ApolloShell({ onBack }: Props) {
     );
   }
 
-  if (selectedCategory) {
-    const commands = commandCategories[selectedCategory as keyof typeof commandCategories];
+  if (selectedCategory !== null) {
+    const category = apolloModule.categories[selectedCategory];
+    const categoryCommands = apolloModule.commands.filter(cmd => 
+      cmd.category === category.name
+    );
     
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
           <Text color="yellow" bold>
-            ☀️ {platformInfo.name} - {selectedCategory}
+            ☀️ {apolloModule.name} - {category.name}
           </Text>
         </Box>
         
         <Box flexDirection="column" marginBottom={1}>
-          {commands.map((cmd) => (
+          {categoryCommands.slice(0, 15).map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
               <Text color="yellow">{cmd.name}</Text>
               <Text color="gray"> - {cmd.description}</Text>
             </Box>
           ))}
+          {categoryCommands.length > 15 && (
+            <Text color="orange">... and {categoryCommands.length - 15} more commands</Text>
+          )}
         </Box>
 
         <Box marginTop={1}>
@@ -87,12 +92,12 @@ export function ApolloShell({ onBack }: Props) {
     <Box flexDirection="column" padding={1}>
       <Box marginBottom={1}>
         <Text color="yellow" bold>
-          ☀️ {platformInfo.name} v{platformInfo.version}
+          ☀️ {apolloModule.name} v{apolloModule.version}
         </Text>
       </Box>
       
       <Box marginBottom={1}>
-        <Text color="gray">{platformInfo.description}</Text>
+        <Text color="gray">{apolloModule.description}</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -100,13 +105,13 @@ export function ApolloShell({ onBack }: Props) {
           📊 Platform Stats:
         </Text>
         <Text color="gray">
-          • Total Commands: {platformInfo.totalCommands}
+          • Total Commands: {apolloModule.totalCommands}
         </Text>
         <Text color="gray">
-          • Categories: {platformInfo.categories.length}
+          • Categories: {apolloModule.categories.length}
         </Text>
         <Text color="gray">
-          • Status: {platformInfo.status === "active" ? "✅ Active" : "⏸️  Inactive"}
+          • Status: ✅ Active
         </Text>
       </Box>
 
@@ -114,17 +119,13 @@ export function ApolloShell({ onBack }: Props) {
         <Text color="yellow" bold>
           📋 Command Categories:
         </Text>
-        {Object.keys(commandCategories).map((category) => {
-          const commands = commandCategories[category as keyof typeof commandCategories];
-          const categoryIndex = Object.keys(commandCategories).indexOf(category);
-          return (
-            <Box key={category} marginLeft={2}>
-              <Text color="cyan">{categoryIndex + 1}.</Text>
-              <Text color="white"> {category}</Text>
-              <Text color="gray"> ({commands.length} commands)</Text>
-            </Box>
-          );
-        })}
+        {apolloModule.categories.map((category, index) => (
+          <Box key={category.name} marginLeft={2}>
+            <Text color="cyan">{index + 1}.</Text>
+            <Text color="white"> {category.name}</Text>
+            <Text color="gray"> ({category.commands} commands)</Text>
+          </Box>
+        ))}
       </Box>
 
       <Box marginTop={1}>

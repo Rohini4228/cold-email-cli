@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { ApolloAPI } from "./api";
 import { accountAliases, accountCommands } from "./commands/accounts";
 import { contactAliases, contactCommands } from "./commands/contacts";
@@ -9,7 +9,7 @@ import { templateAliases, templateCommands } from "./commands/templates";
 // Initialize API client
 export const api = new ApolloAPI();
 
-// All Apollo commands (email sequences only)
+// Combine all commands
 export const apolloCommands: CLICommand[] = [
   ...sequenceCommands,
   ...templateCommands,
@@ -17,7 +17,7 @@ export const apolloCommands: CLICommand[] = [
   ...accountCommands,
 ];
 
-// All Apollo aliases
+// Combine all aliases
 export const apolloAliases: CLICommand[] = [
   ...sequenceAliases,
   ...templateAliases,
@@ -28,30 +28,33 @@ export const apolloAliases: CLICommand[] = [
 // All commands combined (main + aliases)
 export const allApolloCommands: CLICommand[] = [...apolloCommands, ...apolloAliases];
 
-// Platform info
-export const platformInfo = {
-  name: "Apollo",
-  description: "Email Sequences & Outreach Automation - Professional email sequences that work",
-  version: "2.0.0",
-  totalCommands: allApolloCommands.length,
-  categories: ["Email Sequences", "Email Templates", "Contacts", "Email Accounts"],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "Email Sequences": sequenceCommands.filter((cmd) => cmd.category === "Email Sequences"),
-  "Email Templates": templateCommands.filter((cmd) => cmd.category === "Email Templates"),
-  Contacts: contactCommands.filter((cmd) => cmd.category === "Contacts"),
-  "Email Accounts": accountCommands.filter((cmd) => cmd.category === "Email Accounts"),
-};
-
-// Export for MCP and CLI usage
-export { sequenceCommands, templateCommands, contactCommands, accountCommands };
-
 export default {
-  commands: allApolloCommands,
-  platformInfo,
-  commandCategories,
+  name: "Apollo",
+  description: "Email sequences & outreach automation platform",
+  version: "1.0.0",
+  totalCommands: allApolloCommands.length,
+  categories: [
+    {
+      name: "☀️ Email Sequences",
+      description: "Manage email sequences and automation",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "📄 Email Templates",
+      description: "Create and manage email templates",
+      commands: templateCommands.length,
+    },
+    {
+      name: "👥 Contacts",
+      description: "Manage contacts and prospects",
+      commands: contactCommands.length,
+    },
+    {
+      name: "📧 Email Accounts",
+      description: "Email account setup and configuration",
+      commands: accountCommands.length,
+    },
+  ],
   api,
-};
+  commands: allApolloCommands,
+} as Platform;

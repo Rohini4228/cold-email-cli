@@ -54,9 +54,9 @@ const themes = {
     text: "#ffffff",
   },
   emailbison: {
-    primary: "#a16207", // Email Bison brown/amber
-    secondary: "#ca8a04",
-    accent: "#92400e",
+    primary: "#a16207", // EmailBison brown/amber
+    secondary: "#78716c",
+    accent: "#f59e0b",
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -64,9 +64,9 @@ const themes = {
     text: "#ffffff",
   },
   amplemarket: {
-    primary: "#2563eb", // AmpleMarket professional blue
-    secondary: "#3b82f6",
-    accent: "#1d4ed8",
+    primary: "#2563eb", // Amplemarket professional blue
+    secondary: "#64748b",
+    accent: "#3b82f6",
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -75,8 +75,8 @@ const themes = {
   },
   outreach: {
     primary: "#1e40af", // Outreach enterprise blue
-    secondary: "#3b82f6",
-    accent: "#1e3a8a",
+    secondary: "#64748b",
+    accent: "#2563eb",
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -84,9 +84,9 @@ const themes = {
     text: "#ffffff",
   },
   salesloft: {
-    primary: "#6366f1", // SalesLoft modern indigo
-    secondary: "#818cf8",
-    accent: "#4f46e5",
+    primary: "#6366f1", // Salesloft modern indigo
+    secondary: "#64748b",
+    accent: "#8b5cf6",
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -94,9 +94,9 @@ const themes = {
     text: "#ffffff",
   },
   lemlist: {
-    primary: "#ec4899", // LemList creative pink
-    secondary: "#f472b6",
-    accent: "#db2777",
+    primary: "#ec4899", // lemlist creative pink
+    secondary: "#64748b",
+    accent: "#f97316",
     success: "#10b981",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -157,15 +157,15 @@ export function createBanner(title: string, subtitle?: string, module?: string):
 export function showWelcomeMessage(module: string): void {
   const theme = getTheme(module);
   const moduleNames = {
-    smartlead: "SmartLead.ai",
-    instantly: "Instantly.ai",
-    salesforge: "Salesforge.ai",
-    apollo: "Apollo.io",
-    emailbison: "Email Bison",
-    amplemarket: "AmpleMarket",
-    outreach: "Outreach.io",
-    salesloft: "SalesLoft",
-    lemlist: "LemList",
+    smartlead: "SmartLead",
+    instantly: "Instantly",
+    salesforge: "Salesforge",
+    apollo: "Apollo",
+    emailbison: "EmailBison",
+    amplemarket: "Amplemarket",
+    outreach: "Outreach",
+    salesloft: "Salesloft",
+    lemlist: "lemlist",
   };
 
   const moduleName = moduleNames[module as keyof typeof moduleNames] || "Cold Email CLI";
@@ -247,3 +247,15 @@ export function showInfo(message: string, module?: string): void {
   const theme = getTheme(module);
   console.log(`\n${theme.accent("ℹ️  Info:")} ${message}\n`);
 }
+
+export const platformNames = {
+  smartlead: "SmartLead",
+  instantly: "Instantly", 
+  salesforge: "Salesforge",
+  apollo: "Apollo",
+  emailbison: "EmailBison",
+  amplemarket: "Amplemarket",
+  outreach: "Outreach",
+  salesloft: "Salesloft",
+  lemlist: "lemlist",
+} as const;

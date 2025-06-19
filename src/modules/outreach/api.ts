@@ -1,10 +1,4 @@
 import axios, { type AxiosInstance } from "axios";
-import { 
-  OutreachSequenceSchema,
-  OutreachProspectSchema,
-  OutreachMailboxSchema,
-  OutreachTemplateSchema,
-} from "../../types/schemas";
 
 export class OutreachAPI {
   private client: AxiosInstance;
@@ -24,7 +18,7 @@ export class OutreachAPI {
   // Sequences Management
   async getSequences(params?: { page?: number; count?: number }) {
     const response = await this.client.get("/sequences", { params });
-    return response.data.data.map((seq: any) => OutreachSequenceSchema.parse(seq));
+    return response.data.data;
   }
 
   async createSequence(data: { name: string; description?: string }) {
@@ -34,12 +28,12 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachSequenceSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async getSequence(id: string) {
     const response = await this.client.get(`/sequences/${id}`);
-    return OutreachSequenceSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async updateSequence(id: string, data: any) {
@@ -50,7 +44,7 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachSequenceSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async deleteSequence(id: string) {
@@ -60,7 +54,7 @@ export class OutreachAPI {
   // Prospects Management
   async getProspects(params?: { page?: number; count?: number }) {
     const response = await this.client.get("/prospects", { params });
-    return response.data.data.map((prospect: any) => OutreachProspectSchema.parse(prospect));
+    return response.data.data;
   }
 
   async createProspect(data: any) {
@@ -70,12 +64,12 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachProspectSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async getProspect(id: string) {
     const response = await this.client.get(`/prospects/${id}`);
-    return OutreachProspectSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async updateProspect(id: string, data: any) {
@@ -86,18 +80,18 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachProspectSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   // Mailboxes Management
   async getMailboxes() {
     const response = await this.client.get("/mailboxes");
-    return response.data.data.map((mailbox: any) => OutreachMailboxSchema.parse(mailbox));
+    return response.data.data;
   }
 
   async getMailbox(id: string) {
     const response = await this.client.get(`/mailboxes/${id}`);
-    return OutreachMailboxSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async updateMailbox(id: string, data: any) {
@@ -108,13 +102,13 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachMailboxSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   // Templates Management
   async getTemplates(params?: { page?: number; count?: number }) {
     const response = await this.client.get("/templates", { params });
-    return response.data.data.map((template: any) => OutreachTemplateSchema.parse(template));
+    return response.data.data;
   }
 
   async createTemplate(data: any) {
@@ -124,12 +118,12 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachTemplateSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async getTemplate(id: string) {
     const response = await this.client.get(`/templates/${id}`);
-    return OutreachTemplateSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   async updateTemplate(id: string, data: any) {
@@ -140,7 +134,7 @@ export class OutreachAPI {
         attributes: data,
       },
     });
-    return OutreachTemplateSchema.parse(response.data.data);
+    return response.data.data;
   }
 
   // Analytics

@@ -54,13 +54,18 @@ export function listModules(): void {
   console.log("\n❄️ Cold Email CLI - Available Platforms:\n");
 
   Object.entries(modules).forEach(([_key, module]) => {
-    const statusIcon = module.platformInfo.status === "active" ? "✅" : "🚧";
-    const totalCommands = module.platformInfo.totalCommands;
-
-    console.log(`${statusIcon} ${module.platformInfo.name}`);
-    console.log(`   Description: ${module.platformInfo.description}`);
+    // Support both old and new module structures
+    const status = (module as any).platformInfo?.status || "active";
+    const name = (module as any).platformInfo?.name || module.name;
+    const description = (module as any).platformInfo?.description || module.description;
+    const totalCommands = (module as any).platformInfo?.totalCommands || module.totalCommands;
+    
+    const statusIcon = status === "active" ? "✅" : "🚧";
+    
+    console.log(`${statusIcon} ${name}`);
+    console.log(`   Description: ${description}`);
     console.log(`   Commands: ${totalCommands}`);
-    console.log(`   Status: ${module.platformInfo.status === "active" ? "Available" : "Coming Soon"}\n`);
+    console.log(`   Status: ${status === "active" ? "Available" : "Coming Soon"}\n`);
   });
 }
 

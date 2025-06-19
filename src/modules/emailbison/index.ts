@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { EmailBisonAPI } from "./api";
 import { accountAliases, accountCommands } from "./commands/accounts";
 import { analyticsAliases, analyticsCommands } from "./commands/analytics";
@@ -38,18 +38,41 @@ export const allEmailBisonCommands: CLICommand[] = [...emailBisonCommands, ...em
 
 // Platform info
 export const platformInfo = {
-  name: "Email Bison",
-  description: "Advanced Email Automation - Power through your email campaigns",
-  version: "2.0.0",
+  name: "EmailBison",
+  description: "Power-driven email automation platform",
+  version: "1.0.0",
   totalCommands: allEmailBisonCommands.length,
   categories: [
-    "Power Campaign Management",
-    "Power Lead Management",
-    "Power Email Accounts",
-    "Power Sequences",
-    "Power Templates",
-    "Power Automation",
-    "Power Analytics",
+    {
+      name: "⚡ Power Campaigns",
+      description: "High-power email campaigns with advanced automation",
+      commands: campaignCommands.length,
+    },
+    {
+      name: "📊 Analytics & Reports",
+      description: "Performance analytics and detailed reporting",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "🎯 Lead Management",
+      description: "Advanced lead targeting and management",
+      commands: leadCommands.length,
+    },
+    {
+      name: "📧 Account Management",
+      description: "Email account configuration and management",
+      commands: accountCommands.length,
+    },
+    {
+      name: "📝 Templates & Sequences",
+      description: "Email templates and sequence management",
+      commands: templateCommands.length + sequenceCommands.length,
+    },
+    {
+      name: "⚙️ Automation Settings",
+      description: "Advanced automation and power settings",
+      commands: automationCommands.length,
+    },
   ],
   status: "active",
 };
@@ -77,8 +100,42 @@ export {
 };
 
 export default {
-  commands: allEmailBisonCommands,
-  platformInfo,
-  commandCategories,
+  name: "EmailBison",
+  description: "Power-driven email automation platform",
+  version: "1.0.0",
+  totalCommands: allEmailBisonCommands.length,
+  categories: [
+    {
+      name: "⚡ Power Campaigns",
+      description: "High-power email campaigns with advanced automation",
+      commands: campaignCommands.length,
+    },
+    {
+      name: "📊 Analytics & Reports",
+      description: "Performance analytics and detailed reporting",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "🎯 Lead Management",
+      description: "Advanced lead targeting and management",
+      commands: leadCommands.length,
+    },
+    {
+      name: "📧 Account Management",
+      description: "Email account configuration and management",
+      commands: accountCommands.length,
+    },
+    {
+      name: "📝 Templates & Sequences",
+      description: "Email templates and sequence management",
+      commands: templateCommands.length + sequenceCommands.length,
+    },
+    {
+      name: "⚙️ Automation Settings",
+      description: "Advanced automation and power settings",
+      commands: automationCommands.length,
+    },
+  ],
   api,
-};
+  commands: allEmailBisonCommands,
+} as Platform;

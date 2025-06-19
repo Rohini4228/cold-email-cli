@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { SalesforgeAPI } from "./api";
 
 // Import modular command files
@@ -7,36 +7,27 @@ import { sequenceAliases, sequenceCommands } from "./commands/sequences";
 // Initialize API client
 export const api = new SalesforgeAPI();
 
-// All Salesforge commands
+// Combine all commands
 export const salesforgeCommands: CLICommand[] = [...sequenceCommands];
 
-// All Salesforge aliases
+// Combine all aliases
 export const salesforgeAliases: CLICommand[] = [...sequenceAliases];
 
 // All commands combined (main + aliases)
 export const allSalesforgeCommands: CLICommand[] = [...salesforgeCommands, ...salesforgeAliases];
 
-// Platform info
-export const platformInfo = {
-  name: "Salesforge",
-  description: "AI-Powered Multi-Channel Sequences - Intelligent automation that converts",
-  version: "2.0.0",
-  totalCommands: allSalesforgeCommands.length,
-  categories: ["AI Sequences"],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "AI Sequences": sequenceCommands.filter((cmd) => cmd.category === "AI Sequences"),
-};
-
-// Export for MCP and CLI usage
-export { sequenceCommands };
-
 export default {
-  commands: allSalesforgeCommands,
-  platformInfo,
-  commandCategories,
+  name: "Salesforge",
+  description: "AI-powered multi-channel sequences & automation",
+  version: "1.0.0",
+  totalCommands: allSalesforgeCommands.length,
+  categories: [
+    {
+      name: "🔥 AI Sequences",
+      description: "AI-powered sequence creation and management",
+      commands: sequenceCommands.length,
+    },
+  ],
   api,
-};
+  commands: allSalesforgeCommands,
+} as Platform;

@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { AmpleMarketAPI } from "./api";
 import { accountAliases, accountCommands } from "./commands/account";
 import { contactAliases, contactCommands } from "./commands/contacts";
@@ -32,16 +32,36 @@ export const allAmpleMarketCommands: CLICommand[] = [...ampleMarketCommands, ...
 
 // Platform info
 export const platformInfo = {
-  name: "AmpleMarket",
-  description: "🎯 Sales Intelligence & Prospecting Platform",
-  version: "2.0.0",
+  name: "Amplemarket",
+  description: "Sales intelligence & prospecting platform",
+  version: "1.0.0",
   totalCommands: allAmpleMarketCommands.length,
   categories: [
-    "🏢 Account Management",
-    "📊 Lead List Management",
-    "👤 Contact Management",
-    "🚀 Sequence Management",
-    "✅ Task Management",
+    {
+      name: "💼 Account Management",
+      description: "Manage sales intelligence accounts",
+      commands: accountCommands.length,
+    },
+    {
+      name: "👥 Contact Management",
+      description: "Manage and organize contacts",
+      commands: contactCommands.length,
+    },
+    {
+      name: "📊 Lead List Management",
+      description: "Create and manage lead lists",
+      commands: leadListCommands.length,
+    },
+    {
+      name: "📋 Sequence Management",
+      description: "Manage email sequences",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "📞 Task Management",
+      description: "Call logs and task tracking",
+      commands: taskCommands.length,
+    },
   ],
   status: "active",
 };
@@ -65,8 +85,37 @@ export {
 };
 
 export default {
-  commands: allAmpleMarketCommands,
-  platformInfo,
-  commandCategories,
+  name: "Amplemarket",
+  description: "Sales intelligence & prospecting platform",
+  version: "1.0.0",
+  totalCommands: allAmpleMarketCommands.length,
+  categories: [
+    {
+      name: "💼 Account Management",
+      description: "Manage sales intelligence accounts",
+      commands: accountCommands.length,
+    },
+    {
+      name: "👥 Contact Management",
+      description: "Manage and organize contacts",
+      commands: contactCommands.length,
+    },
+    {
+      name: "📊 Lead List Management",
+      description: "Create and manage lead lists",
+      commands: leadListCommands.length,
+    },
+    {
+      name: "📋 Sequence Management",
+      description: "Manage email sequences",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "📞 Task Management",
+      description: "Call logs and task tracking",
+      commands: taskCommands.length,
+    },
+  ],
   api,
-};
+  commands: allAmpleMarketCommands,
+} as Platform;

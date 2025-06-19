@@ -3,7 +3,7 @@
  * Complete implementation of Instantly API v2 with 30+ commands
  */
 
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { InstantlyAPI } from "./api";
 import { accountAliases, accountCommands } from "./commands/accounts";
 // Import all modular command files
@@ -14,37 +14,44 @@ import { leadAliases, leadCommands } from "./commands/leads";
 export const api = new InstantlyAPI();
 
 // Combine all commands
-export const instantlyCommands: CLICommand[] = [...campaignCommands, ...leadCommands, ...accountCommands];
+export const instantlyCommands: CLICommand[] = [
+  ...campaignCommands,
+  ...leadCommands,
+  ...accountCommands,
+];
 
 // Combine all aliases
-export const instantlyAliases: CLICommand[] = [...campaignAliases, ...leadAliases, ...accountAliases];
+export const instantlyAliases: CLICommand[] = [
+  ...campaignAliases,
+  ...leadAliases,
+  ...accountAliases,
+];
 
 // All commands combined (main + aliases)
 export const allInstantlyCommands: CLICommand[] = [...instantlyCommands, ...instantlyAliases];
 
-// Platform info
-export const platformInfo = {
+export default {
   name: "Instantly",
-  description: "High-Volume Email Automation & Deliverability - Scale your outreach infinitely",
+  description: "High-volume email automation & deliverability platform",
   version: "2.0.0",
   totalCommands: allInstantlyCommands.length,
-  categories: ["Campaign Automation", "Lead Management", "Email Accounts"],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "Campaign Automation": campaignCommands.filter((cmd) => cmd.category === "Campaign Automation"),
-  "Lead Management": leadCommands.filter((cmd) => cmd.category === "Lead Management"),
-  "Email Accounts": accountCommands.filter((cmd) => cmd.category === "Email Accounts"),
-};
-
-// Export for MCP and CLI usage
-export { campaignCommands, leadCommands, accountCommands };
-
-export default {
-  commands: allInstantlyCommands,
-  platformInfo,
-  commandCategories,
+  categories: [
+    {
+      name: "🚀 Campaign Management",
+      description: "Manage email campaigns and automation",
+      commands: campaignCommands.length,
+    },
+    {
+      name: "👥 Lead Management",
+      description: "Import and manage leads",
+      commands: leadCommands.length,
+    },
+    {
+      name: "📧 Account Management",
+      description: "Email account configuration and warmup",
+      commands: accountCommands.length,
+    },
+  ],
   api,
-};
+  commands: allInstantlyCommands,
+} as Platform;

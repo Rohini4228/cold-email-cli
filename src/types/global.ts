@@ -425,3 +425,17 @@ export function isSalesforgeCampaign(obj: any): obj is SalesforgeCampaign {
 export function isApolloSequence(obj: any): obj is ApolloSequence {
   return obj && typeof obj.id === "string" && typeof obj.steps_count === "number";
 }
+
+export interface Platform {
+  name: string;
+  description: string;
+  version: string;
+  totalCommands: number;
+  categories: {
+    name: string;
+    description: string;
+    commands: number;
+  }[];
+  api: any;
+  commands: CLICommand[];
+}

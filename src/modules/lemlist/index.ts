@@ -1,78 +1,75 @@
-import type { CLICommand } from "../../types/global";
-import { LemListAPI } from "./api";
-import { campaignAliases, campaignCommands } from "./commands/campaigns";
-import { leadAliases, leadCommands } from "./commands/leads";
-import { sequenceAliases, sequenceCommands } from "./commands/sequences";
-import { templateAliases, templateCommands } from "./commands/templates";
-import { analyticsAliases, analyticsCommands } from "./commands/analytics";
-import { teamAliases, teamCommands } from "./commands/team";
+import { lemlistAPI } from "./api";
+import { campaignCommands } from "./commands/campaigns";
+import { leadCommands } from "./commands/leads";
+import { sequenceCommands } from "./commands/sequences";
+import { templateCommands } from "./commands/templates";
+import { teamCommands } from "./commands/team";
+import { analyticsCommands } from "./commands/analytics";
+import type { CLICommand, Platform } from "../../types/global";
 
-// Initialize API client
-export const api = new LemListAPI();
+export const api = new lemlistAPI();
 
-// Combine all commands
+// Combined command arrays
 export const lemlistCommands: CLICommand[] = [
   ...campaignCommands,
   ...leadCommands,
   ...sequenceCommands,
   ...templateCommands,
-  ...analyticsCommands,
   ...teamCommands,
+  ...analyticsCommands,
 ];
 
-// Combine all aliases
 export const lemlistAliases: CLICommand[] = [
-  ...campaignAliases,
-  ...leadAliases,
-  ...sequenceAliases,
-  ...templateAliases,
-  ...analyticsAliases,
-  ...teamAliases,
+  // Campaign aliases
+  { ...campaignCommands[0], name: "camp:list", usage: "lemlist camp:list" },
+  { ...campaignCommands[1], name: "camp:create", usage: "lemlist camp:create --name <name>" },
+  { ...campaignCommands[3], name: "camp:start", usage: "lemlist camp:start --id <id>" },
+  
+  // Lead aliases  
+  { ...leadCommands[0], name: "ld:list", usage: "lemlist ld:list --campaign_id <campaign_id>" },
+  { ...leadCommands[1], name: "ld:add", usage: "lemlist ld:add --campaign_id <campaign_id> --email <email> --firstName <name> --lastName <name>" },
 ];
 
-// All commands combined (main + aliases)
-export const allLemListCommands: CLICommand[] = [...lemlistCommands, ...lemlistAliases];
+export const alllemlistCommands: CLICommand[] = [...lemlistCommands, ...lemlistAliases];
 
-// Platform info
-export const platformInfo = {
-  name: "LemList",
-  description: "🎯 Creative Email Outreach & Automation Platform",
-  version: "2.0.0",
-  totalCommands: allLemListCommands.length,
-  categories: [
-    "🚀 Campaign Management",
-    "👥 Lead Management",
-    "🔄 Sequence Management",
-    "📝 Template Management",
-    "📊 Analytics & Reporting",
-    "⚙️ Team & Account",
-  ],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "🚀 Campaign Management": campaignCommands.filter((cmd) => cmd.category === "🚀 Campaign Management"),
-  "👥 Lead Management": leadCommands.filter((cmd) => cmd.category === "👥 Lead Management"),
-  "🔄 Sequence Management": sequenceCommands.filter((cmd) => cmd.category === "🔄 Sequence Management"),
-  "📝 Template Management": templateCommands.filter((cmd) => cmd.category === "📝 Template Management"),
-  "📊 Analytics & Reporting": analyticsCommands.filter((cmd) => cmd.category === "📊 Analytics & Reporting"),
-  "⚙️ Team & Account": teamCommands.filter((cmd) => cmd.category === "⚙️ Team & Account"),
-};
-
-// Export for MCP and CLI usage
-export { 
-  campaignCommands,
-  leadCommands,
-  sequenceCommands,
-  templateCommands,
-  analyticsCommands,
-  teamCommands,
-};
-
+// Platform configuration
 export default {
-  commands: allLemListCommands,
-  platformInfo,
-  commandCategories,
+  name: "lemlist",
+  description: "Creative email outreach & automation platform",
+  version: "1.0.0",
+  totalCommands: alllemlistCommands.length,
+  categories: [
+    {
+      name: "💖 Campaign Management",
+      description: "Manage creative email campaigns",
+      commands: campaignCommands.length,
+    },
+    {
+      name: "👥 Lead Management", 
+      description: "Import and manage leads",
+      commands: leadCommands.length,
+    },
+    {
+      name: "📝 Sequence Management",
+      description: "Create and manage email sequences",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "📄 Template Management",
+      description: "Manage email templates",
+      commands: templateCommands.length,
+    },
+    {
+      name: "👥 Team Management",
+      description: "Team collaboration features",
+      commands: teamCommands.length,
+    },
+    {
+      name: "📊 Analytics",
+      description: "Campaign and account analytics",
+      commands: analyticsCommands.length,
+    },
+  ],
   api,
-};
+  commands: alllemlistCommands,
+} as Platform;

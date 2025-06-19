@@ -1,11 +1,11 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { OutreachAPI } from "./api";
-import { sequenceAliases, sequenceCommands } from "./commands/sequences";
-import { prospectAliases, prospectCommands } from "./commands/prospects";
-import { mailboxAliases, mailboxCommands } from "./commands/mailboxes";
-import { templateAliases, templateCommands } from "./commands/templates";
 import { analyticsAliases, analyticsCommands } from "./commands/analytics";
+import { mailboxAliases, mailboxCommands } from "./commands/mailboxes";
+import { prospectAliases, prospectCommands } from "./commands/prospects";
+import { sequenceAliases, sequenceCommands } from "./commands/sequences";
 import { settingsAliases, settingsCommands } from "./commands/settings";
+import { templateAliases, templateCommands } from "./commands/templates";
 
 // Initialize API client
 export const api = new OutreachAPI();
@@ -33,46 +33,43 @@ export const outreachAliases: CLICommand[] = [
 // All commands combined (main + aliases)
 export const allOutreachCommands: CLICommand[] = [...outreachCommands, ...outreachAliases];
 
-// Platform info
-export const platformInfo = {
+export default {
   name: "Outreach",
-  description: "🎯 Enterprise Sales Engagement & Sequence Platform",
-  version: "2.0.0",
+  description: "Enterprise sales engagement & sequence platform",
+  version: "1.0.0",
   totalCommands: allOutreachCommands.length,
   categories: [
-    "🎯 Sequence Management",
-    "👤 Prospect Management",
-    "📧 Mailbox Management",
-    "📝 Template Management",
-    "📊 Analytics & Reporting",
-    "⚙️ Settings & Configuration",
+    {
+      name: "🏢 Sequence Management",
+      description: "Manage sales sequences and automation",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "👥 Prospect Management",
+      description: "Manage prospects and contacts",
+      commands: prospectCommands.length,
+    },
+    {
+      name: "📧 Mailbox Management",
+      description: "Email account configuration",
+      commands: mailboxCommands.length,
+    },
+    {
+      name: "📄 Template Management",
+      description: "Email template creation and management",
+      commands: templateCommands.length,
+    },
+    {
+      name: "📊 Analytics",
+      description: "Performance analytics and reporting",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "⚙️ Settings & Configuration",
+      description: "Platform settings and configuration",
+      commands: settingsCommands.length,
+    },
   ],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "🎯 Sequence Management": sequenceCommands.filter((cmd) => cmd.category === "🎯 Sequence Management"),
-  "👤 Prospect Management": prospectCommands.filter((cmd) => cmd.category === "👤 Prospect Management"),
-  "📧 Mailbox Management": mailboxCommands.filter((cmd) => cmd.category === "📧 Mailbox Management"),
-  "📝 Template Management": templateCommands.filter((cmd) => cmd.category === "📝 Template Management"),
-  "📊 Analytics & Reporting": analyticsCommands.filter((cmd) => cmd.category === "📊 Analytics & Reporting"),
-  "⚙️ Settings & Configuration": settingsCommands.filter((cmd) => cmd.category === "⚙️ Settings & Configuration"),
-};
-
-// Export for MCP and CLI usage
-export { 
-  sequenceCommands,
-  prospectCommands,
-  mailboxCommands,
-  templateCommands,
-  analyticsCommands,
-  settingsCommands,
-};
-
-export default {
-  commands: allOutreachCommands,
-  platformInfo,
-  commandCategories,
   api,
-};
+  commands: allOutreachCommands,
+} as Platform;

@@ -15,6 +15,6 @@ export const emailbisonAscii = theme.primary(`
 
 export const emailbisonBanner = theme.gradient(`
   ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                        ⚡ EMAIL BISON POWER HUB ⚡                          │
+  │                        ⚡ EMAILBISON POWER HUB ⚡                          │
   └─────────────────────────────────────────────────────────────────────────────┘
 `); 

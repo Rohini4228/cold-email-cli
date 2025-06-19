@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { SmartLeadAPI } from "./api";
 import { accountAliases, accountCommands } from "./commands/accounts";
 import { analyticsAliases, analyticsCommands } from "./commands/analytics";
@@ -16,9 +16,9 @@ export const smartLeadCommands: CLICommand[] = [
   ...campaignCommands,
   ...leadCommands,
   ...accountCommands,
+  ...analyticsCommands,
   ...sequenceCommands,
   ...templateCommands,
-  ...analyticsCommands,
 ];
 
 // Combine all aliases
@@ -26,47 +26,51 @@ export const smartLeadAliases: CLICommand[] = [
   ...campaignAliases,
   ...leadAliases,
   ...accountAliases,
+  ...analyticsAliases,
   ...sequenceAliases,
   ...templateAliases,
-  ...analyticsAliases,
 ];
 
 // All commands combined (main + aliases)
 export const allSmartLeadCommands: CLICommand[] = [...smartLeadCommands, ...smartLeadAliases];
 
-// Platform info
-export const platformInfo = {
+export default {
   name: "SmartLead",
-  description: "Campaign Management & Analytics - The complete cold email infrastructure",
+  description: "Advanced campaign management & analytics platform",
   version: "2.0.0",
   totalCommands: allSmartLeadCommands.length,
   categories: [
-    "Campaign Management",
-    "Lead Management",
-    "Email Accounts",
-    "Email Sequences",
-    "Email Templates",
-    "Analytics & Reporting",
+    {
+      name: "🌊 Campaign Management",
+      description: "Complete campaign lifecycle management",
+      commands: campaignCommands.length,
+    },
+    {
+      name: "📧 Email Account Management",
+      description: "Email account setup and warmup",
+      commands: accountCommands.length,
+    },
+    {
+      name: "👥 Lead Management",
+      description: "Lead import and management",
+      commands: leadCommands.length,
+    },
+    {
+      name: "📊 Analytics & Reporting",
+      description: "Performance analytics and insights",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "📝 Sequence Management",
+      description: "Email sequence automation",
+      commands: sequenceCommands.length,
+    },
+    {
+      name: "📄 Template Management",
+      description: "Email template creation and management",
+      commands: templateCommands.length,
+    },
   ],
-  status: "active",
-};
-
-// Command categories for organized display
-export const commandCategories = {
-  "Campaign Management": campaignCommands.filter((cmd) => cmd.category === "Campaign Management"),
-  "Lead Management": leadCommands.filter((cmd) => cmd.category === "Lead Management"),
-  "Email Accounts": accountCommands.filter((cmd) => cmd.category === "Email Accounts"),
-  "Email Sequences": sequenceCommands.filter((cmd) => cmd.category === "Email Sequences"),
-  "Email Templates": templateCommands.filter((cmd) => cmd.category === "Email Templates"),
-  "Analytics & Reporting": analyticsCommands.filter((cmd) => cmd.category === "Analytics & Reporting"),
-};
-
-// Export for MCP and CLI usage
-export { campaignCommands, leadCommands, accountCommands, sequenceCommands, templateCommands, analyticsCommands };
-
-export default {
-  commands: allSmartLeadCommands,
-  platformInfo,
-  commandCategories,
   api,
-};
+  commands: allSmartLeadCommands,
+} as Platform;

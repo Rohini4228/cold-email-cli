@@ -8,7 +8,7 @@ interface Props {
   onBack: () => void;
 }
 
-export function AmpleMarketShell({ onBack }: Props) {
+export function AmplemarketShell({ onBack }: Props) {
   const { exit } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showWelcome, setShowWelcome] = useState(true);

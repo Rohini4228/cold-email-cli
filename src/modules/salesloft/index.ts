@@ -1,4 +1,4 @@
-import type { CLICommand } from "../../types/global";
+import type { CLICommand, Platform } from "../../types/global";
 import { SalesLoftAPI } from "./api";
 import { cadenceAliases, cadenceCommands } from "./commands/cadences";
 import { peopleAliases, peopleCommands } from "./commands/people";
@@ -11,7 +11,7 @@ import { adminAliases, adminCommands } from "./commands/admin";
 export const api = new SalesLoftAPI();
 
 // Combine all commands
-export const salesloftCommands: CLICommand[] = [
+export const salesLoftCommands: CLICommand[] = [
   ...cadenceCommands,
   ...peopleCommands,
   ...emailCommands,
@@ -21,7 +21,7 @@ export const salesloftCommands: CLICommand[] = [
 ];
 
 // Combine all aliases
-export const salesloftAliases: CLICommand[] = [
+export const salesLoftAliases: CLICommand[] = [
   ...cadenceAliases,
   ...peopleAliases,
   ...emailAliases,
@@ -31,21 +31,45 @@ export const salesloftAliases: CLICommand[] = [
 ];
 
 // All commands combined (main + aliases)
-export const allSalesLoftCommands: CLICommand[] = [...salesloftCommands, ...salesloftAliases];
+export const allSalesLoftCommands: CLICommand[] = [...salesLoftCommands, ...salesLoftAliases];
 
 // Platform info
 export const platformInfo = {
-  name: "SalesLoft",
-  description: "🔄 Modern Sales Engagement & Cadence Platform",
-  version: "2.0.0",
+  name: "Salesloft",
+  description: "Modern sales engagement & cadence platform",
+  version: "1.0.0",
   totalCommands: allSalesLoftCommands.length,
   categories: [
-    "🔄 Cadence Management",
-    "👥 People Management",
-    "📧 Email Management",
-    "📞 Call Management",
-    "📊 Analytics & Reporting",
-    "⚙️ Admin & Configuration",
+    {
+      name: "🌟 Cadence Management",
+      description: "Manage sales cadences and sequences",
+      commands: cadenceCommands.length,
+    },
+    {
+      name: "👥 People Management",
+      description: "Manage contacts and prospects",
+      commands: peopleCommands.length,
+    },
+    {
+      name: "📧 Email Management",
+      description: "Email campaigns and templates",
+      commands: emailCommands.length,
+    },
+    {
+      name: "📞 Call Management",
+      description: "Call logging and tracking",
+      commands: callCommands.length,
+    },
+    {
+      name: "📊 Analytics",
+      description: "Performance analytics and reporting",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "⚙️ Admin",
+      description: "Administrative functions",
+      commands: adminCommands.length,
+    },
   ],
   status: "active",
 };
@@ -71,8 +95,42 @@ export {
 };
 
 export default {
-  commands: allSalesLoftCommands,
-  platformInfo,
-  commandCategories,
+  name: "Salesloft",
+  description: "Modern sales engagement & cadence platform",
+  version: "1.0.0",
+  totalCommands: allSalesLoftCommands.length,
+  categories: [
+    {
+      name: "🌟 Cadence Management",
+      description: "Manage sales cadences and sequences",
+      commands: cadenceCommands.length,
+    },
+    {
+      name: "👥 People Management",
+      description: "Manage contacts and prospects",
+      commands: peopleCommands.length,
+    },
+    {
+      name: "📧 Email Management",
+      description: "Email campaigns and templates",
+      commands: emailCommands.length,
+    },
+    {
+      name: "📞 Call Management",
+      description: "Call logging and tracking",
+      commands: callCommands.length,
+    },
+    {
+      name: "📊 Analytics",
+      description: "Performance analytics and reporting",
+      commands: analyticsCommands.length,
+    },
+    {
+      name: "⚙️ Admin",
+      description: "Administrative functions",
+      commands: adminCommands.length,
+    },
+  ],
   api,
-};
+  commands: allSalesLoftCommands,
+} as Platform;
