@@ -12,11 +12,7 @@
   },
   "server": {
     "command": "bun",
-    "args": [
-      "run",
-      "src/cli.ts",
-      "emailbison"
-    ],
+    "args": ["run", "src/cli.ts", "emailbison"],
     "env": {
       "EMAILBISON_API_KEY": "${EMAILBISON_API_KEY}",
       "NODE_ENV": "production"
@@ -32,14 +28,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -47,9 +36,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -60,14 +47,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -75,9 +55,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -88,14 +66,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -103,9 +74,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -116,14 +85,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -131,9 +93,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -144,14 +104,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -159,9 +112,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -172,14 +123,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -187,9 +131,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       }
     ]
@@ -197,12 +139,7 @@
   "features": {
     "specialization": "Power-Level Email Automation",
     "total_tools": 6,
-    "capabilities": [
-      "api_integration",
-      "cli_commands",
-      "analytics",
-      "automation"
-    ]
+    "capabilities": ["api_integration", "cli_commands", "analytics", "automation"]
   },
   "documentation": {
     "api_reference": "https://emailbison.com/api/docs",

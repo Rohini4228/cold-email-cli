@@ -87,4 +87,4 @@ export const leadAliases: CLICommand[] = [
     category: "👥 Lead Management",
     handler: leadCommands[1].handler,
   },
-]; 
+];

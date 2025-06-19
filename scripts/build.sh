@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🚀 Building SmartLead CLI..."
+echo "🚀 Building Cold Email CLI..."
 
 # Clean previous build
 echo "🧹 Cleaning previous build..."
@@ -11,11 +11,11 @@ rm -rf coverage/
 
 # Type checking
 echo "🔍 Running TypeScript type checking..."
-npx tsc --noEmit
+bun x tsc --noEmit
 
-# Build TypeScript
-echo "📦 Compiling TypeScript..."
-npx tsc
+# Build with Bun
+echo "📦 Compiling with Bun..."
+bun build src/cli.ts --outdir dist --target node --format esm
 
 # Copy package.json to dist for version reading
 echo "📋 Copying package.json..."
@@ -23,28 +23,41 @@ cp package.json dist/
 
 # Make the main file executable
 echo "🔧 Making CLI executable..."
-chmod +x dist/core/index.js
+chmod +x dist/cli.js
 
 # Create symlinks for bin commands
 echo "🔗 Creating bin symlinks..."
 mkdir -p dist/bin
-cat > dist/bin/smartlead << 'EOF'
+
+cat > dist/bin/cec << 'EOF'
 #!/usr/bin/env node
-require('../core/index.js');
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const path = require('path');
+const { spawn } = require('child_process');
+
+const cliPath = path.join(__dirname, '..', 'cli.js');
+spawn('node', [cliPath, ...process.argv.slice(2)], { stdio: 'inherit' });
 EOF
 
-cat > dist/bin/sl << 'EOF'
+cat > dist/bin/cold-email-cli << 'EOF'
 #!/usr/bin/env node
-require('../core/index.js');
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const path = require('path');
+const { spawn } = require('child_process');
+
+const cliPath = path.join(__dirname, '..', 'cli.js');
+spawn('node', [cliPath, ...process.argv.slice(2)], { stdio: 'inherit' });
 EOF
 
-chmod +x dist/bin/smartlead
-chmod +x dist/bin/sl
+chmod +x dist/bin/cec
+chmod +x dist/bin/cold-email-cli
 
 echo "✅ Build completed successfully!"
 echo "📁 Built files are in ./dist/"
 echo ""
 echo "🎯 Next steps:"
-echo "  npm run test    - Run tests"
-echo "  npm run install - Install globally"
-echo "  npm run package - Create package" 
+echo "  bun test        - Run tests"
+echo "  bun run install - Install globally"
+echo "  bun run package - Create package" 

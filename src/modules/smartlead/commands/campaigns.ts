@@ -29,7 +29,7 @@ export const campaignCommands: CLICommand[] = [
       const campaignData = {
         name: args.name,
         description: args.description || "",
-        ...args
+        ...args,
       };
       const data = await api.createCampaign(campaignData);
       console.log("✅ Campaign created successfully!");
@@ -109,13 +109,14 @@ export const campaignCommands: CLICommand[] = [
   {
     name: "campaigns:schedule",
     description: "📅 Set campaign schedule and timing",
-    usage: 'campaigns:schedule --id campaign_id --timezone "America/New_York" --start_hour "09:00" --end_hour "17:00" --days "1,2,3,4,5"',
+    usage:
+      'campaigns:schedule --id campaign_id --timezone "America/New_York" --start_hour "09:00" --end_hour "17:00" --days "1,2,3,4,5"',
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       const scheduleData = {
         timezone: args.timezone || "UTC",
-        days_of_the_week: args.days?.split(',').map(Number) || [1,2,3,4,5],
+        days_of_the_week: args.days?.split(",").map(Number) || [1, 2, 3, 4, 5],
         start_hour: args.start_hour || "09:00",
         end_hour: args.end_hour || "17:00",
         min_time_btw_emails: args.min_time || 10,
@@ -129,7 +130,8 @@ export const campaignCommands: CLICommand[] = [
   {
     name: "campaigns:settings",
     description: "⚙️ Update campaign settings",
-    usage: 'campaigns:settings --id campaign_id --track_settings "DONT_TRACK_EMAIL_OPEN" --stop_lead_settings "REPLY_TO_AN_EMAIL"',
+    usage:
+      'campaigns:settings --id campaign_id --track_settings "DONT_TRACK_EMAIL_OPEN" --stop_lead_settings "REPLY_TO_AN_EMAIL"',
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
@@ -137,9 +139,9 @@ export const campaignCommands: CLICommand[] = [
         track_settings: args.track_settings ? [args.track_settings] : undefined,
         stop_lead_settings: args.stop_lead_settings,
         unsubscribe_text: args.unsubscribe_text,
-        send_as_plain_text: args.plain_text === 'true',
+        send_as_plain_text: args.plain_text === "true",
         follow_up_percentage: args.follow_up_percentage ? parseInt(args.follow_up_percentage) : undefined,
-        enable_ai_esp_matching: args.ai_esp_matching === 'true',
+        enable_ai_esp_matching: args.ai_esp_matching === "true",
       };
       const data = await api.updateCampaignSettings(args.id, settingsData);
       console.log("✅ Campaign settings updated successfully!");
@@ -153,13 +155,13 @@ export const campaignCommands: CLICommand[] = [
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
-      if (args.action === 'save') {
+
+      if (args.action === "save") {
         console.log("💾 Saving sequence data...");
         console.log("🚧 Sequence editing feature coming soon - use SmartLead dashboard for now");
         return;
       }
-      
+
       const data = await api.getCampaignSequences(args.id);
       console.log("📝 Campaign Sequences:");
       console.log(JSON.stringify(data, null, 2));
@@ -172,7 +174,7 @@ export const campaignCommands: CLICommand[] = [
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       let data: any;
       if (args.start_date && args.end_date) {
         data = await api.getCampaignStatsByDateRange(args.id, args.start_date, args.end_date);
@@ -191,9 +193,9 @@ export const campaignCommands: CLICommand[] = [
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      const format = args.format || 'csv';
-      
-      if (format === 'csv') {
+      const format = args.format || "csv";
+
+      if (format === "csv") {
         const data = await api.exportCampaignLeads(args.id);
         console.log("📤 Exporting campaign data as CSV...");
         console.log(data);
@@ -222,14 +224,14 @@ export const campaignCommands: CLICommand[] = [
     category: "🎯 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
-      if (args.action === 'add' && args.account_ids) {
-        const accountIds = args.account_ids.split(',').map(Number);
+
+      if (args.action === "add" && args.account_ids) {
+        const accountIds = args.account_ids.split(",").map(Number);
         const data = await api.addEmailAccountsToCampaign(args.id, accountIds);
         console.log("✅ Email accounts added to campaign!");
         console.log(JSON.stringify(data, null, 2));
-      } else if (args.action === 'remove' && args.account_ids) {
-        const accountIds = args.account_ids.split(',').map(Number);
+      } else if (args.action === "remove" && args.account_ids) {
+        const accountIds = args.account_ids.split(",").map(Number);
         const data = await api.removeEmailAccountsFromCampaign(args.id, accountIds);
         console.log("✅ Email accounts removed from campaign!");
         console.log(JSON.stringify(data, null, 2));

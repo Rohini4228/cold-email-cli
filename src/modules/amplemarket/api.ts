@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance } from "axios";
-import { 
-  AmpleMarketLeadListSchema,
+import {
   AmpleMarketContactSchema,
+  AmpleMarketLeadListSchema,
   AmpleMarketSequenceSchema,
   AmpleMarketTaskSchema,
 } from "../../types/schemas";

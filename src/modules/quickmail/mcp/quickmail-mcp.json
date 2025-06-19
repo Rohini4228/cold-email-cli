@@ -149,7 +149,18 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "create", "get", "update", "delete", "test", "warmup-start", "warmup-stop", "warmup-stats", "deliverability"],
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "test",
+                "warmup-start",
+                "warmup-stop",
+                "warmup-stats",
+                "deliverability"
+              ],
               "description": "Action to perform on email accounts"
             },
             "id": {
@@ -223,7 +234,16 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["overview", "campaigns", "emails", "clicks", "unsubscribes", "deliverability", "performance", "compare"],
+              "enum": [
+                "overview",
+                "campaigns",
+                "emails",
+                "clicks",
+                "unsubscribes",
+                "deliverability",
+                "performance",
+                "compare"
+              ],
               "description": "Type of analytics to retrieve"
             },
             "id": {
@@ -323,4 +343,4 @@
     "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/quickmail.md",
     "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/quickmail"
   }
-} 
+}

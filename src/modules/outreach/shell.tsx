@@ -1,8 +1,8 @@
+import { Box, Text, useApp, useInput } from "ink";
 import React, { useState } from "react";
-import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
-import outreachModule from "./index";
 import { outreachAscii, outreachBanner } from "./ascii";
+import outreachModule from "./index";
 
 interface Props {
   onBack: () => void;
@@ -47,7 +47,9 @@ export function OutreachShell({ onBack }: Props) {
         <Text>{outreachAscii}</Text>
         <Text>{outreachBanner}</Text>
         <Box marginTop={1}>
-          <Text color="blue" bold>Press any key to continue...</Text>
+          <Text color="blue" bold>
+            Press any key to continue...
+          </Text>
         </Box>
       </Box>
     );
@@ -55,10 +57,8 @@ export function OutreachShell({ onBack }: Props) {
 
   if (selectedCategory !== null) {
     const category = outreachModule.categories[selectedCategory];
-    const categoryCommands = outreachModule.commands.filter(cmd => 
-      cmd.category === category.name
-    );
-    
+    const categoryCommands = outreachModule.commands.filter((cmd) => cmd.category === category.name);
+
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
@@ -66,7 +66,7 @@ export function OutreachShell({ onBack }: Props) {
             🏢 {outreachModule.name} - {category.name}
           </Text>
         </Box>
-        
+
         <Box flexDirection="column" marginBottom={1}>
           {categoryCommands.slice(0, 15).map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
@@ -80,9 +80,7 @@ export function OutreachShell({ onBack }: Props) {
         </Box>
 
         <Box marginTop={1}>
-          <Text color="gray">
-            Press ESC to go back, Ctrl+C to exit
-          </Text>
+          <Text color="gray">Press ESC to go back, Ctrl+C to exit</Text>
         </Box>
       </Box>
     );
@@ -95,7 +93,7 @@ export function OutreachShell({ onBack }: Props) {
           🏢 {outreachModule.name} v{outreachModule.version}
         </Text>
       </Box>
-      
+
       <Box marginBottom={1}>
         <Text color="gray">{outreachModule.description}</Text>
       </Box>
@@ -104,15 +102,9 @@ export function OutreachShell({ onBack }: Props) {
         <Text color="green" bold>
           📊 Platform Stats:
         </Text>
-        <Text color="gray">
-          • Total Commands: {outreachModule.totalCommands}
-        </Text>
-        <Text color="gray">
-          • Categories: {outreachModule.categories.length}
-        </Text>
-        <Text color="gray">
-          • Status: ✅ Active
-        </Text>
+        <Text color="gray">• Total Commands: {outreachModule.totalCommands}</Text>
+        <Text color="gray">• Categories: {outreachModule.categories.length}</Text>
+        <Text color="gray">• Status: ✅ Active</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -129,9 +121,7 @@ export function OutreachShell({ onBack }: Props) {
       </Box>
 
       <Box marginTop={1}>
-        <Text color="gray">
-          Press 1-6 to explore categories, ESC to go back, Ctrl+C to exit
-        </Text>
+        <Text color="gray">Press 1-6 to explore categories, ESC to go back, Ctrl+C to exit</Text>
       </Box>
     </Box>
   );

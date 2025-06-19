@@ -76,13 +76,7 @@ export const commandCategories = {
 };
 
 // Export for MCP and CLI usage
-export { 
-  accountCommands,
-  leadListCommands,
-  contactCommands, 
-  sequenceCommands, 
-  taskCommands, 
-};
+export { accountCommands, leadListCommands, contactCommands, sequenceCommands, taskCommands };
 
 export default {
   name: "Amplemarket",

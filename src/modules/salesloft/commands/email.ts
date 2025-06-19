@@ -15,4 +15,4 @@ export const emailCommands: CLICommand[] = [
   },
 ];
 
-export const emailAliases: CLICommand[] = []; 
+export const emailAliases: CLICommand[] = [];

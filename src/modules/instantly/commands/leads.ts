@@ -13,14 +13,14 @@ export const leadCommands: CLICommand[] = [
       if (!args.campaign_id || !args.leads) {
         throw new Error("Required: --campaign_id, --leads");
       }
-      
+
       let leads: any[];
       try {
         leads = JSON.parse(args.leads);
       } catch (error) {
         throw new Error("Invalid JSON format for leads");
       }
-      
+
       const data = await api.addLeads(leads);
       console.log("✅ Leads added successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -106,7 +106,7 @@ export const leadCommands: CLICommand[] = [
       }
       const data = await api.updateLeadInterestStatus({
         lead_id: args.id,
-        interest_status: args.interest_status
+        interest_status: args.interest_status,
       });
       console.log("✅ Interest status updated!");
       console.log(JSON.stringify(data, null, 2));
@@ -123,7 +123,7 @@ export const leadCommands: CLICommand[] = [
       }
       const data = await api.mergeLeads({
         primary_lead_id: args.primary_id,
-        duplicate_lead_id: args.duplicate_id
+        duplicate_lead_id: args.duplicate_id,
       });
       console.log("✅ Leads merged successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -136,28 +136,28 @@ export const leadCommands: CLICommand[] = [
     category: "🎯 Lead Management",
     handler: async (args) => {
       switch (args.action) {
-        case 'create': {
+        case "create": {
           if (!args.name) throw new Error("Required for create: --name");
           const createData = await api.createLeadList({ name: args.name });
           console.log("✅ Lead list created!");
           console.log(JSON.stringify(createData, null, 2));
           break;
         }
-          
-        case 'update': {
+
+        case "update": {
           if (!args.id || !args.name) throw new Error("Required for update: --id, --name");
           const updateData = await api.updateLeadList(args.id, { name: args.name });
           console.log("✅ Lead list updated!");
           console.log(JSON.stringify(updateData, null, 2));
           break;
         }
-          
-        case 'delete':
+
+        case "delete":
           if (!args.id) throw new Error("Required for delete: --id");
           await api.deleteLeadList(args.id);
           console.log("✅ Lead list deleted!");
           break;
-          
+
         default: {
           const data = await api.getLeadLists();
           console.log("📝 Lead Lists:");

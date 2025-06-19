@@ -12,11 +12,7 @@
   },
   "server": {
     "command": "bun",
-    "args": [
-      "run",
-      "src/cli.ts",
-      "apollo"
-    ],
+    "args": ["run", "src/cli.ts", "apollo"],
     "env": {
       "APOLLO_API_KEY": "${APOLLO_API_KEY}",
       "NODE_ENV": "production"
@@ -32,14 +28,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -47,9 +36,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -60,14 +47,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -75,9 +55,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -88,14 +66,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -103,9 +74,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       },
       {
@@ -116,14 +85,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": [
-                "list",
-                "create",
-                "get",
-                "update",
-                "delete",
-                "analytics"
-              ],
+              "enum": ["list", "create", "get", "update", "delete", "analytics"],
               "description": "Action to perform"
             },
             "id": {
@@ -131,9 +93,7 @@
               "description": "Resource ID for specific operations"
             }
           },
-          "required": [
-            "action"
-          ]
+          "required": ["action"]
         }
       }
     ]
@@ -141,12 +101,7 @@
   "features": {
     "specialization": "Sales Intelligence & Contact Discovery",
     "total_tools": 4,
-    "capabilities": [
-      "api_integration",
-      "cli_commands",
-      "analytics",
-      "automation"
-    ]
+    "capabilities": ["api_integration", "cli_commands", "analytics", "automation"]
   },
   "documentation": {
     "api_reference": "https://apollo.com/api/docs",

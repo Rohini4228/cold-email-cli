@@ -48,4 +48,4 @@ export const peopleAliases: CLICommand[] = [
     category: "👥 People Management",
     handler: peopleCommands[0].handler,
   },
-]; 
+];

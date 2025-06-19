@@ -28,7 +28,23 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "create", "get", "update", "delete", "start", "pause", "stop", "schedule", "settings", "sequences", "statistics", "export", "clone", "email-accounts"],
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "start",
+                "pause",
+                "stop",
+                "schedule",
+                "settings",
+                "sequences",
+                "statistics",
+                "export",
+                "clone",
+                "email-accounts"
+              ],
               "description": "Action to perform on campaigns"
             },
             "id": {
@@ -80,7 +96,21 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "add", "bulk-add", "get", "update", "delete", "search", "replies", "blocklist", "master-inbox", "analytics", "export", "import"],
+              "enum": [
+                "list",
+                "add",
+                "bulk-add",
+                "get",
+                "update",
+                "delete",
+                "search",
+                "replies",
+                "blocklist",
+                "master-inbox",
+                "analytics",
+                "export",
+                "import"
+              ],
               "description": "Action to perform on leads"
             },
             "campaign_id": {
@@ -123,7 +153,23 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "add", "get", "update", "delete", "warmup-start", "warmup-stop", "warmup-status", "test", "analytics", "settings", "domains", "reputation", "health", "schedule"],
+              "enum": [
+                "list",
+                "add",
+                "get",
+                "update",
+                "delete",
+                "warmup-start",
+                "warmup-stop",
+                "warmup-status",
+                "test",
+                "analytics",
+                "settings",
+                "domains",
+                "reputation",
+                "health",
+                "schedule"
+              ],
               "description": "Action to perform on email accounts"
             },
             "id": {
@@ -224,7 +270,16 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["overview", "campaign", "account", "deliverability", "revenue", "performance", "trends", "exports"],
+              "enum": [
+                "overview",
+                "campaign",
+                "account",
+                "deliverability",
+                "revenue",
+                "performance",
+                "trends",
+                "exports"
+              ],
               "description": "Type of analytics to retrieve"
             },
             "id": {
@@ -302,8 +357,8 @@
         "action": "bulk-add",
         "campaign_id": "123",
         "leads": [
-          {"email": "john@company.com", "first_name": "John", "company": "ACME Corp"},
-          {"email": "jane@startup.com", "first_name": "Jane", "company": "StartupXYZ"}
+          { "email": "john@company.com", "first_name": "John", "company": "ACME Corp" },
+          { "email": "jane@startup.com", "first_name": "Jane", "company": "StartupXYZ" }
         ]
       }
     },
@@ -335,4 +390,4 @@
     "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/smartlead.md",
     "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/smartlead"
   }
-} 
+}

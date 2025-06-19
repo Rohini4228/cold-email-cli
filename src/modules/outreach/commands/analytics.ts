@@ -34,4 +34,4 @@ export const analyticsAliases: CLICommand[] = [
     category: "📊 Analytics & Reporting",
     handler: analyticsCommands[0].handler,
   },
-]; 
+];

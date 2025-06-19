@@ -11,7 +11,7 @@ export const cadenceCommands: CLICommand[] = [
       const cadences = await api.getCadences(args);
       console.log("🔄 SalesLoft Cadences:");
       cadences.forEach((cadence: any) => {
-        console.log(`  ${cadence.id}: ${cadence.name} (${cadence.shared ? '🌐 Shared' : '👤 Personal'})`);
+        console.log(`  ${cadence.id}: ${cadence.name} (${cadence.shared ? "🌐 Shared" : "👤 Personal"})`);
       });
     },
   },
@@ -22,26 +22,26 @@ export const cadenceCommands: CLICommand[] = [
     category: "🔄 Cadence Management",
     handler: async (args: Record<string, any>) => {
       const { api } = await import("../api");
-      
+
       // Ensure required fields are present
       if (!args.name) {
-        console.error('❌ Error: name is required');
+        console.error("❌ Error: name is required");
         return;
       }
-      
+
       const cadenceData = {
         name: args.name as string,
         shared: args.shared as boolean | undefined,
       };
-      
+
       const cadence = await api.createCadence(cadenceData);
       console.log("✅ Cadence created successfully!");
       console.log("🎯 Cadence Details:");
       console.log(`  ID: ${cadence.id}`);
       console.log(`  Name: ${cadence.name}`);
-      console.log(`  Shared: ${cadence.shared ? '✅ Yes' : '❌ No'}`);
-      console.log(`  Team Cadence: ${cadence.team_cadence ? '✅ Yes' : '❌ No'}`);
-      console.log(`  Draft: ${cadence.draft ? '📝 Yes' : '✅ Published'}`);
+      console.log(`  Shared: ${cadence.shared ? "✅ Yes" : "❌ No"}`);
+      console.log(`  Team Cadence: ${cadence.team_cadence ? "✅ Yes" : "❌ No"}`);
+      console.log(`  Draft: ${cadence.draft ? "📝 Yes" : "✅ Published"}`);
       console.log(`  Current State: ${cadence.current_state}`);
       console.log(`  Created: ${new Date(cadence.created_at).toLocaleDateString()}`);
       console.log(`  Updated: ${new Date(cadence.updated_at).toLocaleDateString()}`);
@@ -57,7 +57,7 @@ export const cadenceCommands: CLICommand[] = [
       console.log("🔄 Cadence Details:");
       console.log(`  ID: ${cadence.id}`);
       console.log(`  Name: ${cadence.name}`);
-      console.log(`  Shared: ${cadence.shared ? '✅ Yes' : '❌ No'}`);
+      console.log(`  Shared: ${cadence.shared ? "✅ Yes" : "❌ No"}`);
     },
   },
   {
@@ -109,4 +109,4 @@ export const cadenceAliases: CLICommand[] = [
     category: "🔄 Cadence Management",
     handler: cadenceCommands[1].handler,
   },
-]; 
+];

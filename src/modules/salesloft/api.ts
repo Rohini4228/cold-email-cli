@@ -1,9 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
-import { 
-  SalesLoftCadenceSchema,
-  SalesLoftPersonSchema,
-  SalesLoftEmailSchema,
-} from "../../types/schemas";
+import { SalesLoftCadenceSchema, SalesLoftEmailSchema, SalesLoftPersonSchema } from "../../types/schemas";
 
 export class SalesLoftAPI {
   private client: AxiosInstance;
@@ -121,4 +117,4 @@ export class SalesLoftAPI {
 }
 
 // Export the API instance
-export const api = new SalesLoftAPI(); 
+export const api = new SalesLoftAPI();

@@ -98,13 +98,13 @@ export const campaignCommands: CLICommand[] = [
     category: "🚀 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const params = {
         id: args.id,
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignAnalytics(params);
       console.log("📊 Campaign Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -117,13 +117,13 @@ export const campaignCommands: CLICommand[] = [
     category: "🚀 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const params = {
         id: args.id,
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignAnalyticsOverview(params);
       console.log("📈 Campaign Analytics Overview:");
       console.log(JSON.stringify(data, null, 2));
@@ -136,13 +136,13 @@ export const campaignCommands: CLICommand[] = [
     category: "🚀 Campaign Management",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      
+
       const params = {
         campaign_id: args.campaign_id,
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignDailyAnalytics(params);
       console.log("📅 Daily Campaign Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -155,13 +155,13 @@ export const campaignCommands: CLICommand[] = [
     category: "🚀 Campaign Management",
     handler: async (args) => {
       if (!args.campaign_id) throw new Error("Required: --campaign_id");
-      
+
       const params = {
         campaign_id: args.campaign_id,
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignStepAnalytics(params);
       console.log("📊 Step Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -170,34 +170,35 @@ export const campaignCommands: CLICommand[] = [
   {
     name: "campaigns:subsequences",
     description: "📝 Manage campaign subsequences",
-    usage: "campaigns:subsequences --action list|create|pause|resume [--campaign_id campaign_id] [--subsequence_id subsequence_id]",
+    usage:
+      "campaigns:subsequences --action list|create|pause|resume [--campaign_id campaign_id] [--subsequence_id subsequence_id]",
     category: "🚀 Campaign Management",
     handler: async (args) => {
       switch (args.action) {
-        case 'create': {
+        case "create": {
           if (!args.campaign_id) throw new Error("Required for create: --campaign_id");
           const createData = await api.createSubsequence({
             campaign_id: args.campaign_id,
-            name: args.name || 'New Subsequence',
-            description: args.description || '',
+            name: args.name || "New Subsequence",
+            description: args.description || "",
           });
           console.log("✅ Subsequence created successfully!");
           console.log(JSON.stringify(createData, null, 2));
           break;
         }
-          
-        case 'pause':
+
+        case "pause":
           if (!args.subsequence_id) throw new Error("Required for pause: --subsequence_id");
           await api.pauseSubsequence(args.subsequence_id);
           console.log("⏸️ Subsequence paused successfully!");
           break;
-          
-        case 'resume':
+
+        case "resume":
           if (!args.subsequence_id) throw new Error("Required for resume: --subsequence_id");
           await api.resumeSubsequence(args.subsequence_id);
           console.log("▶️ Subsequence resumed successfully!");
           break;
-          
+
         default: {
           const data = await api.getSubsequences();
           console.log("📝 Campaign Subsequences:");

@@ -166,4 +166,4 @@ export class OutreachAPI {
 }
 
 // Export the API instance
-export const api = new OutreachAPI(); 
+export const api = new OutreachAPI();

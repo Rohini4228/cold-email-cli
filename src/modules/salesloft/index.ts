@@ -1,11 +1,11 @@
 import type { CLICommand, Platform } from "../../types/global";
 import { SalesLoftAPI } from "./api";
-import { cadenceAliases, cadenceCommands } from "./commands/cadences";
-import { peopleAliases, peopleCommands } from "./commands/people";
-import { emailAliases, emailCommands } from "./commands/email";
-import { callAliases, callCommands } from "./commands/calls";
-import { analyticsAliases, analyticsCommands } from "./commands/analytics";
 import { adminAliases, adminCommands } from "./commands/admin";
+import { analyticsAliases, analyticsCommands } from "./commands/analytics";
+import { cadenceAliases, cadenceCommands } from "./commands/cadences";
+import { callAliases, callCommands } from "./commands/calls";
+import { emailAliases, emailCommands } from "./commands/email";
+import { peopleAliases, peopleCommands } from "./commands/people";
 
 // Initialize API client
 export const api = new SalesLoftAPI();
@@ -85,14 +85,7 @@ export const commandCategories = {
 };
 
 // Export for MCP and CLI usage
-export { 
-  cadenceCommands,
-  peopleCommands,
-  emailCommands,
-  callCommands,
-  analyticsCommands,
-  adminCommands,
-};
+export { cadenceCommands, peopleCommands, emailCommands, callCommands, analyticsCommands, adminCommands };
 
 export default {
   name: "Salesloft",

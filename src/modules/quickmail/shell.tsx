@@ -1,8 +1,8 @@
+import { Box, Text, useApp, useInput } from "ink";
 import React, { useState } from "react";
-import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
-import quickmailModule from "./index";
 import { quickmailAscii, quickmailBanner } from "./ascii";
+import quickmailModule from "./index";
 
 interface Props {
   onBack: () => void;
@@ -47,7 +47,9 @@ export function QuickMailShell({ onBack }: Props) {
         <Text>{quickmailAscii}</Text>
         <Text>{quickmailBanner}</Text>
         <Box marginTop={1}>
-          <Text color="cyan" bold>Press any key to continue...</Text>
+          <Text color="cyan" bold>
+            Press any key to continue...
+          </Text>
         </Box>
       </Box>
     );
@@ -55,10 +57,8 @@ export function QuickMailShell({ onBack }: Props) {
 
   if (selectedCategory !== null) {
     const category = quickmailModule.categories[selectedCategory];
-    const categoryCommands = quickmailModule.commands.filter(cmd => 
-      cmd.category === category.name
-    );
-    
+    const categoryCommands = quickmailModule.commands.filter((cmd) => cmd.category === category.name);
+
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
@@ -66,7 +66,7 @@ export function QuickMailShell({ onBack }: Props) {
             🌊 {quickmailModule.name} - {category.name}
           </Text>
         </Box>
-        
+
         <Box flexDirection="column" marginBottom={1}>
           {categoryCommands.slice(0, 15).map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
@@ -80,9 +80,7 @@ export function QuickMailShell({ onBack }: Props) {
         </Box>
 
         <Box marginTop={1}>
-          <Text color="gray">
-            Press ESC to go back, Ctrl+C to exit
-          </Text>
+          <Text color="gray">Press ESC to go back, Ctrl+C to exit</Text>
         </Box>
       </Box>
     );
@@ -95,7 +93,7 @@ export function QuickMailShell({ onBack }: Props) {
           🌊 {quickmailModule.name} v{quickmailModule.version}
         </Text>
       </Box>
-      
+
       <Box marginBottom={1}>
         <Text color="gray">{quickmailModule.description}</Text>
       </Box>
@@ -104,15 +102,9 @@ export function QuickMailShell({ onBack }: Props) {
         <Text color="cyan" bold>
           📊 Platform Stats:
         </Text>
-        <Text color="gray">
-          • Total Commands: {quickmailModule.totalCommands}
-        </Text>
-        <Text color="gray">
-          • Categories: {quickmailModule.categories.length}
-        </Text>
-        <Text color="gray">
-          • Status: ✅ Active
-        </Text>
+        <Text color="gray">• Total Commands: {quickmailModule.totalCommands}</Text>
+        <Text color="gray">• Categories: {quickmailModule.categories.length}</Text>
+        <Text color="gray">• Status: ✅ Active</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -129,10 +121,8 @@ export function QuickMailShell({ onBack }: Props) {
       </Box>
 
       <Box marginTop={1}>
-        <Text color="gray">
-          Press 1-6 to explore categories, ESC to go back, Ctrl+C to exit
-        </Text>
+        <Text color="gray">Press 1-6 to explore categories, ESC to go back, Ctrl+C to exit</Text>
       </Box>
     </Box>
   );
-} 
+}

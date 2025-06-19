@@ -22,20 +22,21 @@ export const templateCommands: CLICommand[] = [
   {
     name: "templates:create",
     description: "➕ Create new email template",
-    usage: 'templates:create --name "Template Name" --subject "Email Subject" --body "Email body content" [--category "outreach"]',
+    usage:
+      'templates:create --name "Template Name" --subject "Email Subject" --body "Email body content" [--category "outreach"]',
     category: "📄 Template Management",
     handler: async (args) => {
       if (!args.name || !args.subject || !args.body) {
         throw new Error("Required: --name, --subject, --body");
       }
-      
+
       const templateData = {
         name: args.name,
         subject: args.subject,
         body: args.body,
         category: args.category || "general",
       };
-      
+
       const data = await api.createTemplate(templateData);
       console.log("✅ Template created successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -60,14 +61,14 @@ export const templateCommands: CLICommand[] = [
     category: "📄 Template Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const updateData = {
         ...(args.name && { name: args.name }),
         ...(args.subject && { subject: args.subject }),
         ...(args.body && { body: args.body }),
         ...(args.category && { category: args.category }),
       };
-      
+
       const data = await api.updateTemplate(args.id, updateData);
       console.log("✅ Template updated successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -91,10 +92,10 @@ export const templateCommands: CLICommand[] = [
     category: "📄 Template Management",
     handler: async (args) => {
       if (!args.id || !args.name) throw new Error("Required: --id, --name");
-      
+
       // Get the original template
       const original = await api.getTemplate(args.id);
-      
+
       // Create a copy with the new name
       const clonedData = {
         name: args.name,
@@ -102,7 +103,7 @@ export const templateCommands: CLICommand[] = [
         body: original.body,
         category: original.category || "general",
       };
-      
+
       const data = await api.createTemplate(clonedData);
       console.log("🔄 Template cloned successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -131,12 +132,12 @@ export const templateCommands: CLICommand[] = [
         "{{sender_name}}",
         "{{sender_email}}",
       ];
-      
+
       console.log("📝 Available Template Variables:");
       variables.forEach((variable) => {
         console.log(`  ${variable}`);
       });
-      
+
       console.log("\n💡 Usage Tips:");
       console.log("  • Variables are case-sensitive");
       console.log("  • Use double curly braces: {{variable_name}}");
@@ -151,9 +152,9 @@ export const templateCommands: CLICommand[] = [
     category: "📄 Template Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const template = await api.getTemplate(args.id);
-      
+
       // Use provided sample data or defaults
       let sampleData = {
         first_name: "John",
@@ -172,7 +173,7 @@ export const templateCommands: CLICommand[] = [
         sender_name: "Your Name",
         sender_email: "you@yourcompany.com",
       };
-      
+
       if (args.sample_data) {
         try {
           const customData = JSON.parse(args.sample_data);
@@ -181,17 +182,17 @@ export const templateCommands: CLICommand[] = [
           console.log("⚠️ Invalid sample data JSON, using defaults");
         }
       }
-      
+
       // Simple template rendering (replace variables)
       let renderedSubject = template.subject;
       let renderedBody = template.body;
-      
+
       Object.entries(sampleData).forEach(([key, value]) => {
         const placeholder = `{{${key}}}`;
-        renderedSubject = renderedSubject.replace(new RegExp(placeholder, 'g'), value);
-        renderedBody = renderedBody.replace(new RegExp(placeholder, 'g'), value);
+        renderedSubject = renderedSubject.replace(new RegExp(placeholder, "g"), value);
+        renderedBody = renderedBody.replace(new RegExp(placeholder, "g"), value);
       });
-      
+
       console.log("👁️ Template Preview:");
       console.log("=".repeat(50));
       console.log(`📧 Subject: ${renderedSubject}`);
@@ -211,4 +212,4 @@ export const templateAliases: CLICommand[] = [
   { ...templateCommands[4], name: "tpl:delete", description: "🗑️ Delete template (alias)" },
   { ...templateCommands[5], name: "tpl:clone", description: "🔄 Clone template (alias)" },
   { ...templateCommands[7], name: "tpl:preview", description: "👁️ Preview template (alias)" },
-]; 
+];

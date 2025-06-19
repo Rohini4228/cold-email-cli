@@ -11,7 +11,7 @@ export const campaignCommands: CLICommand[] = [
       const campaigns = await api.getCampaigns();
       console.log("🚀 LemList Campaigns:");
       campaigns.forEach((campaign: any) => {
-        console.log(`  ${campaign._id}: ${campaign.name} (${campaign.isStarted ? '✅ Active' : '⏸️  Paused'})`);
+        console.log(`  ${campaign._id}: ${campaign.name} (${campaign.isStarted ? "✅ Active" : "⏸️  Paused"})`);
       });
     },
   },
@@ -35,7 +35,7 @@ export const campaignCommands: CLICommand[] = [
       console.log("🚀 Campaign Details:");
       console.log(`  ID: ${campaign._id}`);
       console.log(`  Name: ${campaign.name}`);
-      console.log(`  Status: ${campaign.isStarted ? '✅ Active' : '⏸️  Paused'}`);
+      console.log(`  Status: ${campaign.isStarted ? "✅ Active" : "⏸️  Paused"}`);
     },
   },
   {
@@ -114,4 +114,4 @@ export const campaignAliases: CLICommand[] = [
     category: "🚀 Campaign Management",
     handler: campaignCommands[5].handler,
   },
-]; 
+];

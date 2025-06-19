@@ -13,7 +13,7 @@ export const campaignCommands: CLICommand[] = [
       const params = {
         page: args.page ? parseInt(args.page) : 1,
         per_page: args.per_page ? parseInt(args.per_page) : 20,
-        ...(args.status && { status: args.status })
+        ...(args.status && { status: args.status }),
       };
       const data = await api.getCampaigns(params);
       console.log("📋 QuickMail Campaigns:");
@@ -23,23 +23,24 @@ export const campaignCommands: CLICommand[] = [
   {
     name: "campaigns:create",
     description: "➕ Create new email campaign",
-    usage: 'campaigns:create --name "Campaign Name" --subject "Email Subject" --from_name "John Doe" --from_email "john@company.com"',
+    usage:
+      'campaigns:create --name "Campaign Name" --subject "Email Subject" --from_name "John Doe" --from_email "john@company.com"',
     category: "🌊 Campaign Management",
     handler: async (args) => {
       if (!args.name || !args.subject || !args.from_name || !args.from_email) {
         throw new Error("Required: --name, --subject, --from_name, --from_email");
       }
-      
+
       const campaignData = {
         name: args.name,
         subject: args.subject,
         from_name: args.from_name,
         from_email: args.from_email,
         reply_to: args.reply_to,
-        track_opens: args.track_opens === 'true',
-        track_clicks: args.track_clicks === 'true',
+        track_opens: args.track_opens === "true",
+        track_clicks: args.track_clicks === "true",
       };
-      
+
       const data = await api.createCampaign(campaignData);
       console.log("✅ Campaign created successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -64,17 +65,17 @@ export const campaignCommands: CLICommand[] = [
     category: "🌊 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const updateData = {
         ...(args.name && { name: args.name }),
         ...(args.subject && { subject: args.subject }),
         ...(args.from_name && { from_name: args.from_name }),
         ...(args.from_email && { from_email: args.from_email }),
         ...(args.reply_to && { reply_to: args.reply_to }),
-        ...(args.track_opens && { track_opens: args.track_opens === 'true' }),
-        ...(args.track_clicks && { track_clicks: args.track_clicks === 'true' }),
+        ...(args.track_opens && { track_opens: args.track_opens === "true" }),
+        ...(args.track_clicks && { track_clicks: args.track_clicks === "true" }),
       };
-      
+
       const data = await api.updateCampaign(args.id, updateData);
       console.log("✅ Campaign updated successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -134,12 +135,12 @@ export const campaignCommands: CLICommand[] = [
     category: "🌊 Campaign Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const params = {
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignStats(args.id, params);
       console.log("📊 Campaign Statistics:");
       console.log(JSON.stringify(data, null, 2));
@@ -156,4 +157,4 @@ export const campaignAliases: CLICommand[] = [
   { ...campaignCommands[6], name: "camp:pause", description: "⏸️ Pause campaign (alias)" },
   { ...campaignCommands[7], name: "camp:stop", description: "⏹️ Stop campaign (alias)" },
   { ...campaignCommands[8], name: "camp:stats", description: "📊 Campaign stats (alias)" },
-]; 
+];

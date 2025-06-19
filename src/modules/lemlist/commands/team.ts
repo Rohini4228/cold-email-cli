@@ -34,4 +34,4 @@ export const teamAliases: CLICommand[] = [
     category: "⚙️ Team & Account",
     handler: teamCommands[0].handler,
   },
-]; 
+];

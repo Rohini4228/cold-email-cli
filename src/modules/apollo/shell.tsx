@@ -1,8 +1,8 @@
+import { Box, Text, useApp, useInput } from "ink";
 import React, { useState } from "react";
-import { Box, Text, useInput, useApp } from "ink";
 import { getTheme } from "../../core/utils/theme";
-import apolloModule from "./index";
 import { apolloAscii, apolloBanner } from "./ascii";
+import apolloModule from "./index";
 
 interface Props {
   onBack: () => void;
@@ -47,7 +47,9 @@ export function ApolloShell({ onBack }: Props) {
         <Text>{apolloAscii}</Text>
         <Text>{apolloBanner}</Text>
         <Box marginTop={1}>
-          <Text color="yellow" bold>Press any key to continue...</Text>
+          <Text color="yellow" bold>
+            Press any key to continue...
+          </Text>
         </Box>
       </Box>
     );
@@ -55,10 +57,8 @@ export function ApolloShell({ onBack }: Props) {
 
   if (selectedCategory !== null) {
     const category = apolloModule.categories[selectedCategory];
-    const categoryCommands = apolloModule.commands.filter(cmd => 
-      cmd.category === category.name
-    );
-    
+    const categoryCommands = apolloModule.commands.filter((cmd) => cmd.category === category.name);
+
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
@@ -66,7 +66,7 @@ export function ApolloShell({ onBack }: Props) {
             ☀️ {apolloModule.name} - {category.name}
           </Text>
         </Box>
-        
+
         <Box flexDirection="column" marginBottom={1}>
           {categoryCommands.slice(0, 15).map((cmd) => (
             <Box key={cmd.name} marginBottom={0}>
@@ -80,9 +80,7 @@ export function ApolloShell({ onBack }: Props) {
         </Box>
 
         <Box marginTop={1}>
-          <Text color="gray">
-            Press ESC to go back, Ctrl+C to exit
-          </Text>
+          <Text color="gray">Press ESC to go back, Ctrl+C to exit</Text>
         </Box>
       </Box>
     );
@@ -95,7 +93,7 @@ export function ApolloShell({ onBack }: Props) {
           ☀️ {apolloModule.name} v{apolloModule.version}
         </Text>
       </Box>
-      
+
       <Box marginBottom={1}>
         <Text color="gray">{apolloModule.description}</Text>
       </Box>
@@ -104,15 +102,9 @@ export function ApolloShell({ onBack }: Props) {
         <Text color="green" bold>
           📊 Platform Stats:
         </Text>
-        <Text color="gray">
-          • Total Commands: {apolloModule.totalCommands}
-        </Text>
-        <Text color="gray">
-          • Categories: {apolloModule.categories.length}
-        </Text>
-        <Text color="gray">
-          • Status: ✅ Active
-        </Text>
+        <Text color="gray">• Total Commands: {apolloModule.totalCommands}</Text>
+        <Text color="gray">• Categories: {apolloModule.categories.length}</Text>
+        <Text color="gray">• Status: ✅ Active</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -129,9 +121,7 @@ export function ApolloShell({ onBack }: Props) {
       </Box>
 
       <Box marginTop={1}>
-        <Text color="gray">
-          Press 1-4 to explore categories, ESC to go back, Ctrl+C to exit
-        </Text>
+        <Text color="gray">Press 1-4 to explore categories, ESC to go back, Ctrl+C to exit</Text>
       </Box>
     </Box>
   );

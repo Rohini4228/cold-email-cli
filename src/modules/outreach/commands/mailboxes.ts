@@ -49,4 +49,4 @@ export const mailboxAliases: CLICommand[] = [
     category: "📧 Mailbox Management",
     handler: mailboxCommands[0].handler,
   },
-]; 
+];

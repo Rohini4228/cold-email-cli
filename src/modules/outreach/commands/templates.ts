@@ -34,7 +34,7 @@ export const templateCommands: CLICommand[] = [
       const template = await api.getTemplate(args.id);
       console.log("📝 Template Details:");
       console.log(`  ID: ${template.id}`);
-      console.log(`  Name: ${template.attributes.name || 'N/A'}`);
+      console.log(`  Name: ${template.attributes.name || "N/A"}`);
       console.log(`  Subject: ${template.attributes.subject}`);
     },
   },
@@ -66,4 +66,4 @@ export const templateAliases: CLICommand[] = [
     category: "📝 Template Management",
     handler: templateCommands[1].handler,
   },
-]; 
+];

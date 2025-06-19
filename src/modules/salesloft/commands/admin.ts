@@ -15,4 +15,4 @@ export const adminCommands: CLICommand[] = [
   },
 ];
 
-export const adminAliases: CLICommand[] = []; 
+export const adminAliases: CLICommand[] = [];

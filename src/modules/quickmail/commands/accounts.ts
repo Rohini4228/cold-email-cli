@@ -18,13 +18,14 @@ export const accountCommands: CLICommand[] = [
   {
     name: "accounts:create",
     description: "➕ Add new email account",
-    usage: 'accounts:create --email "john@company.com" --password "password" --smtp_host "smtp.gmail.com" --smtp_port 465 --imap_host "imap.gmail.com" --imap_port 993',
+    usage:
+      'accounts:create --email "john@company.com" --password "password" --smtp_host "smtp.gmail.com" --smtp_port 465 --imap_host "imap.gmail.com" --imap_port 993',
     category: "📧 Email Account Management",
     handler: async (args) => {
       if (!args.email || !args.password || !args.smtp_host || !args.smtp_port || !args.imap_host || !args.imap_port) {
         throw new Error("Required: --email, --password, --smtp_host, --smtp_port, --imap_host, --imap_port");
       }
-      
+
       const accountData = {
         email: args.email,
         password: args.password,
@@ -32,9 +33,9 @@ export const accountCommands: CLICommand[] = [
         smtp_port: parseInt(args.smtp_port),
         imap_host: args.imap_host,
         imap_port: parseInt(args.imap_port),
-        use_ssl: args.use_ssl !== 'false',
+        use_ssl: args.use_ssl !== "false",
       };
-      
+
       const data = await api.createEmailAccount(accountData);
       console.log("✅ Email account added successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -59,7 +60,7 @@ export const accountCommands: CLICommand[] = [
     category: "📧 Email Account Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const updateData = {
         ...(args.email && { email: args.email }),
         ...(args.password && { password: args.password }),
@@ -67,9 +68,9 @@ export const accountCommands: CLICommand[] = [
         ...(args.smtp_port && { smtp_port: parseInt(args.smtp_port) }),
         ...(args.imap_host && { imap_host: args.imap_host }),
         ...(args.imap_port && { imap_port: parseInt(args.imap_port) }),
-        ...(args.use_ssl && { use_ssl: args.use_ssl === 'true' }),
+        ...(args.use_ssl && { use_ssl: args.use_ssl === "true" }),
       };
-      
+
       const data = await api.updateEmailAccount(args.id, updateData);
       console.log("✅ Email account updated successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -94,7 +95,7 @@ export const accountCommands: CLICommand[] = [
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
       console.log("🧪 Testing email account connection...");
-      
+
       try {
         const data = await api.testEmailAccount(args.id);
         console.log("✅ Connection test successful!");
@@ -111,13 +112,13 @@ export const accountCommands: CLICommand[] = [
     category: "📧 Email Account Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const config = {
         daily_limit: args.daily_limit ? parseInt(args.daily_limit) : 30,
         increment_rate: args.increment_rate ? parseInt(args.increment_rate) : 5,
         reply_rate: args.reply_rate ? parseInt(args.reply_rate) : 25,
       };
-      
+
       const data = await api.startWarmup(args.id, config);
       console.log("🔥 Email warmup started successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -171,4 +172,4 @@ export const accountAliases: CLICommand[] = [
   { ...accountCommands[6], name: "acc:warmup", description: "🔥 Start warmup (alias)" },
   { ...accountCommands[7], name: "acc:stop-warmup", description: "⏹️ Stop warmup (alias)" },
   { ...accountCommands[8], name: "acc:warmup-stats", description: "📊 Warmup stats (alias)" },
-]; 
+];

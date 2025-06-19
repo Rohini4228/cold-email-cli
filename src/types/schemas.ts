@@ -648,10 +648,14 @@ export const LemListCampaignSchema = z.object({
   isStarted: z.boolean(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
-  steps: z.array(z.object({
-    type: z.string(),
-    content: z.string().optional(),
-  })).optional(),
+  steps: z
+    .array(
+      z.object({
+        type: z.string(),
+        content: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
 export const LemListLeadSchema = z.object({
@@ -677,12 +681,16 @@ export const LemListTemplateSchema = z.object({
 export const LemListSequenceSchema = z.object({
   _id: z.string(),
   name: z.string(),
-  steps: z.array(z.object({
-    stepNumber: z.number(),
-    type: z.string(),
-    content: z.string().optional(),
-    delayDays: z.number().optional(),
-  })).optional(),
+  steps: z
+    .array(
+      z.object({
+        stepNumber: z.number(),
+        type: z.string(),
+        content: z.string().optional(),
+        delayDays: z.number().optional(),
+      }),
+    )
+    .optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });

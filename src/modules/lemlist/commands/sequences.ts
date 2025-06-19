@@ -76,4 +76,4 @@ export const sequenceAliases: CLICommand[] = [
     category: "🔄 Sequence Management",
     handler: sequenceCommands[1].handler,
   },
-]; 
+];

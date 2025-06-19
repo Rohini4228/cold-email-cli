@@ -151,4 +151,4 @@ export class lemlistAPI {
     const response = await this.client.get("/account");
     return response.data;
   }
-} 
+}

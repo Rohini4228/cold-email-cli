@@ -15,4 +15,4 @@ export const callCommands: CLICommand[] = [
   },
 ];
 
-export const callAliases: CLICommand[] = []; 
+export const callAliases: CLICommand[] = [];

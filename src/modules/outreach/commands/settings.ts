@@ -34,4 +34,4 @@ export const settingsAliases: CLICommand[] = [
     category: "⚙️ Settings & Configuration",
     handler: settingsCommands[0].handler,
   },
-]; 
+];

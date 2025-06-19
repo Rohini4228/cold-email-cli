@@ -37,7 +37,8 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "install:mac": "bun run scripts/install-mac.sh",
-    "installer:mac": "bun run scripts/create-mac-installer.sh"
+    "installer:mac": "bun run scripts/create-mac-installer.sh",
+    "docs:generate": "node scripts/docs-generate.js"
   },
   "keywords": [
     "cold-email",

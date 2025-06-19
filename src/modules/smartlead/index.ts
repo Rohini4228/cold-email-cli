@@ -43,32 +43,32 @@ export default {
     {
       name: "🎯 Campaign Management",
       description: "Complete campaign lifecycle management",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "🎯 Campaign Management").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "🎯 Campaign Management").length,
     },
     {
       name: "📧 Email Accounts",
       description: "Email account setup and warmup",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "📧 Email Accounts").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "📧 Email Accounts").length,
     },
     {
       name: "👥 Lead Management",
       description: "Lead import and management",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "👥 Lead Management").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "👥 Lead Management").length,
     },
     {
       name: "📊 Analytics & Reporting",
       description: "Performance analytics and insights",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "📊 Analytics & Reporting").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "📊 Analytics & Reporting").length,
     },
     {
       name: "📝 Email Sequences",
       description: "Email sequence automation",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "📝 Email Sequences").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "📝 Email Sequences").length,
     },
     {
       name: "📄 Email Templates",
       description: "Email template creation and management",
-      commands: allSmartLeadCommands.filter(cmd => cmd.category === "📄 Email Templates").length,
+      commands: allSmartLeadCommands.filter((cmd) => cmd.category === "📄 Email Templates").length,
     },
   ],
   api,

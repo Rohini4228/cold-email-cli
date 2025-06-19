@@ -11,7 +11,9 @@ export const prospectCommands: CLICommand[] = [
       const prospects = await api.getProspects(args);
       console.log("👤 Outreach Prospects:");
       prospects.forEach((prospect: any) => {
-        console.log(`  ${prospect.id}: ${prospect.attributes.firstName} ${prospect.attributes.lastName} (${prospect.attributes.emails?.[0]?.email})`);
+        console.log(
+          `  ${prospect.id}: ${prospect.attributes.firstName} ${prospect.attributes.lastName} (${prospect.attributes.emails?.[0]?.email})`,
+        );
       });
     },
   },
@@ -34,20 +36,20 @@ export const prospectCommands: CLICommand[] = [
       const prospect = await api.getProspect(args.id);
       console.log("👤 Prospect Details:");
       console.log(`  ID: ${prospect.id}`);
-      console.log(`  Email: ${prospect.attributes.emails?.[0] || 'No email'}`);
-      console.log(`  Name: ${prospect.attributes.firstName || ''} ${prospect.attributes.lastName || ''}`.trim());
-      console.log(`  Company: ${prospect.attributes.company || 'Not specified'}`);
-      console.log(`  Title: ${prospect.attributes.title || 'Not specified'}`);
-      console.log(`  Stage: ${prospect.attributes.stage || 'Not specified'}`);
-      console.log(`  LinkedIn: ${prospect.attributes.linkedInUrl || 'Not provided'}`);
-      console.log(`  Tags: ${prospect.attributes.tags?.join(', ') || 'None'}`);
+      console.log(`  Email: ${prospect.attributes.emails?.[0] || "No email"}`);
+      console.log(`  Name: ${prospect.attributes.firstName || ""} ${prospect.attributes.lastName || ""}`.trim());
+      console.log(`  Company: ${prospect.attributes.company || "Not specified"}`);
+      console.log(`  Title: ${prospect.attributes.title || "Not specified"}`);
+      console.log(`  Stage: ${prospect.attributes.stage || "Not specified"}`);
+      console.log(`  LinkedIn: ${prospect.attributes.linkedInUrl || "Not provided"}`);
+      console.log(`  Tags: ${prospect.attributes.tags?.join(", ") || "None"}`);
       console.log(`  Created: ${new Date(prospect.attributes.createdAt).toLocaleDateString()}`);
       console.log(`  Updated: ${new Date(prospect.attributes.updatedAt).toLocaleDateString()}`);
-      console.log('');
+      console.log("");
     },
   },
   {
-    name: "prospects:update", 
+    name: "prospects:update",
     description: "✏️ Update prospect",
     usage: "outreach prospects:update --id <prospect_id> [--firstName <name>] [--lastName <name>]",
     category: "👤 Prospect Management",
@@ -74,4 +76,4 @@ export const prospectAliases: CLICommand[] = [
     category: "👤 Prospect Management",
     handler: prospectCommands[1].handler,
   },
-]; 
+];

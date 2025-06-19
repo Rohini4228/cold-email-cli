@@ -76,4 +76,4 @@ export const templateAliases: CLICommand[] = [
     category: "📝 Template Management",
     handler: templateCommands[1].handler,
   },
-]; 
+];

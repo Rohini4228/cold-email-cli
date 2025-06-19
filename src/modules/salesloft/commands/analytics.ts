@@ -15,4 +15,4 @@ export const analyticsCommands: CLICommand[] = [
   },
 ];
 
-export const analyticsAliases: CLICommand[] = []; 
+export const analyticsAliases: CLICommand[] = [];

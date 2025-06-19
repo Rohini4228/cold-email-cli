@@ -21,7 +21,7 @@ export interface CLICommand {
 export interface CommandOption {
   name: string;
   description: string;
-  type: 'string' | 'number' | 'boolean' | 'array';
+  type: "string" | "number" | "boolean" | "array";
   required?: boolean;
   default?: any;
   choices?: string[];
@@ -41,18 +41,18 @@ export interface Platform {
   name: string;
   description: string;
   version: string;
-  
+
   // Commands and organization
   commands: CLICommand[];
   totalCommands: number;
   categories: PlatformCategory[];
-  
+
   // Optional configuration
   config?: PlatformConfig;
-  
+
   // API client (if available)
   api?: any;
-  
+
   // Validation and initialization
   validate?: () => Promise<ValidationResult>;
   initialize?: () => Promise<void>;
@@ -78,9 +78,7 @@ export interface ValidationResult {
 }
 
 // Shell component interface for type safety
-export interface ShellComponent {
-  (props: { onBack: () => void }): ReactElement;
-}
+export type ShellComponent = (props: { onBack: () => void }) => ReactElement;
 
 // Platform module interface for registration
 export interface PlatformModule {
@@ -143,7 +141,7 @@ export interface CommandResult {
 // Enhanced module status
 export interface ModuleStatus {
   name: string;
-  status: 'active' | 'inactive' | 'error' | 'loading';
+  status: "active" | "inactive" | "error" | "loading";
   version: string;
   lastCheck: Date;
   error?: string;
@@ -155,11 +153,11 @@ export interface ModuleStatus {
 export interface CLIConfig {
   defaultTimeout: number;
   maxRetries: number;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  logLevel: "debug" | "info" | "warn" | "error";
   platforms: Record<string, PlatformConfig>;
   ui: {
     theme: string;
-    colorMode: 'auto' | 'light' | 'dark';
+    colorMode: "auto" | "light" | "dark";
     animations: boolean;
   };
 }
@@ -171,15 +169,9 @@ export class CLIError extends Error {
   public readonly command?: string;
   public readonly context?: Record<string, any>;
 
-  constructor(
-    message: string, 
-    code: string, 
-    platform?: string, 
-    command?: string, 
-    context?: Record<string, any>
-  ) {
+  constructor(message: string, code: string, platform?: string, command?: string, context?: Record<string, any>) {
     super(message);
-    this.name = 'CLIError';
+    this.name = "CLIError";
     this.code = code;
     this.platform = platform;
     this.command = command;
@@ -188,17 +180,17 @@ export class CLIError extends Error {
 }
 
 // Utility types
-export type PlatformName = 
-  | 'smartlead' 
-  | 'instantly' 
-  | 'apollo' 
-  | 'salesforge' 
-  | 'emailbison' 
-  | 'amplemarket' 
-  | 'lemlist' 
-  | 'outreach' 
-  | 'quickmail' 
-  | 'salesloft';
+export type PlatformName =
+  | "smartlead"
+  | "instantly"
+  | "apollo"
+  | "salesforge"
+  | "emailbison"
+  | "amplemarket"
+  | "lemlist"
+  | "outreach"
+  | "quickmail"
+  | "salesloft";
 
 export type CommandHandler = (args: Record<string, any>) => Promise<void> | void;
 
@@ -211,9 +203,7 @@ export interface CLIEvent {
   timestamp: Date;
 }
 
-export interface EventListener {
-  (event: CLIEvent): void | Promise<void>;
-}
+export type EventListener = (event: CLIEvent) => void | Promise<void>;
 
 export interface EventEmitter {
   on(event: string, listener: EventListener): void;
@@ -245,6 +235,7 @@ export interface Config {
   defaultModule?: string;
   modules: Record<string, ModuleConfig>;
   lastUsed?: string;
+  lastUsedAt?: string;
 }
 
 // SmartLead specific types

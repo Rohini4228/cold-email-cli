@@ -184,12 +184,7 @@ export class QuickMailAPI {
     return response.data;
   }
 
-  async createTemplate(data: {
-    name: string;
-    subject: string;
-    body: string;
-    category?: string;
-  }) {
+  async createTemplate(data: { name: string; subject: string; body: string; category?: string }) {
     const response = await this.client.post("/templates", data);
     return response.data;
   }
@@ -240,11 +235,7 @@ export class QuickMailAPI {
     return response.data;
   }
 
-  async createWebhook(data: {
-    url: string;
-    events: string[];
-    active?: boolean;
-  }) {
+  async createWebhook(data: { url: string; events: string[]; active?: boolean }) {
     const response = await this.client.post("/webhooks", data);
     return response.data;
   }
@@ -265,11 +256,14 @@ export class QuickMailAPI {
     return response.data;
   }
 
-  async startWarmup(email_account_id: string, config?: {
-    daily_limit?: number;
-    increment_rate?: number;
-    reply_rate?: number;
-  }) {
+  async startWarmup(
+    email_account_id: string,
+    config?: {
+      daily_limit?: number;
+      increment_rate?: number;
+      reply_rate?: number;
+    },
+  ) {
     const response = await this.client.post(`/email_accounts/${email_account_id}/warmup`, config || {});
     return response.data;
   }
@@ -285,4 +279,4 @@ export class QuickMailAPI {
   }
 }
 
-export const api = new QuickMailAPI(); 
+export const api = new QuickMailAPI();

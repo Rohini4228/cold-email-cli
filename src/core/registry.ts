@@ -1,11 +1,11 @@
-import type { 
-  PlatformModule, 
-  PluginRegistry, 
-  ShellComponent, 
-  PlatformName, 
-  ValidationResult,
+import type {
+  CLIError,
   ModuleStatus,
-  CLIError 
+  PlatformModule,
+  PlatformName,
+  PluginRegistry,
+  ShellComponent,
+  ValidationResult,
 } from "../types/global";
 
 /**
@@ -24,39 +24,40 @@ export class PlatformRegistry implements PluginRegistry {
     try {
       // Validate module structure
       this.validateModule(name, module);
-      
+
       // Register the module
       this.modules.set(name, module);
-      
+
       // Register shell if provided
       if (module.shell) {
         this.shells.set(name, module.shell);
       }
-      
+
       // Update status
       this.statuses.set(name, {
         name,
-        status: 'active',
+        status: "active",
         version: module.platform.version,
         lastCheck: new Date(),
         commands: module.platform.totalCommands,
-        categories: module.platform.categories.length
+        categories: module.platform.categories.length,
       });
-
     } catch (error) {
-      const cliError = error instanceof CLIError ? error : 
-        new CLIError(`Failed to register module ${name}: ${error}`, 'REGISTRATION_ERROR', name);
-      
+      const cliError =
+        error instanceof CLIError
+          ? error
+          : new CLIError(`Failed to register module ${name}: ${error}`, "REGISTRATION_ERROR", name);
+
       this.statuses.set(name, {
         name,
-        status: 'error',
-        version: module.platform.version || 'unknown',
+        status: "error",
+        version: module.platform.version || "unknown",
         lastCheck: new Date(),
         error: cliError.message,
         commands: 0,
-        categories: 0
+        categories: 0,
       });
-      
+
       throw cliError;
     }
   }
@@ -117,7 +118,7 @@ export class PlatformRegistry implements PluginRegistry {
    */
   isActive(name: string): boolean {
     const status = this.statuses.get(name);
-    return status?.status === 'active';
+    return status?.status === "active";
   }
 
   /**
@@ -129,13 +130,13 @@ export class PlatformRegistry implements PluginRegistry {
 
     // Check required fields
     if (!module.platform) {
-      errors.push('Platform object is required');
+      errors.push("Platform object is required");
     } else {
-      if (!module.platform.name) errors.push('Platform name is required');
-      if (!module.platform.description) errors.push('Platform description is required');
-      if (!module.platform.version) errors.push('Platform version is required');
-      if (!Array.isArray(module.platform.commands)) errors.push('Platform commands must be an array');
-      if (!Array.isArray(module.platform.categories)) errors.push('Platform categories must be an array');
+      if (!module.platform.name) errors.push("Platform name is required");
+      if (!module.platform.description) errors.push("Platform description is required");
+      if (!module.platform.version) errors.push("Platform version is required");
+      if (!Array.isArray(module.platform.commands)) errors.push("Platform commands must be an array");
+      if (!Array.isArray(module.platform.categories)) errors.push("Platform categories must be an array");
     }
 
     // Validate commands structure
@@ -148,26 +149,23 @@ export class PlatformRegistry implements PluginRegistry {
     }
 
     // Check for duplicate command names
-    const commandNames = module.platform?.commands?.map(cmd => cmd.name) || [];
+    const commandNames = module.platform?.commands?.map((cmd) => cmd.name) || [];
     const duplicates = commandNames.filter((name, index) => commandNames.indexOf(name) !== index);
     if (duplicates.length > 0) {
-      errors.push(`Duplicate command names found: ${duplicates.join(', ')}`);
+      errors.push(`Duplicate command names found: ${duplicates.join(", ")}`);
     }
 
     const result: ValidationResult = {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
 
     if (!result.isValid) {
-      throw new CLIError(
-        `Module validation failed: ${errors.join(', ')}`, 
-        'VALIDATION_ERROR', 
-        name,
-        undefined,
-        { errors, warnings }
-      );
+      throw new CLIError(`Module validation failed: ${errors.join(", ")}`, "VALIDATION_ERROR", name, undefined, {
+        errors,
+        warnings,
+      });
     }
 
     return result;
@@ -185,37 +183,32 @@ export class PlatformRegistry implements PluginRegistry {
         if (module.platform.validate) {
           const validation = await module.platform.validate();
           if (!validation.isValid) {
-            throw new CLIError(
-              `Validation failed: ${validation.errors.join(', ')}`,
-              'HEALTH_CHECK_FAILED',
-              name
-            );
+            throw new CLIError(`Validation failed: ${validation.errors.join(", ")}`, "HEALTH_CHECK_FAILED", name);
           }
         }
 
         // Update status as healthy
         const status: ModuleStatus = {
           name,
-          status: 'active',
+          status: "active",
           version: module.platform.version,
           lastCheck: new Date(),
           commands: module.platform.totalCommands,
-          categories: module.platform.categories.length
+          categories: module.platform.categories.length,
         };
 
         this.statuses.set(name, status);
         results.set(name, status);
-
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         const status: ModuleStatus = {
           name,
-          status: 'error',
+          status: "error",
           version: module.platform.version,
           lastCheck: new Date(),
           error: errorMessage,
           commands: 0,
-          categories: 0
+          categories: 0,
         };
 
         this.statuses.set(name, status);
@@ -235,14 +228,14 @@ export class PlatformRegistry implements PluginRegistry {
         if (module.platform.initialize) {
           await module.platform.initialize();
         }
-        
+
         // Update status
         const currentStatus = this.statuses.get(name);
         if (currentStatus) {
           this.statuses.set(name, {
             ...currentStatus,
-            status: 'active',
-            lastCheck: new Date()
+            status: "active",
+            lastCheck: new Date(),
           });
         }
       } catch (error) {
@@ -251,12 +244,12 @@ export class PlatformRegistry implements PluginRegistry {
         if (currentStatus) {
           this.statuses.set(name, {
             ...currentStatus,
-            status: 'error',
+            status: "error",
             error: errorMessage,
-            lastCheck: new Date()
+            lastCheck: new Date(),
           });
         }
-        throw new CLIError(`Failed to initialize ${name}: ${errorMessage}`, 'INIT_ERROR', name);
+        throw new CLIError(`Failed to initialize ${name}: ${errorMessage}`, "INIT_ERROR", name);
       }
     });
 
@@ -281,7 +274,7 @@ export async function registerPlatform(name: string, moduleLoader: () => Promise
     platformRegistry.register(name, module);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new CLIError(`Failed to load platform ${name}: ${errorMessage}`, 'MODULE_LOAD_ERROR', name);
+    throw new CLIError(`Failed to load platform ${name}: ${errorMessage}`, "MODULE_LOAD_ERROR", name);
   }
 }
 
@@ -289,7 +282,7 @@ export async function registerPlatform(name: string, moduleLoader: () => Promise
 export function getPlatformSafe(name: string): PlatformModule {
   const module = platformRegistry.get(name);
   if (!module) {
-    throw new CLIError(`Platform '${name}' not found`, 'PLATFORM_NOT_FOUND', name);
+    throw new CLIError(`Platform '${name}' not found`, "PLATFORM_NOT_FOUND", name);
   }
   return module;
 }
@@ -298,9 +291,9 @@ export function getPlatformSafe(name: string): PlatformModule {
 export function getShellSafe(name: string): ShellComponent {
   const shell = platformRegistry.getShell(name);
   if (!shell) {
-    throw new CLIError(`Shell for platform '${name}' not found`, 'SHELL_NOT_FOUND', name);
+    throw new CLIError(`Shell for platform '${name}' not found`, "SHELL_NOT_FOUND", name);
   }
   return shell;
 }
 
-export default platformRegistry; 
+export default platformRegistry;

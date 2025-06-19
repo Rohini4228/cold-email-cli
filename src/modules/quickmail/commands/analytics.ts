@@ -14,7 +14,7 @@ export const analyticsCommands: CLICommand[] = [
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getOverallStats(params);
       console.log("📊 QuickMail Account Overview:");
       console.log(JSON.stringify(data, null, 2));
@@ -27,12 +27,12 @@ export const analyticsCommands: CLICommand[] = [
     category: "📈 Analytics & Reporting",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const params = {
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getCampaignStats(args.id, params);
       console.log("📈 Campaign Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -49,7 +49,7 @@ export const analyticsCommands: CLICommand[] = [
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getEmailStats(params);
       console.log("📧 Email Performance Statistics:");
       console.log(JSON.stringify(data, null, 2));
@@ -66,7 +66,7 @@ export const analyticsCommands: CLICommand[] = [
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getClickStats(params);
       console.log("🖱️ Click Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -83,7 +83,7 @@ export const analyticsCommands: CLICommand[] = [
         ...(args.start_date && { start_date: args.start_date }),
         ...(args.end_date && { end_date: args.end_date }),
       };
-      
+
       const data = await api.getUnsubscribeStats(params);
       console.log("🚫 Unsubscribe Analytics:");
       console.log(JSON.stringify(data, null, 2));
@@ -107,11 +107,11 @@ export const analyticsCommands: CLICommand[] = [
     category: "📈 Analytics & Reporting",
     handler: async (args) => {
       const period = args.period || "30d";
-      
+
       // Calculate date range based on period
-      const endDate = new Date().toISOString().split('T')[0];
+      const endDate = new Date().toISOString().split("T")[0];
       const startDate = new Date();
-      
+
       switch (period) {
         case "7d":
           startDate.setDate(startDate.getDate() - 7);
@@ -125,29 +125,28 @@ export const analyticsCommands: CLICommand[] = [
         default:
           startDate.setDate(startDate.getDate() - 30);
       }
-      
+
       const params = {
-        start_date: startDate.toISOString().split('T')[0],
+        start_date: startDate.toISOString().split("T")[0],
         end_date: endDate,
       };
-      
+
       console.log(`🏆 Performance Dashboard (${period}):`);
       console.log("=".repeat(50));
-      
+
       try {
         const [overallStats, emailStats, clickStats] = await Promise.all([
           api.getOverallStats(params),
           api.getEmailStats(params),
           api.getClickStats(params),
         ]);
-        
+
         console.log("📊 Overall Performance:");
         console.log(JSON.stringify(overallStats, null, 2));
         console.log("\n📧 Email Metrics:");
         console.log(JSON.stringify(emailStats, null, 2));
         console.log("\n🖱️ Click Metrics:");
         console.log(JSON.stringify(clickStats, null, 2));
-        
       } catch (error) {
         console.log("⚠️ Some analytics data may not be available");
         console.log("Error:", error.message);
@@ -161,16 +160,16 @@ export const analyticsCommands: CLICommand[] = [
     category: "📈 Analytics & Reporting",
     handler: async (args) => {
       if (!args.campaigns) throw new Error("Required: --campaigns");
-      
-      const campaignIds = args.campaigns.split(',').map(id => id.trim());
+
+      const campaignIds = args.campaigns.split(",").map((id) => id.trim());
       const metric = args.metric || "opens";
-      
+
       console.log("⚖️ Campaign Comparison:");
       console.log(`📊 Metric: ${metric}`);
       console.log("=".repeat(50));
-      
+
       const comparisons = [];
-      
+
       for (const campaignId of campaignIds) {
         try {
           const stats = await api.getCampaignStats(campaignId);
@@ -182,12 +181,12 @@ export const analyticsCommands: CLICommand[] = [
           console.log(`⚠️ Could not fetch stats for campaign ${campaignId}: ${error.message}`);
         }
       }
-      
+
       comparisons.forEach((comparison, index) => {
         console.log(`\n📈 Campaign ${index + 1} (ID: ${comparison.campaign_id}):`);
         console.log(JSON.stringify(comparison.stats, null, 2));
       });
-      
+
       console.log("\n💡 Tip: Use specific metrics like --metric opens for focused comparison");
     },
   },
@@ -201,4 +200,4 @@ export const analyticsAliases: CLICommand[] = [
   { ...analyticsCommands[3], name: "click-stats", description: "🖱️ Click stats (alias)" },
   { ...analyticsCommands[6], name: "performance", description: "🏆 Performance dashboard (alias)" },
   { ...analyticsCommands[7], name: "compare", description: "⚖️ Compare campaigns (alias)" },
-]; 
+];

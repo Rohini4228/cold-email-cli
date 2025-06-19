@@ -1,11 +1,11 @@
+import type { CLICommand, Platform } from "../../types/global";
 import { lemlistAPI } from "./api";
+import { analyticsCommands } from "./commands/analytics";
 import { campaignCommands } from "./commands/campaigns";
 import { leadCommands } from "./commands/leads";
 import { sequenceCommands } from "./commands/sequences";
-import { templateCommands } from "./commands/templates";
 import { teamCommands } from "./commands/team";
-import { analyticsCommands } from "./commands/analytics";
-import type { CLICommand, Platform } from "../../types/global";
+import { templateCommands } from "./commands/templates";
 
 export const api = new lemlistAPI();
 
@@ -24,10 +24,14 @@ export const lemlistAliases: CLICommand[] = [
   { ...campaignCommands[0], name: "camp:list", usage: "lemlist camp:list" },
   { ...campaignCommands[1], name: "camp:create", usage: "lemlist camp:create --name <name>" },
   { ...campaignCommands[3], name: "camp:start", usage: "lemlist camp:start --id <id>" },
-  
-  // Lead aliases  
+
+  // Lead aliases
   { ...leadCommands[0], name: "ld:list", usage: "lemlist ld:list --campaign_id <campaign_id>" },
-  { ...leadCommands[1], name: "ld:add", usage: "lemlist ld:add --campaign_id <campaign_id> --email <email> --firstName <name> --lastName <name>" },
+  {
+    ...leadCommands[1],
+    name: "ld:add",
+    usage: "lemlist ld:add --campaign_id <campaign_id> --email <email> --firstName <name> --lastName <name>",
+  },
 ];
 
 export const alllemlistCommands: CLICommand[] = [...lemlistCommands, ...lemlistAliases];
@@ -45,7 +49,7 @@ export default {
       commands: campaignCommands.length,
     },
     {
-      name: "👥 Lead Management", 
+      name: "👥 Lead Management",
       description: "Import and manage leads",
       commands: leadCommands.length,
     },

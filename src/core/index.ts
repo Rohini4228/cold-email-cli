@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
+import { writeFileSync } from "fs";
 import { render } from "ink";
 import React from "react";
 import type { CLICommand } from "../types/global";
 import { CLIError } from "../types/global";
-import { 
-  getCommandByName, 
-  getModule, 
-  listModules, 
-  initializePlatforms,
+import {
+  getCommandByName,
+  getModule,
   getShellComponent,
-  performHealthCheck
+  initializePlatforms,
+  listModules,
+  performHealthCheck,
 } from "./module-selector";
-import { platformRegistry, getPlatformSafe, getShellSafe } from "./registry";
+import { getPlatformSafe, getShellSafe, platformRegistry } from "./registry";
 import { formatCommandList, getTheme, showCommandHelp, showError } from "./utils/theme";
-import { writeFileSync } from "fs";
 
 // Initialize platforms on module load
 let platformsInitialized = false;
@@ -63,10 +63,10 @@ async function main() {
         showError("Usage: cec exec <platform> <command> --args '{...}'");
         return;
       }
-      
+
       const platformName = args[1];
       const commandName = args[2];
-      
+
       // Parse --args parameter
       let commandArgs = {};
       const argsIndex = args.indexOf("--args");
@@ -78,14 +78,14 @@ async function main() {
           return;
         }
       }
-      
+
       await executeCommand(platformName, commandName, commandArgs);
       return;
     }
 
     // Handle platform shell opening
     const platformName = args[0];
-    
+
     if (!platformRegistry.get(platformName)) {
       showError(`Platform "${platformName}" not found`);
       listModules();
@@ -103,7 +103,6 @@ async function main() {
 
     // Open platform shell
     await openPlatformShell(platformName);
-
   } catch (error: any) {
     if (error instanceof CLIError) {
       showError(`${error.code}: ${error.message}`);
@@ -149,7 +148,7 @@ export async function showHelp() {
 export async function runCommandByName(commandName: string, args: Record<string, any>) {
   try {
     await ensurePlatformsInitialized();
-    
+
     const command = getCommandByName(commandName);
     if (!command) {
       console.log(`❌ Command "${commandName}" not found`);
@@ -165,13 +164,13 @@ export async function runCommandByName(commandName: string, args: Record<string,
 export async function openPlatformShell(platformName: string) {
   try {
     await ensurePlatformsInitialized();
-    
+
     // Get platform module safely
     const platformModule = getPlatformSafe(platformName);
-    
+
     // Get shell component with lazy loading
     const ShellComponent = await getShellComponent(platformName);
-    
+
     if (!ShellComponent) {
       const theme = getTheme(platformName);
       console.log(theme.error(`❌ Shell not available for ${platformName}`));
@@ -183,19 +182,18 @@ export async function openPlatformShell(platformName: string) {
       React.createElement(ShellComponent, {
         onBack: () => {
           process.exit(0);
-        }
-      })
+        },
+      }),
     );
 
     // Handle cleanup
-    process.on('SIGINT', () => {
+    process.on("SIGINT", () => {
       app.unmount();
       process.exit(0);
     });
-
   } catch (error) {
     const theme = getTheme(platformName);
-    
+
     if (error instanceof CLIError) {
       console.log(theme.error(`❌ ${error.code}: ${error.message}`));
     } else {
@@ -230,7 +228,7 @@ function _showCommandHelp(commands: CLICommand[], moduleName: string) {
 export async function executeCommand(platformName: string, command: string, commandArgs: Record<string, any>) {
   try {
     await ensurePlatformsInitialized();
-    
+
     const module = getModule(platformName);
 
     if (!module) {
@@ -266,7 +264,7 @@ export async function executeCommand(platformName: string, command: string, comm
 export async function listCommands(platformName: string) {
   try {
     await ensurePlatformsInitialized();
-    
+
     const platformModule = platformRegistry.get(platformName);
     if (!platformModule) {
       const theme = getTheme(platformName);

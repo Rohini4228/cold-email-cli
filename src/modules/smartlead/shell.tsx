@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from "react";
-import { Box, Text, useInput, useApp } from "ink";
+import { Box, Text, useApp, useInput } from "ink";
+import React, { useMemo, useState } from "react";
 import { getTheme } from "../../core/utils/theme";
-import smartleadModule from "./index";
 import { smartleadAscii, smartleadBanner } from "./ascii";
+import smartleadModule from "./index";
 
 interface Props {
   onBack: () => void;
@@ -21,24 +21,25 @@ export function SmartLeadShell({ onBack }: Props) {
   const categoryCommands = useMemo(() => {
     if (selectedCategory === null) return [];
     const category = smartleadModule.categories[selectedCategory];
-    return smartleadModule.commands.filter(cmd => cmd.category === category.name);
+    return smartleadModule.commands.filter((cmd) => cmd.category === category.name);
   }, [selectedCategory]);
 
   // Compute searched commands
   const searchedCommands = useMemo(() => {
     if (!searchQuery) return [];
-    return smartleadModule.commands.filter(cmd =>
-      cmd.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cmd.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cmd.category.toLowerCase().includes(searchQuery.toLowerCase())
+    return smartleadModule.commands.filter(
+      (cmd) =>
+        cmd.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cmd.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cmd.category.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [searchQuery]);
 
   // Compute actual category counts
   const actualCategoryCounts = useMemo(() => {
-    return smartleadModule.categories.map(category => ({
+    return smartleadModule.categories.map((category) => ({
       ...category,
-      actualCommands: smartleadModule.commands.filter(cmd => cmd.category === category.name).length
+      actualCommands: smartleadModule.commands.filter((cmd) => cmd.category === category.name).length,
     }));
   }, []);
 
@@ -82,9 +83,9 @@ export function SmartLeadShell({ onBack }: Props) {
         return;
       }
       if (key.delete || key.backspace) {
-        setSearchQuery(prev => prev.slice(0, -1));
+        setSearchQuery((prev) => prev.slice(0, -1));
       } else if (input && input.length === 1 && !key.ctrl) {
-        setSearchQuery(prev => prev + input);
+        setSearchQuery((prev) => prev + input);
       }
       return;
     }
@@ -132,7 +133,9 @@ export function SmartLeadShell({ onBack }: Props) {
         <Text>{smartleadAscii}</Text>
         <Text>{smartleadBanner}</Text>
         <Box marginTop={1}>
-          <Text color="cyan" bold>Press any key to continue...</Text>
+          <Text color="cyan" bold>
+            Press any key to continue...
+          </Text>
         </Box>
       </Box>
     );
@@ -148,34 +151,35 @@ export function SmartLeadShell({ onBack }: Props) {
             🔍 Command Details: {command.name}
           </Text>
         </Box>
-        
+
         <Box flexDirection="column" marginBottom={1}>
           <Text color="green">Description:</Text>
           <Text color="white">{command.description}</Text>
           <Text></Text>
-          
+
           <Text color="green">Usage:</Text>
           <Text color="yellow">{command.usage}</Text>
           <Text></Text>
-          
+
           <Text color="green">Category:</Text>
           <Text color="blue">{command.category}</Text>
-          
+
           {command.examples && command.examples.length > 0 && (
             <>
               <Text></Text>
               <Text color="green">Examples:</Text>
-                             {command.examples.map((example, index) => (
-                 <Text key={`${command.name}-example-${index}`} color="gray">  {example}</Text>
-               ))}
+              {command.examples.map((example, index) => (
+                <Text key={`${command.name}-example-${index}`} color="gray">
+                  {" "}
+                  {example}
+                </Text>
+              ))}
             </>
           )}
         </Box>
 
         <Box marginTop={1}>
-          <Text color="gray">
-            Press ESC to go back, Ctrl+C to exit
-          </Text>
+          <Text color="gray">Press ESC to go back, Ctrl+C to exit</Text>
         </Box>
       </Box>
     );
@@ -190,11 +194,11 @@ export function SmartLeadShell({ onBack }: Props) {
             🔍 Search Commands {searchMode ? "(Type to search, Enter to finish)" : ""}
           </Text>
         </Box>
-        
+
         <Box marginBottom={1}>
           <Text color="yellow">Query: {searchQuery}</Text>
         </Box>
-        
+
         {searchQuery && (
           <Box flexDirection="column" marginBottom={1}>
             <Text color="green" bold>
@@ -225,18 +229,16 @@ export function SmartLeadShell({ onBack }: Props) {
   // Category view
   if (selectedCategory !== null) {
     const category = actualCategoryCounts[selectedCategory];
-    
+
     return (
       <Box flexDirection="column" padding={1}>
         <Box marginBottom={1}>
           <Text color="cyan" bold>
             🌊 {smartleadModule.name} - {category.name}
           </Text>
-          <Text color="gray">
-            {category.actualCommands} commands available
-          </Text>
+          <Text color="gray">{category.actualCommands} commands available</Text>
         </Box>
-        
+
         <Box flexDirection="column" marginBottom={1}>
           {categoryCommands.slice(0, 9).map((cmd, index) => (
             <Box key={cmd.name} marginBottom={0}>
@@ -254,9 +256,7 @@ export function SmartLeadShell({ onBack }: Props) {
         </Box>
 
         <Box marginTop={1}>
-          <Text color="gray">
-            Press 1-9 for command details, 'a' for all, ESC to go back
-          </Text>
+          <Text color="gray">Press 1-9 for command details, 'a' for all, ESC to go back</Text>
         </Box>
       </Box>
     );
@@ -270,7 +270,7 @@ export function SmartLeadShell({ onBack }: Props) {
           🌊 {smartleadModule.name} v{smartleadModule.version}
         </Text>
       </Box>
-      
+
       <Box marginBottom={1}>
         <Text color="gray">{smartleadModule.description}</Text>
       </Box>
@@ -279,15 +279,9 @@ export function SmartLeadShell({ onBack }: Props) {
         <Text color="green" bold>
           📊 Platform Stats:
         </Text>
-        <Text color="gray">
-          • Total Commands: {smartleadModule.totalCommands}
-        </Text>
-        <Text color="gray">
-          • Categories: {actualCategoryCounts.length}
-        </Text>
-        <Text color="gray">
-          • Status: ✅ Active
-        </Text>
+        <Text color="gray">• Total Commands: {smartleadModule.totalCommands}</Text>
+        <Text color="gray">• Categories: {actualCategoryCounts.length}</Text>
+        <Text color="gray">• Status: ✅ Active</Text>
       </Box>
 
       <Box flexDirection="column" marginBottom={1}>
@@ -305,9 +299,7 @@ export function SmartLeadShell({ onBack }: Props) {
       </Box>
 
       <Box flexDirection="column" marginTop={1}>
-        <Text color="gray">
-          Press 1-6 to explore categories • / to search • h for help • ESC to exit
-        </Text>
+        <Text color="gray">Press 1-6 to explore categories • / to search • h for help • ESC to exit</Text>
         <Text color="yellow">
           💡 Tip: Use '/' to quickly search across all {smartleadModule.totalCommands} commands!
         </Text>

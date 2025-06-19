@@ -28,7 +28,20 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "create", "get", "update", "delete", "launch", "pause", "stop", "clone", "analytics", "subsequences", "optimization"],
+              "enum": [
+                "list",
+                "create",
+                "get",
+                "update",
+                "delete",
+                "launch",
+                "pause",
+                "stop",
+                "clone",
+                "analytics",
+                "subsequences",
+                "optimization"
+              ],
               "description": "Action to perform on campaigns"
             },
             "id": {
@@ -67,7 +80,20 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "add", "get", "update", "delete", "warmup", "vitals", "test", "pause", "resume", "analytics", "deliverability"],
+              "enum": [
+                "list",
+                "add",
+                "get",
+                "update",
+                "delete",
+                "warmup",
+                "vitals",
+                "test",
+                "pause",
+                "resume",
+                "analytics",
+                "deliverability"
+              ],
               "description": "Action to perform on email accounts"
             },
             "email": {
@@ -102,7 +128,19 @@
           "properties": {
             "action": {
               "type": "string",
-              "enum": ["list", "add", "bulk-add", "get", "update", "delete", "verify", "search", "tags", "labels", "export"],
+              "enum": [
+                "list",
+                "add",
+                "bulk-add",
+                "get",
+                "update",
+                "delete",
+                "verify",
+                "search",
+                "tags",
+                "labels",
+                "export"
+              ],
               "description": "Action to perform on leads"
             },
             "campaign_id": {
@@ -188,4 +226,4 @@
     "cli_guide": "https://github.com/jesseouellette/cold-email-cli/blob/main/docs/instantly.md",
     "examples": "https://github.com/jesseouellette/cold-email-cli/tree/main/examples/instantly"
   }
-} 
+}

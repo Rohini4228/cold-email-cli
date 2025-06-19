@@ -1,7 +1,27 @@
 import chalk from "chalk";
 import type { CLICommand, CLIModule } from "../../types/global";
 
-// Core theme colors based on actual company branding
+// Detect terminal background (light/dark) for better contrast
+function detectTerminalBackground(): "light" | "dark" | "unknown" {
+  // Check environment variables that might indicate terminal theme
+  const termProgram = process.env.TERM_PROGRAM?.toLowerCase();
+  const colorterm = process.env.COLORTERM?.toLowerCase();
+  const background = process.env.TERM_BACKGROUND?.toLowerCase();
+
+  if (background === "light" || background === "dark") {
+    return background as "light" | "dark";
+  }
+
+  // Some terminals set this
+  if (termProgram?.includes("light") || colorterm?.includes("light")) {
+    return "light";
+  }
+
+  // Default to dark (most common for developers)
+  return "dark";
+}
+
+// Enhanced color palettes with contrast variants
 const themes = {
   default: {
     primary: "#ffffff",
@@ -12,6 +32,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1f2937", // For light backgrounds
   },
   smartlead: {
     primary: "#0ea5e9", // SmartLead blue
@@ -22,6 +43,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e293b",
   },
   instantly: {
     primary: "#8b5cf6", // Instantly purple
@@ -32,6 +54,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e1b4b",
   },
   salesforge: {
     primary: "#f97316", // Salesforge orange
@@ -42,6 +65,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1c1917",
   },
   apollo: {
     primary: "#f59e0b", // Apollo amber/gold
@@ -52,6 +76,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1c1917",
   },
   emailbison: {
     primary: "#a16207", // EmailBison brown/amber
@@ -62,6 +87,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1c1917",
   },
   amplemarket: {
     primary: "#2563eb", // Amplemarket professional blue
@@ -72,6 +98,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e293b",
   },
   outreach: {
     primary: "#1e40af", // Outreach enterprise blue
@@ -82,6 +109,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e293b",
   },
   salesloft: {
     primary: "#6366f1", // Salesloft modern indigo
@@ -92,6 +120,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e1b4b",
   },
   lemlist: {
     primary: "#ec4899", // lemlist creative pink
@@ -102,6 +131,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#1e1b4b",
   },
   quickmail: {
     primary: "#06b6d4", // QuickMail teal/cyan
@@ -112,6 +142,7 @@ const themes = {
     error: "#ef4444",
     muted: "#64748b",
     text: "#ffffff",
+    textContrast: "#134e4a",
   },
 };
 
@@ -127,9 +158,29 @@ export interface ThemeColors {
   gradient: (text: string) => string;
 }
 
+// Create gradient effect by alternating colors
+function createGradient(text: string, colors: string[]): string {
+  if (colors.length < 2 || text.length === 0) {
+    return chalk.hex(colors[0] || "#ffffff")(text);
+  }
+
+  const chars = text.split("");
+  const result = chars.map((char, index) => {
+    const colorIndex = Math.floor((index / chars.length) * colors.length);
+    const color = colors[Math.min(colorIndex, colors.length - 1)];
+    return chalk.hex(color)(char);
+  });
+
+  return result.join("");
+}
+
 export function getTheme(module?: string): ThemeColors {
   const themeKey = module && themes[module as keyof typeof themes] ? module : "default";
   const colors = themes[themeKey as keyof typeof themes];
+  const terminalBg = detectTerminalBackground();
+
+  // Choose text color based on terminal background
+  const textColor = terminalBg === "light" ? colors.textContrast : colors.text;
 
   return {
     primary: (text: string) => chalk.hex(colors.primary)(text),
@@ -139,10 +190,10 @@ export function getTheme(module?: string): ThemeColors {
     warning: (text: string) => chalk.hex(colors.warning)(text),
     error: (text: string) => chalk.hex(colors.error)(text),
     muted: (text: string) => chalk.hex(colors.muted)(text),
-    text: (text: string) => chalk.hex(colors.text)(text),
+    text: (text: string) => chalk.hex(textColor)(text),
     gradient: (text: string) => {
-      // Create gradient effect using primary colors
-      return chalk.hex(colors.primary).bold(text);
+      // Create gradient effect using primary and accent colors
+      return createGradient(text, [colors.primary, colors.accent, colors.secondary]);
     },
   };
 }
@@ -201,10 +252,10 @@ export function showWelcomeMessage(module: string): void {
 export function formatCommandList(commands: CLICommand[], module?: string): void {
   const theme = getTheme(module);
 
-  // Group commands by category
+  // Group commands by category, normalizing category names
   const categories = commands.reduce(
     (acc, cmd) => {
-      const category = cmd.category || "General";
+      const category = normalizeCategory(cmd.category) || "General";
       if (!acc[category]) acc[category] = [];
       acc[category].push(cmd);
       return acc;
@@ -227,6 +278,11 @@ export function formatCommandList(commands: CLICommand[], module?: string): void
   console.log();
 }
 
+// Normalize category names for consistent matching
+function normalizeCategory(category: string): string {
+  return category.replace(/^[^\w]+\s*/, "").trim(); // Remove emoji prefixes
+}
+
 export function showCommandHelp(moduleInstance: CLIModule, module?: string): void {
   const theme = getTheme(module);
 
@@ -241,27 +297,27 @@ export function showCommandHelp(moduleInstance: CLIModule, module?: string): voi
 
 export function showError(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.error("❌ Error:")} ${message}\n`);
+  console.log(`\n${theme.error("❌ Error:")} ${theme.text(message)}\n`);
 }
 
 export function showSuccess(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.success("✅ Success:")} ${message}\n`);
+  console.log(`\n${theme.success("✅ Success:")} ${theme.text(message)}\n`);
 }
 
 export function showWarning(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.warning("⚠️  Warning:")} ${message}\n`);
+  console.log(`\n${theme.warning("⚠️  Warning:")} ${theme.text(message)}\n`);
 }
 
 export function showInfo(message: string, module?: string): void {
   const theme = getTheme(module);
-  console.log(`\n${theme.accent("ℹ️  Info:")} ${message}\n`);
+  console.log(`\n${theme.accent("ℹ️  Info:")} ${theme.text(message)}\n`);
 }
 
 export const platformNames = {
   smartlead: "SmartLead",
-  instantly: "Instantly", 
+  instantly: "Instantly",
   salesforge: "Salesforge",
   apollo: "Apollo",
   emailbison: "EmailBison",

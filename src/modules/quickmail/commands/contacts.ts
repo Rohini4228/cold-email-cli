@@ -13,7 +13,7 @@ export const contactCommands: CLICommand[] = [
       const params = {
         page: args.page ? parseInt(args.page) : 1,
         per_page: args.per_page ? parseInt(args.per_page) : 20,
-        ...(args.search && { search: args.search })
+        ...(args.search && { search: args.search }),
       };
       const data = await api.getContacts(params);
       console.log("👥 QuickMail Contacts:");
@@ -23,11 +23,12 @@ export const contactCommands: CLICommand[] = [
   {
     name: "contacts:create",
     description: "➕ Create new contact",
-    usage: 'contacts:create --email "john@company.com" [--first_name "John"] [--last_name "Doe"] [--company "ACME Inc"]',
+    usage:
+      'contacts:create --email "john@company.com" [--first_name "John"] [--last_name "Doe"] [--company "ACME Inc"]',
     category: "👥 Contact Management",
     handler: async (args) => {
       if (!args.email) throw new Error("Required: --email");
-      
+
       const contactData = {
         email: args.email,
         first_name: args.first_name,
@@ -39,7 +40,7 @@ export const contactCommands: CLICommand[] = [
         linkedin: args.linkedin,
         custom_fields: args.custom_fields ? JSON.parse(args.custom_fields) : undefined,
       };
-      
+
       const data = await api.createContact(contactData);
       console.log("✅ Contact created successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -64,7 +65,7 @@ export const contactCommands: CLICommand[] = [
     category: "👥 Contact Management",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const updateData = {
         ...(args.email && { email: args.email }),
         ...(args.first_name && { first_name: args.first_name }),
@@ -76,7 +77,7 @@ export const contactCommands: CLICommand[] = [
         ...(args.linkedin && { linkedin: args.linkedin }),
         ...(args.custom_fields && { custom_fields: JSON.parse(args.custom_fields) }),
       };
-      
+
       const data = await api.updateContact(args.id, updateData);
       console.log("✅ Contact updated successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -100,14 +101,14 @@ export const contactCommands: CLICommand[] = [
     category: "👥 Contact Management",
     handler: async (args) => {
       if (!args.contacts) throw new Error("Required: --contacts (JSON array)");
-      
+
       let contacts: any[];
       try {
         contacts = JSON.parse(args.contacts);
       } catch (error) {
         throw new Error("Invalid JSON format for contacts");
       }
-      
+
       const data = await api.bulkCreateContacts(contacts);
       console.log("✅ Bulk contacts created successfully!");
       console.log(`📊 Created: ${contacts.length} contacts`);
@@ -117,21 +118,22 @@ export const contactCommands: CLICommand[] = [
   {
     name: "contacts:import",
     description: "📁 Import contacts from CSV",
-    usage: 'contacts:import --csv_data "email,first_name\\njohn@company.com,John" --mapping \'{"email":"email","first_name":"first_name"}\'',
+    usage:
+      'contacts:import --csv_data "email,first_name\\njohn@company.com,John" --mapping \'{"email":"email","first_name":"first_name"}\'',
     category: "👥 Contact Management",
     handler: async (args) => {
       if (!args.csv_data || !args.mapping) throw new Error("Required: --csv_data, --mapping");
-      
+
       let mapping: Record<string, string>;
       try {
         mapping = JSON.parse(args.mapping);
       } catch (error) {
         throw new Error("Invalid JSON format for mapping");
       }
-      
+
       const data = await api.importContacts({
         csv_data: args.csv_data,
-        mapping: mapping
+        mapping: mapping,
       });
       console.log("✅ Contacts imported successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -144,13 +146,13 @@ export const contactCommands: CLICommand[] = [
     category: "👥 Contact Management",
     handler: async (args) => {
       if (!args.query) throw new Error("Required: --query");
-      
+
       const params = {
         search: args.query,
         page: args.page ? parseInt(args.page) : 1,
         per_page: args.per_page ? parseInt(args.per_page) : 20,
       };
-      
+
       const data = await api.getContacts(params);
       console.log("🔍 Contact Search Results:");
       console.log(JSON.stringify(data, null, 2));
@@ -166,4 +168,4 @@ export const contactAliases: CLICommand[] = [
   { ...contactCommands[3], name: "c:update", description: "✏️ Update contact (alias)" },
   { ...contactCommands[4], name: "c:delete", description: "🗑️ Delete contact (alias)" },
   { ...contactCommands[7], name: "c:search", description: "🔍 Search contacts (alias)" },
-]; 
+];

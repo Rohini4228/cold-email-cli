@@ -76,7 +76,7 @@ export class SmartLeadAPI {
 
   async getCampaignStatsByDateRange(id: string, startDate: string, endDate: string) {
     const response = await this.client.get(`/campaigns/${id}/analytics-by-date`, {
-      params: { start_date: startDate, end_date: endDate }
+      params: { start_date: startDate, end_date: endDate },
     });
     return response.data;
   }
@@ -98,14 +98,14 @@ export class SmartLeadAPI {
 
   async addEmailAccountsToCampaign(campaignId: string, emailAccountIds: number[]) {
     const response = await this.client.post(`/campaigns/${campaignId}/email-accounts`, {
-      email_account_ids: emailAccountIds
+      email_account_ids: emailAccountIds,
     });
     return response.data;
   }
 
   async removeEmailAccountsFromCampaign(campaignId: string, emailAccountIds: number[]) {
     const response = await this.client.delete(`/campaigns/${campaignId}/email-accounts`, {
-      data: { email_account_ids: emailAccountIds }
+      data: { email_account_ids: emailAccountIds },
     });
     return response.data;
   }
@@ -122,8 +122,8 @@ export class SmartLeadAPI {
       settings: settings || {
         ignore_global_block_list: true,
         ignore_unsubscribe_list: true,
-        ignore_duplicate_leads_in_other_campaign: false
-      }
+        ignore_duplicate_leads_in_other_campaign: false,
+      },
     };
     const response = await this.client.post(`/campaigns/${campaignId}/leads`, requestData);
     return response.data;
@@ -146,7 +146,7 @@ export class SmartLeadAPI {
 
   async resumeLeadInCampaign(campaignId: string, leadId: string, delayDays?: number) {
     const response = await this.client.post(`/campaigns/${campaignId}/leads/${leadId}/resume`, {
-      resume_lead_with_delay_days: delayDays || 0
+      resume_lead_with_delay_days: delayDays || 0,
     });
     return response.data;
   }
@@ -184,7 +184,7 @@ export class SmartLeadAPI {
   async updateLeadCategory(campaignId: string, leadId: string, categoryId: number, pauseLead?: boolean) {
     const response = await this.client.post(`/campaigns/${campaignId}/leads/${leadId}/category`, {
       category_id: categoryId,
-      pause_lead: pauseLead || false
+      pause_lead: pauseLead || false,
     });
     return response.data;
   }
@@ -192,7 +192,7 @@ export class SmartLeadAPI {
   async addToGlobalBlockList(domains: string[], clientId?: number) {
     const response = await this.client.post("/leads/add-domain-block-list", {
       domain_block_list: domains,
-      client_id: clientId || null
+      client_id: clientId || null,
     });
     return response.data;
   }
@@ -275,7 +275,7 @@ export class SmartLeadAPI {
 
   async deleteCampaignWebhook(campaignId: string, webhookId: number) {
     const response = await this.client.delete(`/campaigns/${campaignId}/webhooks`, {
-      data: { id: webhookId }
+      data: { id: webhookId },
     });
     return response.data;
   }

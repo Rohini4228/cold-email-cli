@@ -14,18 +14,10 @@ import { leadAliases, leadCommands } from "./commands/leads";
 export const api = new InstantlyAPI();
 
 // Combine all commands
-export const instantlyCommands: CLICommand[] = [
-  ...campaignCommands,
-  ...leadCommands,
-  ...accountCommands,
-];
+export const instantlyCommands: CLICommand[] = [...campaignCommands, ...leadCommands, ...accountCommands];
 
 // Combine all aliases
-export const instantlyAliases: CLICommand[] = [
-  ...campaignAliases,
-  ...leadAliases,
-  ...accountAliases,
-];
+export const instantlyAliases: CLICommand[] = [...campaignAliases, ...leadAliases, ...accountAliases];
 
 // All commands combined (main + aliases)
 export const allInstantlyCommands: CLICommand[] = [...instantlyCommands, ...instantlyAliases];

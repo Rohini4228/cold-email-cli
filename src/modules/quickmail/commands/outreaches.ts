@@ -22,13 +22,14 @@ export const outreachCommands: CLICommand[] = [
   {
     name: "outreaches:create",
     description: "➕ Create new outreach sequence",
-    usage: 'outreaches:create --name "Sequence Name" --subject "Email Subject" --body "Email body" --from_name "John" --from_email "john@company.com"',
+    usage:
+      'outreaches:create --name "Sequence Name" --subject "Email Subject" --body "Email body" --from_name "John" --from_email "john@company.com"',
     category: "🔄 Outreach Sequences",
     handler: async (args) => {
       if (!args.name || !args.subject || !args.body || !args.from_name || !args.from_email) {
         throw new Error("Required: --name, --subject, --body, --from_name, --from_email");
       }
-      
+
       const outreachData = {
         name: args.name,
         subject: args.subject,
@@ -37,7 +38,7 @@ export const outreachCommands: CLICommand[] = [
         from_email: args.from_email,
         delay_days: args.delay_days ? parseInt(args.delay_days) : 0,
       };
-      
+
       const data = await api.createOutreach(outreachData);
       console.log("✅ Outreach sequence created successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -62,7 +63,7 @@ export const outreachCommands: CLICommand[] = [
     category: "🔄 Outreach Sequences",
     handler: async (args) => {
       if (!args.id) throw new Error("Required: --id");
-      
+
       const updateData = {
         ...(args.name && { name: args.name }),
         ...(args.subject && { subject: args.subject }),
@@ -71,7 +72,7 @@ export const outreachCommands: CLICommand[] = [
         ...(args.from_email && { from_email: args.from_email }),
         ...(args.delay_days && { delay_days: parseInt(args.delay_days) }),
       };
-      
+
       const data = await api.updateOutreach(args.id, updateData);
       console.log("✅ Outreach sequence updated successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -95,10 +96,10 @@ export const outreachCommands: CLICommand[] = [
     category: "🔄 Outreach Sequences",
     handler: async (args) => {
       if (!args.id || !args.name) throw new Error("Required: --id, --name");
-      
+
       // Get the original outreach
       const original = await api.getOutreach(args.id);
-      
+
       // Create a copy with the new name
       const clonedData = {
         name: args.name,
@@ -108,7 +109,7 @@ export const outreachCommands: CLICommand[] = [
         from_email: original.from_email,
         delay_days: original.delay_days || 0,
       };
-      
+
       const data = await api.createOutreach(clonedData);
       console.log("🔄 Outreach sequence cloned successfully!");
       console.log(JSON.stringify(data, null, 2));
@@ -124,4 +125,4 @@ export const outreachAliases: CLICommand[] = [
   { ...outreachCommands[3], name: "out:update", description: "✏️ Update outreach (alias)" },
   { ...outreachCommands[4], name: "out:delete", description: "🗑️ Delete outreach (alias)" },
   { ...outreachCommands[5], name: "out:clone", description: "🔄 Clone outreach (alias)" },
-]; 
+];
